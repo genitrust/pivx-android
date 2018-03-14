@@ -18,6 +18,11 @@
             android:id="@+id/nav_donations"
             android:icon="@drawable/ic_donations"
             android:title="@string/donations" />
+
+        <item
+            android:id="@+id/buy_more"
+            android:icon="@drawable/ic_donations"
+            android:title="By more" />
     </group>
 
 
