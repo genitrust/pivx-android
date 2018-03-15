@@ -161,7 +161,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.VHol
 
             if (orderListResp.status.equals("WD")) {
 
-                holder.itemBinding.orderDash.setText("Total Dash: " + orderListResp.total + " (" + yourFormattedDots + " dots)\n"
+                holder.itemBinding.orderDash.setText("Total PIVX: " + orderListResp.total + " (" + yourFormattedDots + " μⱣiv)\n"
                         + "You must deposit cash at the above Payment Center. Additional fees may apply. Paying in another method other than cash may delay your order.");
                 holder.itemBinding.orderDashInstruction.setVisibility(View.VISIBLE);
                 holder.itemBinding.btnCancelOrder.setVisibility(View.VISIBLE);
@@ -212,7 +212,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.VHol
 
             } else {
 
-                holder.itemBinding.orderDash.setText("Total Dash: " + orderListResp.total + " (" + yourFormattedDots + " dots)");
+                holder.itemBinding.orderDash.setText("Total PIVX: " + orderListResp.total + " (" + yourFormattedDots + " μⱣiv)");
                 holder.itemBinding.layoutDueDate.setVisibility(View.GONE);
                 holder.itemBinding.textPaymentDueDate.setVisibility(View.GONE);
                 holder.itemBinding.orderDashInstruction.setVisibility(View.GONE);

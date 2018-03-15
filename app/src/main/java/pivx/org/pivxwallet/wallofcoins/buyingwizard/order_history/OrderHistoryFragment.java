@@ -47,6 +47,7 @@ import pivx.org.pivxwallet.wallofcoins.response.CaptureHoldResp;
 import pivx.org.pivxwallet.wallofcoins.response.CheckAuthResp;
 import pivx.org.pivxwallet.wallofcoins.response.ConfirmDepositResp;
 import pivx.org.pivxwallet.wallofcoins.response.OrderListResp;
+import pivx.org.pivxwallet.wallofcoins.utils.NetworkUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -114,53 +115,57 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
      * @param isFromCreateHold
      */
     private void getOrderList(final boolean isFromCreateHold) {
-
-        linearProgress.setVisibility(View.VISIBLE);
-        WallofCoins.createService(interceptor, mContext)
-                .getOrders(getString(R.string.WALLOFCOINS_PUBLISHER_ID))
-                .enqueue(new Callback<List<OrderListResp>>() {
-                    @Override
-                    public void onResponse(Call<List<OrderListResp>> call, Response<List<OrderListResp>> response) {
-                        linearProgress.setVisibility(View.GONE);
-                        if (response.code() == 200 && response.body() != null) {
-                            Log.d(TAG, "onResponse: boolean==>" + isFromCreateHold);
-                            if (response.body() != null && response.body().size() > 0) {
-                                if (isFromCreateHold) {
-                                    List<OrderListResp> orderList = new ArrayList<>();
-                                    for (OrderListResp orderListResp : response.body()) {
-                                        if (orderListResp.status.equals("WD")) {
-                                            Log.d(TAG, "onResponse: status==>" + orderListResp.status);
-                                            orderList.add(orderListResp);
-                                            break;
+        if (NetworkUtil.isOnline(mContext)) {
+            linearProgress.setVisibility(View.VISIBLE);
+            WallofCoins.createService(interceptor, mContext)
+                    .getOrders(getString(R.string.WALLOFCOINS_PUBLISHER_ID))
+                    .enqueue(new Callback<List<OrderListResp>>() {
+                        @Override
+                        public void onResponse(Call<List<OrderListResp>> call, Response<List<OrderListResp>> response) {
+                            linearProgress.setVisibility(View.GONE);
+                            if (response.code() == 200 && response.body() != null) {
+                                Log.d(TAG, "onResponse: boolean==>" + isFromCreateHold);
+                                if (response.body() != null && response.body().size() > 0) {
+                                    if (isFromCreateHold) {
+                                        List<OrderListResp> orderList = new ArrayList<>();
+                                        for (OrderListResp orderListResp : response.body()) {
+                                            if (orderListResp.status.equals("WD")) {
+                                                Log.d(TAG, "onResponse: status==>" + orderListResp.status);
+                                                orderList.add(orderListResp);
+                                                break;
+                                            }
                                         }
-                                    }
-                                    if (orderList.size() > 0) {
-                                        manageOrderList(orderList, isFromCreateHold);
+                                        if (orderList.size() > 0) {
+                                            manageOrderList(orderList, isFromCreateHold);
+                                        } else {
+                                            manageOrderList(response.body(), isFromCreateHold);
+                                        }
                                     } else {
-                                        manageOrderList(response.body(), isFromCreateHold);
+                                        manageOrderList(response.body(), false);
                                     }
                                 } else {
-                                    manageOrderList(response.body(), false);
+                                    //hideViewExcept(binding.layoutLocation);
+                                    navigateToLocationScreen();
                                 }
-                            } else {
+                            } else if (response.code() == 403) {
                                 //hideViewExcept(binding.layoutLocation);
+                                //((BuyDashBaseActivity)mContext).popBackAllFragmentsExcept("de.schildbach.wallet.wallofcoins.buyingwizard.buy_dash_location.BuyDashLocationFragment");
+                                ((BuyDashBaseActivity) mContext).removeAllFragmentFromStack();
                                 navigateToLocationScreen();
                             }
-                        } else if (response.code() == 403) {
-                            //hideViewExcept(binding.layoutLocation);
-                            //((BuyDashBaseActivity)mContext).popBackAllFragmentsExcept("de.schildbach.wallet.wallofcoins.buyingwizard.buy_dash_location.BuyDashLocationFragment");
-                            ((BuyDashBaseActivity) mContext).removeAllFragmentFromStack();
-                            navigateToLocationScreen();
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<List<OrderListResp>> call, Throwable t) {
-                        linearProgress.setVisibility(View.GONE);
-                        Log.e(TAG, "onFailure: ", t);
-                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<List<OrderListResp>> call, Throwable t) {
+                            linearProgress.setVisibility(View.GONE);
+                            Log.e(TAG, "onFailure: ", t);
+                            Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+        else
+            showToast(mContext.getString(R.string.network_not_avaialable));
+
     }
 
     /**
@@ -387,43 +392,48 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
      * @param isPendingHold
      */
     public void deleteAuthCall(final boolean isPendingHold) {
-        final String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
-        if (!TextUtils.isEmpty(phone)) {
-            linearProgress.setVisibility(View.VISIBLE);
-            //password = "";
-            WallofCoins.createService(interceptor, mContext)
-                    .deleteAuth(phone, getString(R.string.WALLOFCOINS_PUBLISHER_ID))
-                    .enqueue(new Callback<CheckAuthResp>() {
-                        @Override
-                        public void onResponse(Call<CheckAuthResp> call, Response<CheckAuthResp> response) {
-                            Log.d(TAG, "onResponse: response code==>>" + response.code());
-                            linearProgress.setVisibility(View.GONE);
-                            if (response.code() < 299) {
-                                ((BuyDashBaseActivity) mContext).buyDashPref.setAuthToken("");
-                                //  password = "";
-                                ((BuyDashBaseActivity) mContext).buyDashPref.clearAllPrefrance();
-                                if (isPendingHold) {
-                                    //binding.editBuyDashPhone.setText(null);
-                                    //checkAuth();
+        if (NetworkUtil.isOnline(mContext)) {
+            final String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
+            if (!TextUtils.isEmpty(phone)) {
+                linearProgress.setVisibility(View.VISIBLE);
+                //password = "";
+                WallofCoins.createService(interceptor, mContext)
+                        .deleteAuth(phone, getString(R.string.WALLOFCOINS_PUBLISHER_ID))
+                        .enqueue(new Callback<CheckAuthResp>() {
+                            @Override
+                            public void onResponse(Call<CheckAuthResp> call, Response<CheckAuthResp> response) {
+                                Log.d(TAG, "onResponse: response code==>>" + response.code());
+                                linearProgress.setVisibility(View.GONE);
+                                if (response.code() < 299) {
+                                    ((BuyDashBaseActivity) mContext).buyDashPref.setAuthToken("");
+                                    //  password = "";
+                                    ((BuyDashBaseActivity) mContext).buyDashPref.clearAllPrefrance();
+                                    if (isPendingHold) {
+                                        //binding.editBuyDashPhone.setText(null);
+                                        //checkAuth();
+                                    } else {
+                                        Toast.makeText(mContext, R.string.alert_sign_out, Toast.LENGTH_LONG).show();
+                                        //hideViewExcept(binding.layoutLocation);
+                                        navigateToLocationScreen();
+                                    }
                                 } else {
-                                    Toast.makeText(mContext, R.string.alert_sign_out, Toast.LENGTH_LONG).show();
-                                    //hideViewExcept(binding.layoutLocation);
-                                    navigateToLocationScreen();
+                                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
+                            }
+
+                            @Override
+                            public void onFailure(Call<CheckAuthResp> call, Throwable t) {
+                                linearProgress.setVisibility(View.GONE);
                                 Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
                             }
-                        }
-
-                        @Override
-                        public void onFailure(Call<CheckAuthResp> call, Throwable t) {
-                            linearProgress.setVisibility(View.GONE);
-                            Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        } else {
-            Toast.makeText(getContext(), R.string.alert_phone, Toast.LENGTH_SHORT).show();
+                        });
+            } else {
+                Toast.makeText(getContext(), R.string.alert_phone, Toast.LENGTH_SHORT).show();
+            }
         }
+        else
+            showToast(mContext.getString(R.string.network_not_avaialable));
+
     }
 
     public void goToGivenUrl(String url) {
@@ -507,30 +517,35 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
      * @param orderId
      */
     private void cancelOrder(String orderId) {
-        linearProgress.setVisibility(View.VISIBLE);
-        WallofCoins.createService(interceptor, mContext).cancelOrder(orderId, getString(R.string.WALLOFCOINS_PUBLISHER_ID)).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                linearProgress.setVisibility(View.GONE);
-                if (response.code() == 204) {
-                    Toast.makeText(getContext(), R.string.alert_cancel_order, Toast.LENGTH_SHORT).show();
-                    //binding.requestCoinsAmountBtcEdittext.setText("");
-                    //binding.requestCoinsAmountLocalEdittext.setText("");
-                    //binding.buyDashZip.setText("");
-                    //hideViewExcept(binding.layoutLocation);
-                    navigateToLocationScreen();
-                } else {
+        if (NetworkUtil.isOnline(mContext)) {
+            linearProgress.setVisibility(View.VISIBLE);
+            WallofCoins.createService(interceptor, mContext).cancelOrder(orderId, getString(R.string.WALLOFCOINS_PUBLISHER_ID)).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    linearProgress.setVisibility(View.GONE);
+                    if (response.code() == 204) {
+                        Toast.makeText(getContext(), R.string.alert_cancel_order, Toast.LENGTH_SHORT).show();
+                        //binding.requestCoinsAmountBtcEdittext.setText("");
+                        //binding.requestCoinsAmountLocalEdittext.setText("");
+                        //binding.buyDashZip.setText("");
+                        //hideViewExcept(binding.layoutLocation);
+                        navigateToLocationScreen();
+                    } else {
+                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Log.e(TAG, "onFailure: ", t);
+                    linearProgress.setVisibility(View.GONE);
                     Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
                 }
-            }
+            });
+        }
+        else
+            showToast(mContext.getString(R.string.network_not_avaialable));
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Log.e(TAG, "onFailure: ", t);
-                linearProgress.setVisibility(View.GONE);
-                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     /**
@@ -539,37 +554,42 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
      * @param response
      */
     private void confirmDeposit(CaptureHoldResp response) {
-        linearProgress.setVisibility(View.VISIBLE);
-        WallofCoins.createService(interceptor, getActivity()).confirmDeposit("" + response.id, "", getString(R.string.WALLOFCOINS_PUBLISHER_ID)).enqueue(new Callback<ConfirmDepositResp>() {
-            @Override
-            public void onResponse(Call<ConfirmDepositResp> call, Response<ConfirmDepositResp> response) {
-                linearProgress.setVisibility(View.GONE);
+        if (NetworkUtil.isOnline(mContext)) {
+            linearProgress.setVisibility(View.VISIBLE);
+            WallofCoins.createService(interceptor, getActivity()).confirmDeposit("" + response.id, "", getString(R.string.WALLOFCOINS_PUBLISHER_ID)).enqueue(new Callback<ConfirmDepositResp>() {
+                @Override
+                public void onResponse(Call<ConfirmDepositResp> call, Response<ConfirmDepositResp> response) {
+                    linearProgress.setVisibility(View.GONE);
 
-                if (null != response && null != response.body()) {
-                    //binding.scrollCompletionDetail.setVisibility(View.GONE);
-                    Toast.makeText(mContext, R.string.alert_payment_done, Toast.LENGTH_LONG).show();
-                    getOrderList(false);
-                } else if (null != response && null != response.errorBody()) {
-                    try {
-                        BuyDashErrorResp buyDashErrorResp = new Gson().fromJson(response.errorBody().string(), BuyDashErrorResp.class);
-                        Toast.makeText(getContext(), buyDashErrorResp.detail, Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if (null != response && null != response.body()) {
+                        //binding.scrollCompletionDetail.setVisibility(View.GONE);
+                        Toast.makeText(mContext, R.string.alert_payment_done, Toast.LENGTH_LONG).show();
+                        getOrderList(false);
+                    } else if (null != response && null != response.errorBody()) {
+                        try {
+                            BuyDashErrorResp buyDashErrorResp = new Gson().fromJson(response.errorBody().string(), BuyDashErrorResp.class);
+                            Toast.makeText(getContext(), buyDashErrorResp.detail, Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                        }
+
+                    } else {
                         Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
                     }
+                }
 
-                } else {
+                @Override
+                public void onFailure(Call<ConfirmDepositResp> call, Throwable t) {
+                    linearProgress.setVisibility(View.GONE);
+                    Log.e(TAG, "onFailure: ", t);
                     Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
                 }
-            }
+            });
+        }
+        else
+            showToast(mContext.getString(R.string.network_not_avaialable));
 
-            @Override
-            public void onFailure(Call<ConfirmDepositResp> call, Throwable t) {
-                linearProgress.setVisibility(View.GONE);
-                Log.e(TAG, "onFailure: ", t);
-                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @Override

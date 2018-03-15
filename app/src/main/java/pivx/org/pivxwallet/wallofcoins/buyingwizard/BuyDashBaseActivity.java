@@ -177,18 +177,18 @@ public class BuyDashBaseActivity extends AppCompatActivity implements SharedPref
             else if (fragment instanceof BuyDashOfferAmountFragment)
                 ((BuyDashOfferAmountFragment) fragment).changeView();
             else if (fragment instanceof BuyDashLocationFragment)
-                finish();
+                this.finish();
             else
                 fragmentManager.popBackStack();
         } else
-            finish();
+            this.finish();
     }
 
     public void popBackDirect() {
         if (fragmentManager.getBackStackEntryCount() > 0)
             fragmentManager.popBackStack();
         else
-            finish();
+            this.finish();
 
     }
 

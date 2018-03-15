@@ -43,6 +43,7 @@ import pivx.org.pivxwallet.wallofcoins.response.BuyDashErrorResp;
 import pivx.org.pivxwallet.wallofcoins.response.CheckAuthResp;
 import pivx.org.pivxwallet.wallofcoins.response.CreateDeviceResp;
 import pivx.org.pivxwallet.wallofcoins.response.GetAuthTokenResp;
+import pivx.org.pivxwallet.wallofcoins.utils.NetworkUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -146,7 +147,7 @@ public class BuyDashLocationFragment extends BuyDashBaseFragment implements View
         super.onResume();
         if (!TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
             layout_sign_out.setVisibility(View.VISIBLE);
-            text_message_sign_out.setText(mContext.getString(R.string.wallet_is_signed)+" "+
+            text_message_sign_out.setText(mContext.getString(R.string.wallet_is_signed) + " " +
                     ((BuyDashBaseActivity) mContext).buyDashPref.getPhone());
         } else {
             layout_sign_out.setVisibility(View.GONE);
@@ -210,95 +211,102 @@ public class BuyDashLocationFragment extends BuyDashBaseFragment implements View
      * @param password
      */
     private void getAuthTokenCall(final String password) {
-        String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
+        if (NetworkUtil.isOnline(mContext)) {
+            String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
 
-        if (!TextUtils.isEmpty(phone)) {
+            if (!TextUtils.isEmpty(phone)) {
 
-            HashMap<String, String> getAuthTokenReq = new HashMap<String, String>();
-            if (!TextUtils.isEmpty(password)) {
-                getAuthTokenReq.put(WOCConstants.KEY_PASSWORD, password);
-            } else {
-                getAuthTokenReq.put(WOCConstants.KEY_DEVICECODE, getDeviceCode(mContext, ((BuyDashBaseActivity) mContext).buyDashPref));
-            }
+                HashMap<String, String> getAuthTokenReq = new HashMap<String, String>();
+                if (!TextUtils.isEmpty(password)) {
+                    getAuthTokenReq.put(WOCConstants.KEY_PASSWORD, password);
+                } else {
+                    getAuthTokenReq.put(WOCConstants.KEY_DEVICECODE, getDeviceCode(mContext, ((BuyDashBaseActivity) mContext).buyDashPref));
+                }
 
-            if (!TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId())) {
-                getAuthTokenReq.put(WOCConstants.KEY_DEVICEID, ((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId());
-            }
+                if (!TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId())) {
+                    getAuthTokenReq.put(WOCConstants.KEY_DEVICEID, ((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId());
+                }
 
-            getAuthTokenReq.put(WOCConstants.KEY_PUBLISHER_ID, getString(R.string.WALLOFCOINS_PUBLISHER_ID));
+                getAuthTokenReq.put(WOCConstants.KEY_PUBLISHER_ID, getString(R.string.WALLOFCOINS_PUBLISHER_ID));
 
-            linear_progress.setVisibility(View.VISIBLE);
-            WallofCoins.createService(interceptor, getActivity()).getAuthToken(phone, getAuthTokenReq).enqueue(new Callback<GetAuthTokenResp>() {
-                @Override
-                public void onResponse(Call<GetAuthTokenResp> call, Response<GetAuthTokenResp> response) {
-                    linear_progress.setVisibility(View.GONE);
-                    int code = response.code();
+                linear_progress.setVisibility(View.VISIBLE);
+                WallofCoins.createService(interceptor, getActivity()).getAuthToken(phone, getAuthTokenReq).enqueue(new Callback<GetAuthTokenResp>() {
+                    @Override
+                    public void onResponse(Call<GetAuthTokenResp> call, Response<GetAuthTokenResp> response) {
+                        linear_progress.setVisibility(View.GONE);
+                        int code = response.code();
 
-                    if (code >= 400 && response.body() == null) {
-                        try {
-                            BuyDashErrorResp buyDashErrorResp = new Gson().fromJson(response.errorBody().string(), BuyDashErrorResp.class);
-                            if (!TextUtils.isEmpty(password)) {
-                                showAlertPasswordDialog();
-                            } else {
-                                createDevice();
+                        if (code >= 400 && response.body() == null) {
+                            try {
+                                BuyDashErrorResp buyDashErrorResp = new Gson().fromJson(response.errorBody().string(), BuyDashErrorResp.class);
+                                if (!TextUtils.isEmpty(password)) {
+                                    showAlertPasswordDialog();
+                                } else {
+                                    createDevice();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                            return;
                         }
-                        return;
+
+                        if (!TextUtils.isEmpty(response.body().token)) {
+                            ((BuyDashBaseActivity) mContext).buyDashPref.setAuthToken(response.body().token);
+                        }
+                        // hideViewExcept(null);
+                        if (!TextUtils.isEmpty(password) && TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId())) {
+                            getDevice();
+                        } else {
+                            //createHold();
+                        }
                     }
 
-                    if (!TextUtils.isEmpty(response.body().token)) {
-                        ((BuyDashBaseActivity) mContext).buyDashPref.setAuthToken(response.body().token);
+                    @Override
+                    public void onFailure(Call<GetAuthTokenResp> call, Throwable t) {
+                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                        linear_progress.setVisibility(View.GONE);
                     }
-                    // hideViewExcept(null);
-                    if (!TextUtils.isEmpty(password) && TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId())) {
-                        getDevice();
-                    } else {
-                        //createHold();
-                    }
-                }
+                });
 
-                @Override
-                public void onFailure(Call<GetAuthTokenResp> call, Throwable t) {
-                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
-                    linear_progress.setVisibility(View.GONE);
-                }
-            });
+            } else {
+                Toast.makeText(getContext(), R.string.alert_phone_password_required, Toast.LENGTH_SHORT).show();
+            }
+        } else
+            showToast(mContext.getString(R.string.network_not_avaialable));
 
-        } else {
-            Toast.makeText(getContext(), R.string.alert_phone_password_required, Toast.LENGTH_SHORT).show();
-        }
     }
 
     /**
      * Get Devices for Register user with password
      */
     private void getDevice() {
-
-        linear_progress.setVisibility(View.VISIBLE);
-        WallofCoins.createService(interceptor, getActivity()).getDevice().enqueue(new Callback<List<CreateDeviceResp>>() {
-            @Override
-            public void onResponse(Call<List<CreateDeviceResp>> call, Response<List<CreateDeviceResp>> response) {
-                if (response.code() == 200 && response.body() != null) {
-                    List<CreateDeviceResp> deviceList = response.body();
-                    if (deviceList.size() > 0) {
-                        ((BuyDashBaseActivity) mContext).buyDashPref.setDeviceId(deviceList.get(deviceList.size() - 1).getId() + "");
-                        getAuthTokenCall("");
-                    } else {
-                        createDevice();
+        if (NetworkUtil.isOnline(mContext)) {
+            linear_progress.setVisibility(View.VISIBLE);
+            WallofCoins.createService(interceptor, getActivity()).getDevice().enqueue(new Callback<List<CreateDeviceResp>>() {
+                @Override
+                public void onResponse(Call<List<CreateDeviceResp>> call, Response<List<CreateDeviceResp>> response) {
+                    if (response.code() == 200 && response.body() != null) {
+                        List<CreateDeviceResp> deviceList = response.body();
+                        if (deviceList.size() > 0) {
+                            ((BuyDashBaseActivity) mContext).buyDashPref.setDeviceId(deviceList.get(deviceList.size() - 1).getId() + "");
+                            getAuthTokenCall("");
+                        } else {
+                            createDevice();
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<CreateDeviceResp>> call, Throwable t) {
-                linear_progress.setVisibility(View.GONE);
-                Log.e(TAG, "onFailure: ", t);
-                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<List<CreateDeviceResp>> call, Throwable t) {
+                    linear_progress.setVisibility(View.GONE);
+                    Log.e(TAG, "onFailure: ", t);
+                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                }
+            });
+
+        } else
+            showToast(mContext.getString(R.string.network_not_avaialable));
 
     }
 
@@ -306,72 +314,80 @@ public class BuyDashLocationFragment extends BuyDashBaseFragment implements View
      * Method for register new device
      */
     private void createDevice() {
-        final HashMap<String, String> createDeviceReq = new HashMap<String, String>();
-        createDeviceReq.put(WOCConstants.KEY_DEVICE_NAME, mContext.getString(R.string.dash_wallet_name));
-        createDeviceReq.put(WOCConstants.KEY_DEVICE_CODE, getDeviceCode(mContext, ((BuyDashBaseActivity) mContext).buyDashPref));
-        createDeviceReq.put(WOCConstants.KEY_PUBLISHER_ID, getString(R.string.WALLOFCOINS_PUBLISHER_ID));
-        linear_progress.setVisibility(View.VISIBLE);
-        WallofCoins.createService(interceptor, getActivity()).createDevice(createDeviceReq).enqueue(new Callback<CreateDeviceResp>() {
-            @Override
-            public void onResponse(Call<CreateDeviceResp> call, Response<CreateDeviceResp> response) {
-                if (null != response.body() && response.code() < 299) {
-                    createDeviceResp = response.body();
-                    ((BuyDashBaseActivity) mContext).buyDashPref.setDeviceId(createDeviceResp.getId() + "");
-                    getAuthTokenCall("");
-                } else {
+        if (NetworkUtil.isOnline(mContext)) {
+            final HashMap<String, String> createDeviceReq = new HashMap<String, String>();
+            createDeviceReq.put(WOCConstants.KEY_DEVICE_NAME, mContext.getString(R.string.pivx_wallet_name));
+            createDeviceReq.put(WOCConstants.KEY_DEVICE_CODE, getDeviceCode(mContext, ((BuyDashBaseActivity) mContext).buyDashPref));
+            createDeviceReq.put(WOCConstants.KEY_PUBLISHER_ID, getString(R.string.WALLOFCOINS_PUBLISHER_ID));
+            linear_progress.setVisibility(View.VISIBLE);
+            WallofCoins.createService(interceptor, getActivity()).createDevice(createDeviceReq).enqueue(new Callback<CreateDeviceResp>() {
+                @Override
+                public void onResponse(Call<CreateDeviceResp> call, Response<CreateDeviceResp> response) {
+                    if (null != response.body() && response.code() < 299) {
+                        createDeviceResp = response.body();
+                        ((BuyDashBaseActivity) mContext).buyDashPref.setDeviceId(createDeviceResp.getId() + "");
+                        getAuthTokenCall("");
+                    } else {
+                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CreateDeviceResp> call, Throwable t) {
                     Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
                 }
-            }
+            });
+        } else
+            showToast(mContext.getString(R.string.network_not_avaialable));
 
-            @Override
-            public void onFailure(Call<CreateDeviceResp> call, Throwable t) {
-                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     /**
      * Method for check authentication type
      */
     private void checkAuth() {
-        String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
-        if (!TextUtils.isEmpty(phone)) {
-            linear_progress.setVisibility(View.VISIBLE);
+        if (NetworkUtil.isOnline(mContext)) {
+            String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
+            if (!TextUtils.isEmpty(phone)) {
+                linear_progress.setVisibility(View.VISIBLE);
 
-            WallofCoins.createService(interceptor, mContext).checkAuth(phone, getString(R.string.WALLOFCOINS_PUBLISHER_ID)).enqueue(new Callback<CheckAuthResp>() {
-                @Override
-                public void onResponse(Call<CheckAuthResp> call, Response<CheckAuthResp> response) {
-                    Log.d(TAG, "onResponse: response code==>>" + response.code());
-                    linear_progress.setVisibility(View.GONE);
-                    if (response.code() == 200) {
-                        if (response.body() != null
-                                && response.body().getAvailableAuthSources() != null
-                                && response.body().getAvailableAuthSources().size() > 0) {
-                            if (response.body().getAvailableAuthSources().get(0).equals("password")) {
-                                showUserPasswordAuthenticationDialog();
-                                return;
-                            } else if ((response.body().getAvailableAuthSources().size() >= 2
-                                    && response.body().getAvailableAuthSources().get(1).equals("device"))
-                                    || (response.body().getAvailableAuthSources().get(0).equals("device"))) {
-                                hideKeyBoard();
-                                //createHold();
+                WallofCoins.createService(interceptor, mContext).checkAuth(phone, getString(R.string.WALLOFCOINS_PUBLISHER_ID)).enqueue(new Callback<CheckAuthResp>() {
+                    @Override
+                    public void onResponse(Call<CheckAuthResp> call, Response<CheckAuthResp> response) {
+                        Log.d(TAG, "onResponse: response code==>>" + response.code());
+                        linear_progress.setVisibility(View.GONE);
+                        if (response.code() == 200) {
+                            if (response.body() != null
+                                    && response.body().getAvailableAuthSources() != null
+                                    && response.body().getAvailableAuthSources().size() > 0) {
+                                if (response.body().getAvailableAuthSources().get(0).equals("password")) {
+                                    showUserPasswordAuthenticationDialog();
+                                    return;
+                                } else if ((response.body().getAvailableAuthSources().size() >= 2
+                                        && response.body().getAvailableAuthSources().get(1).equals("device"))
+                                        || (response.body().getAvailableAuthSources().get(0).equals("device"))) {
+                                    hideKeyBoard();
+                                    //createHold();
+                                }
                             }
+                        } else if (response.code() == 404) {
+                            hideKeyBoard();
+                            //createHold();
                         }
-                    } else if (response.code() == 404) {
-                        hideKeyBoard();
-                        //createHold();
                     }
-                }
 
-                @Override
-                public void onFailure(Call<CheckAuthResp> call, Throwable t) {
-                    linear_progress.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-            Toast.makeText(getContext(), R.string.alert_phone, Toast.LENGTH_SHORT).show();
-        }
+                    @Override
+                    public void onFailure(Call<CheckAuthResp> call, Throwable t) {
+                        linear_progress.setVisibility(View.GONE);
+                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(getContext(), R.string.alert_phone, Toast.LENGTH_SHORT).show();
+            }
+        } else
+            showToast(mContext.getString(R.string.network_not_avaialable));
+
     }
 
     /**
@@ -380,44 +396,48 @@ public class BuyDashLocationFragment extends BuyDashBaseFragment implements View
      * @param isPendingHold
      */
     public void deleteAuthCall(final boolean isPendingHold) {
-        final String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
-        if (!TextUtils.isEmpty(phone)) {
-            linear_progress.setVisibility(View.VISIBLE);
-            password = "";
-            WallofCoins.createService(interceptor, mContext)
-                    .deleteAuth(phone, getString(R.string.WALLOFCOINS_PUBLISHER_ID))
-                    .enqueue(new Callback<CheckAuthResp>() {
-                        @Override
-                        public void onResponse(Call<CheckAuthResp> call, Response<CheckAuthResp> response) {
-                            Log.d(TAG, "onResponse: response code==>>" + response.code());
-                            linear_progress.setVisibility(View.GONE);
-                            if (response.code() < 299) {
-                                ((BuyDashBaseActivity) mContext).buyDashPref.setAuthToken("");
-                                password = "";
-                                ((BuyDashBaseActivity) mContext).buyDashPref.clearAllPrefrance();
-                                if (isPendingHold) {
-                                    // binding.editBuyDashPhone.setText(null);
-                                    checkAuth();
-                                } else {
-                                    Toast.makeText(mContext, R.string.alert_sign_out, Toast.LENGTH_LONG).show();
-                                    layout_sign_out.setVisibility(View.GONE);
-                                    //hideViewExcept(binding.layoutLocation);
+        if (NetworkUtil.isOnline(mContext)) {
+            final String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
+            if (!TextUtils.isEmpty(phone)) {
+                linear_progress.setVisibility(View.VISIBLE);
+                password = "";
+                WallofCoins.createService(interceptor, mContext)
+                        .deleteAuth(phone, getString(R.string.WALLOFCOINS_PUBLISHER_ID))
+                        .enqueue(new Callback<CheckAuthResp>() {
+                            @Override
+                            public void onResponse(Call<CheckAuthResp> call, Response<CheckAuthResp> response) {
+                                Log.d(TAG, "onResponse: response code==>>" + response.code());
+                                linear_progress.setVisibility(View.GONE);
+                                if (response.code() < 299) {
+                                    ((BuyDashBaseActivity) mContext).buyDashPref.setAuthToken("");
+                                    password = "";
+                                    ((BuyDashBaseActivity) mContext).buyDashPref.clearAllPrefrance();
+                                    if (isPendingHold) {
+                                        // binding.editBuyDashPhone.setText(null);
+                                        checkAuth();
+                                    } else {
+                                        Toast.makeText(mContext, R.string.alert_sign_out, Toast.LENGTH_LONG).show();
+                                        layout_sign_out.setVisibility(View.GONE);
+                                        //hideViewExcept(binding.layoutLocation);
 
+                                    }
+                                } else {
+                                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
+                            }
+
+                            @Override
+                            public void onFailure(Call<CheckAuthResp> call, Throwable t) {
+                                linear_progress.setVisibility(View.GONE);
                                 Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
                             }
-                        }
+                        });
+            } else {
+                Toast.makeText(getContext(), R.string.alert_phone, Toast.LENGTH_SHORT).show();
+            }
+        } else
+            showToast(mContext.getString(R.string.network_not_avaialable));
 
-                        @Override
-                        public void onFailure(Call<CheckAuthResp> call, Throwable t) {
-                            linear_progress.setVisibility(View.GONE);
-                            Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        } else {
-            Toast.makeText(getContext(), R.string.alert_phone, Toast.LENGTH_SHORT).show();
-        }
     }
 
     /**

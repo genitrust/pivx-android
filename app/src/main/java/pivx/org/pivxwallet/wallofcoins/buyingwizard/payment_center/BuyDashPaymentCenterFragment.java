@@ -26,6 +26,7 @@ import pivx.org.pivxwallet.wallofcoins.buyingwizard.BuyDashBaseFragment;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.offer_amount.BuyDashOfferAmountFragment;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.utils.FragmentUtils;
 import pivx.org.pivxwallet.wallofcoins.response.GetReceivingOptionsResp;
+import pivx.org.pivxwallet.wallofcoins.utils.NetworkUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -77,34 +78,38 @@ public class BuyDashPaymentCenterFragment extends BuyDashBaseFragment implements
      * API call for get all receiving options by country code
      */
     private void getReceivingOptions() {
-        String locale;
-        locale = getResources().getConfiguration().locale.getCountry();
-        linear_progress.setVisibility(View.VISIBLE);
-        //WallofCoins.createService(interceptor, getActivity()).getReceivingOptions(locale.toLowerCase(), getString(R.string.WALLOFCOINS_PUBLISHER_ID)).enqueue(new Callback<List<GetReceivingOptionsResp>>() {
-        WallofCoins.createService(interceptor, getActivity()).getReceivingOptions().enqueue(new Callback<List<GetReceivingOptionsResp>>() {
+        if (NetworkUtil.isOnline(mContext)) {
+            String locale;
+            locale = getResources().getConfiguration().locale.getCountry();
+            linear_progress.setVisibility(View.VISIBLE);
+            //WallofCoins.createService(interceptor, getActivity()).getReceivingOptions(locale.toLowerCase(), getString(R.string.WALLOFCOINS_PUBLISHER_ID)).enqueue(new Callback<List<GetReceivingOptionsResp>>() {
+            WallofCoins.createService(interceptor, getActivity()).getReceivingOptions().enqueue(new Callback<List<GetReceivingOptionsResp>>() {
 
-            @Override
-            public void onResponse(Call<List<GetReceivingOptionsResp>> call, Response<List<GetReceivingOptionsResp>> response) {
+                @Override
+                public void onResponse(Call<List<GetReceivingOptionsResp>> call, Response<List<GetReceivingOptionsResp>> response) {
 
-                if (response.body() != null) {
-                    Log.e(TAG, "onResponse: " + response.body().size());
-                    linear_progress.setVisibility(View.GONE);
-                    //receivingOptionsResps = response.body();
-                    // hideViewExcept(binding.layoutBanks);
+                    if (response.body() != null) {
+                        Log.e(TAG, "onResponse: " + response.body().size());
+                        linear_progress.setVisibility(View.GONE);
+                        //receivingOptionsResps = response.body();
+                        // hideViewExcept(binding.layoutBanks);
 
-                    //set data in drop down list
-                    setPaymentOptNames(response.body());
+                        //set data in drop down list
+                        setPaymentOptNames(response.body());
+                    }
+
                 }
 
-            }
+                @Override
+                public void onFailure(Call<List<GetReceivingOptionsResp>> call, Throwable t) {
+                    linear_progress.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                    t.printStackTrace();
+                }
+            });
+        } else
+            showToast(mContext.getString(R.string.network_not_avaialable));
 
-            @Override
-            public void onFailure(Call<List<GetReceivingOptionsResp>> call, Throwable t) {
-                linear_progress.setVisibility(View.GONE);
-                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
-                t.printStackTrace();
-            }
-        });
     }
 
     /**
@@ -162,6 +167,7 @@ public class BuyDashPaymentCenterFragment extends BuyDashBaseFragment implements
 
         ((BuyDashBaseActivity) mContext).replaceFragment(offerAmountFragment, true, true);
     }
+
     //this method remove animation when user want to clear back stack
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {

@@ -30,7 +30,7 @@ public class DiscoveryInputsResp {
     public String cryptoAddress;
     public String createdIp;
     public LocationBean location;
-    public String browserLocation;
+    //public String browserLocation;
     public String publisher;
 
     public static class LocationBean {

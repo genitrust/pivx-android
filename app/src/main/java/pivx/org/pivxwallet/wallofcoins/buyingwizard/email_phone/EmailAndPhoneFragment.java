@@ -45,6 +45,7 @@ import pivx.org.pivxwallet.wallofcoins.response.CreateDeviceResp;
 import pivx.org.pivxwallet.wallofcoins.response.CreateHoldResp;
 import pivx.org.pivxwallet.wallofcoins.response.GetAuthTokenResp;
 import pivx.org.pivxwallet.wallofcoins.response.GetHoldsResp;
+import pivx.org.pivxwallet.wallofcoins.utils.NetworkUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -159,7 +160,7 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
                     linear_email.setVisibility(View.GONE);
                     // hideViewExcept(binding.linearPhone);
                 } else {
-                    Toast.makeText(mContext, R.string.alert_enter_valid_email, Toast.LENGTH_LONG).show();
+                    showToast(mContext.getString(R.string.alert_enter_valid_email));
                 }
                 break;
             case R.id.tv_skip_email:
@@ -181,11 +182,11 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
     private boolean isValidPhone() {
         if (edit_buy_dash_phone.getText().toString().trim().isEmpty()) {
             edit_buy_dash_phone.requestFocus();
-            Toast.makeText(mContext, R.string.please_enter_phone_no, Toast.LENGTH_SHORT).show();
+            showToast(mContext.getString(R.string.please_enter_phone_no));
             return false;
         } else if (edit_buy_dash_phone.getText().toString().trim().length() < 10) {
             edit_buy_dash_phone.requestFocus();
-            Toast.makeText(mContext, R.string.please_enter_10_digits_phone_no, Toast.LENGTH_SHORT).show();
+            showToast(mContext.getString(R.string.please_enter_10_digits_phone_no));
             return false;
         }
         return true;
@@ -227,45 +228,49 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
      * Method for check authentication type
      */
     private void checkAuth() {
-        String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
-        if (!TextUtils.isEmpty(phone)) {
-            linearProgress.setVisibility(View.VISIBLE);
+        if (NetworkUtil.isOnline(mContext)) {
+            String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
+            if (!TextUtils.isEmpty(phone)) {
+                linearProgress.setVisibility(View.VISIBLE);
 
-            WallofCoins.createService(interceptor, mContext).checkAuth(phone, getString(R.string.WALLOFCOINS_PUBLISHER_ID)).enqueue(new Callback<CheckAuthResp>() {
-                @Override
-                public void onResponse(Call<CheckAuthResp> call, Response<CheckAuthResp> response) {
-                    Log.d(TAG, "onResponse: response code==>>" + response.code());
-                    linearProgress.setVisibility(View.GONE);
-                    if (response.code() == 200) {
-                        if (response.body() != null
-                                && response.body().getAvailableAuthSources() != null
-                                && response.body().getAvailableAuthSources().size() > 0) {
+                WallofCoins.createService(interceptor, mContext).checkAuth(phone, getString(R.string.WALLOFCOINS_PUBLISHER_ID)).enqueue(new Callback<CheckAuthResp>() {
+                    @Override
+                    public void onResponse(Call<CheckAuthResp> call, Response<CheckAuthResp> response) {
+                        Log.d(TAG, "onResponse: response code==>>" + response.code());
+                        linearProgress.setVisibility(View.GONE);
+                        if (response.code() == 200) {
+                            if (response.body() != null
+                                    && response.body().getAvailableAuthSources() != null
+                                    && response.body().getAvailableAuthSources().size() > 0) {
 
-                            if (response.body().getAvailableAuthSources().get(0).equals("password")) {//from wesite
-                                showUserPasswordAuthenticationDialog();
-                                return;
-                            } else if ((response.body().getAvailableAuthSources().size() >= 2//from mobile
-                                    && response.body().getAvailableAuthSources().get(1).equals("device"))
-                                    || (response.body().getAvailableAuthSources().get(0).equals("device"))) {
-                                hideKeyBoard();
-                                createHold();
+                                if (response.body().getAvailableAuthSources().get(0).equals("password")) {//from wesite
+                                    showUserPasswordAuthenticationDialog();
+                                    return;
+                                } else if ((response.body().getAvailableAuthSources().size() >= 2//from mobile
+                                        && response.body().getAvailableAuthSources().get(1).equals("device"))
+                                        || (response.body().getAvailableAuthSources().get(0).equals("device"))) {
+                                    hideKeyBoard();
+                                    createHold();
+                                }
                             }
+                        } else if (response.code() == 404) {
+                            hideKeyBoard();
+                            createHold();
                         }
-                    } else if (response.code() == 404) {
-                        hideKeyBoard();
-                        createHold();
                     }
-                }
 
-                @Override
-                public void onFailure(Call<CheckAuthResp> call, Throwable t) {
-                    linearProgress.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-            Toast.makeText(getContext(), R.string.alert_phone, Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onFailure(Call<CheckAuthResp> call, Throwable t) {
+                        linearProgress.setVisibility(View.GONE);
+                        showToast(mContext.getString(R.string.try_again));
+                    }
+                });
+            } else {
+                showToast(mContext.getString(R.string.alert_phone));
+            }
         }
+        else
+            showToast(mContext.getString(R.string.network_not_avaialable));
     }
 
     /**
@@ -312,7 +317,7 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
                     getAuthTokenCall(password);
                     alertDialog.dismiss();
                 } else {
-                    Toast.makeText(getContext(), R.string.password_alert, Toast.LENGTH_SHORT).show();
+                    showToast(mContext.getString(R.string.password_alert));
                 }
             }
         });
@@ -325,157 +330,169 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
      * @param password
      */
     private void getAuthTokenCall(final String password) {
-        String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
+        if (NetworkUtil.isOnline(mContext)) {
+            String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
 
-        if (!TextUtils.isEmpty(phone)) {
+            if (!TextUtils.isEmpty(phone)) {
 
-            HashMap<String, String> getAuthTokenReq = new HashMap<String, String>();
-            if (!TextUtils.isEmpty(password)) {
-                getAuthTokenReq.put(WOCConstants.KEY_PASSWORD, password);
-            } else {
-                getAuthTokenReq.put(WOCConstants.KEY_DEVICECODE, getDeviceCode(mContext, ((BuyDashBaseActivity) mContext).buyDashPref));
-            }
+                HashMap<String, String> getAuthTokenReq = new HashMap<String, String>();
+                if (!TextUtils.isEmpty(password)) {
+                    getAuthTokenReq.put(WOCConstants.KEY_PASSWORD, password);
+                } else {
+                    getAuthTokenReq.put(WOCConstants.KEY_DEVICECODE, getDeviceCode(mContext, ((BuyDashBaseActivity) mContext).buyDashPref));
+                }
 
-            if (!TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId())) {
-                getAuthTokenReq.put(WOCConstants.KEY_DEVICEID, ((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId());
-            }
+                if (!TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId())) {
+                    getAuthTokenReq.put(WOCConstants.KEY_DEVICEID, ((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId());
+                }
 
-            getAuthTokenReq.put(WOCConstants.KEY_PUBLISHER_ID, getString(R.string.WALLOFCOINS_PUBLISHER_ID));
+                getAuthTokenReq.put(WOCConstants.KEY_PUBLISHER_ID, getString(R.string.WALLOFCOINS_PUBLISHER_ID));
 
-            linearProgress.setVisibility(View.VISIBLE);
-            WallofCoins.createService(interceptor, getActivity()).getAuthToken(phone, getAuthTokenReq).enqueue(new Callback<GetAuthTokenResp>() {
-                @Override
-                public void onResponse(Call<GetAuthTokenResp> call, Response<GetAuthTokenResp> response) {
-                    linearProgress.setVisibility(View.GONE);
-                    int code = response.code();
+                linearProgress.setVisibility(View.VISIBLE);
+                WallofCoins.createService(interceptor, getActivity()).getAuthToken(phone, getAuthTokenReq).enqueue(new Callback<GetAuthTokenResp>() {
+                    @Override
+                    public void onResponse(Call<GetAuthTokenResp> call, Response<GetAuthTokenResp> response) {
+                        linearProgress.setVisibility(View.GONE);
+                        int code = response.code();
 
-                    if (code >= 400 && response.body() == null) {
-                        try {
-                            //BuyDashErrorResp buyDashErrorResp = new Gson().fromJson(response.errorBody().string(), BuyDashErrorResp.class);
-                            if (!TextUtils.isEmpty(password)) {
-                                showAlertPasswordDialog();
-                            } else {
-                                createDevice();
+                        if (code >= 400 && response.body() == null) {
+                            try {
+                                //BuyDashErrorResp buyDashErrorResp = new Gson().fromJson(response.errorBody().string(), BuyDashErrorResp.class);
+                                if (!TextUtils.isEmpty(password)) {
+                                    showAlertPasswordDialog();
+                                } else {
+                                    createDevice();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                showToast(mContext.getString(R.string.try_again));
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                            return;
                         }
-                        return;
+
+                        if (!TextUtils.isEmpty(response.body().token)) {
+                            ((BuyDashBaseActivity) mContext).buyDashPref.setAuthToken(response.body().token);
+                        }
+                        //hideViewExcept(null);
+                        if (!TextUtils.isEmpty(password) && TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId())) {
+                            getDevice();
+                        } else {
+                            createHold();
+                        }
                     }
 
-                    if (!TextUtils.isEmpty(response.body().token)) {
-                        ((BuyDashBaseActivity) mContext).buyDashPref.setAuthToken(response.body().token);
+                    @Override
+                    public void onFailure(Call<GetAuthTokenResp> call, Throwable t) {
+                        showToast(mContext.getString(R.string.try_again));
+                        linearProgress.setVisibility(View.GONE);
                     }
-                    //hideViewExcept(null);
-                    if (!TextUtils.isEmpty(password) && TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId())) {
-                        getDevice();
-                    } else {
-                        createHold();
-                    }
-                }
+                });
 
-                @Override
-                public void onFailure(Call<GetAuthTokenResp> call, Throwable t) {
-                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
-                    linearProgress.setVisibility(View.GONE);
-                }
-            });
-
-        } else {
-            Toast.makeText(getContext(), R.string.alert_phone_password_required, Toast.LENGTH_SHORT).show();
+            } else {
+                showToast(mContext.getString(R.string.alert_phone_password_required));
+            }
         }
+        else
+            showToast(mContext.getString(R.string.network_not_avaialable));
     }
 
     /**
      * Method for create new hold
      */
     public void createHold() {
-        String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
+        if (NetworkUtil.isOnline(mContext)) {
+            String phone = ((BuyDashBaseActivity) mContext).buyDashPref.getPhone();
 
-        final HashMap<String, String> createHoldPassReq = new HashMap<String, String>();
+            final HashMap<String, String> createHoldPassReq = new HashMap<String, String>();
 
-        if (TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
-            createHoldPassReq.put(WOCConstants.KEY_PHONE, phone);
-            createHoldPassReq.put(WOCConstants.KEY_PUBLISHER_ID, getString(R.string.WALLOFCOINS_PUBLISHER_ID));
-            createHoldPassReq.put(WOCConstants.KEY_EMAIL, email);
-            createHoldPassReq.put(WOCConstants.KEY_deviceName, WOCConstants.KEY_DEVICE_NAME_VALUE);
-            createHoldPassReq.put(WOCConstants.KEY_DEVICECODE, getDeviceCode(mContext, ((BuyDashBaseActivity) mContext).buyDashPref));
-        }
-        createHoldPassReq.put(WOCConstants.KEY_OFFER, offerId);
+            if (TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
+                createHoldPassReq.put(WOCConstants.KEY_PHONE, phone);
+                createHoldPassReq.put(WOCConstants.KEY_PUBLISHER_ID, getString(R.string.WALLOFCOINS_PUBLISHER_ID));
+                createHoldPassReq.put(WOCConstants.KEY_EMAIL, email);
+                createHoldPassReq.put(WOCConstants.KEY_deviceName, WOCConstants.KEY_DEVICE_NAME_VALUE);
+                createHoldPassReq.put(WOCConstants.KEY_DEVICECODE, getDeviceCode(mContext, ((BuyDashBaseActivity) mContext).buyDashPref));
+            }
+            createHoldPassReq.put(WOCConstants.KEY_OFFER, offerId);
 
-        linearProgress.setVisibility(View.VISIBLE);
+            linearProgress.setVisibility(View.VISIBLE);
 
-        WallofCoins.createService(interceptor, getActivity()).createHold(createHoldPassReq).enqueue(new Callback<CreateHoldResp>() {
-            @Override
-            public void onResponse(Call<CreateHoldResp> call, Response<CreateHoldResp> response) {
-                linearProgress.setVisibility(View.GONE);
+            WallofCoins.createService(interceptor, getActivity()).createHold(createHoldPassReq).enqueue(new Callback<CreateHoldResp>() {
+                @Override
+                public void onResponse(Call<CreateHoldResp> call, Response<CreateHoldResp> response) {
+                    linearProgress.setVisibility(View.GONE);
 
-                if (null != response.body() && response.code() < 299) {
+                    if (null != response.body() && response.code() < 299) {
 
-                    createHoldResp = response.body();
-                    ((BuyDashBaseActivity) mContext).buyDashPref.setHoldId(createHoldResp.id);
-                    ((BuyDashBaseActivity) mContext).buyDashPref.setCreateHoldResp(createHoldResp);
-                    if (TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId())
-                            && !TextUtils.isEmpty(createHoldResp.deviceId)) {
-                        ((BuyDashBaseActivity) mContext).buyDashPref.setDeviceId(createHoldResp.deviceId);
-                    }
-                    if (!TextUtils.isEmpty(response.body().token)) {
-                        ((BuyDashBaseActivity) mContext).buyDashPref.setAuthToken(createHoldResp.token);
-                        //added
-                        credentilasPref.setCredentials(phone_no, ((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken());
-                    }
-                    navigateToVerifyOtp(createHoldResp.__PURCHASE_CODE);
-                    //hideViewExcept(binding.layoutVerifyOtp);
-                    //clearForm((ViewGroup) binding.getRoot());
-                    //binding.etOtp.setText(createHoldResp.__PURCHASE_CODE);
+                        createHoldResp = response.body();
+                        ((BuyDashBaseActivity) mContext).buyDashPref.setHoldId(createHoldResp.id);
+                        ((BuyDashBaseActivity) mContext).buyDashPref.setCreateHoldResp(createHoldResp);
+                        if (TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId())
+                                && !TextUtils.isEmpty(createHoldResp.deviceId)) {
+                            ((BuyDashBaseActivity) mContext).buyDashPref.setDeviceId(createHoldResp.deviceId);
+                        }
+                        if (!TextUtils.isEmpty(response.body().token)) {
+                            ((BuyDashBaseActivity) mContext).buyDashPref.setAuthToken(createHoldResp.token);
+                            //added
+                            credentilasPref.setCredentials(phone_no, ((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken());
+                        }
+                        navigateToVerifyOtp(createHoldResp.__PURCHASE_CODE);
+                        //hideViewExcept(binding.layoutVerifyOtp);
+                        //clearForm((ViewGroup) binding.getRoot());
+                        //binding.etOtp.setText(createHoldResp.__PURCHASE_CODE);
 
-                } else if (null != response.errorBody()) {
-                    if (response.code() == 403 && TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
+                    } else if (null != response.errorBody()) {
+                        if (response.code() == 403 && TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
 
                       /*  String token = credentilasPref.getAuthTokenFromPhoneNum(phone_no);
                         ((BuyDashBaseActivity) mContext).buyDashPref.setAuthToken(token);
                         getHolds();*/
-                        layout_hold.setVisibility(View.VISIBLE);
-                        linear_email.setVisibility(View.GONE);
-                        linear_phone.setVisibility(View.GONE);
-                        //hideViewExcept(binding.layoutHold);
-                        //clearForm((ViewGroup) binding.getRoot());
-                    } else if (response.code() == 403 && !TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
-                        getHolds();
-                    } else if (response.code() == 400) {
-                        if (!TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
-                            navigateToOrderList(false);
-                        } else {
                             layout_hold.setVisibility(View.VISIBLE);
                             linear_email.setVisibility(View.GONE);
                             linear_phone.setVisibility(View.GONE);
-                            // hideViewExcept(binding.layoutHold);
+                            //hideViewExcept(binding.layoutHold);
                             //clearForm((ViewGroup) binding.getRoot());
-                        }
-                    } else {
-                        try {
+                        } else if (response.code() == 403 && !TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
+                            getHolds();
+                        } else if (response.code() == 400) {
                             if (!TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
                                 navigateToOrderList(false);
+                            } else {
+                                layout_hold.setVisibility(View.VISIBLE);
+                                linear_email.setVisibility(View.GONE);
+                                linear_phone.setVisibility(View.GONE);
+                                // hideViewExcept(binding.layoutHold);
+                                //clearForm((ViewGroup) binding.getRoot());
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        } else {
+                            try {
+                                if (!TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
+                                    navigateToOrderList(false);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
+                    } else {
+                        //clearForm((ViewGroup) binding.getRoot());
                     }
-                } else {
-                    //clearForm((ViewGroup) binding.getRoot());
                 }
-            }
 
-            @Override
-            public void onFailure(Call<CreateHoldResp> call, Throwable t) {
-                linearProgress.setVisibility(View.GONE);
-                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<CreateHoldResp> call, Throwable t) {
+                    linearProgress.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else
+            showToast(mContext.getString(R.string.network_not_avaialable));
 
     }
 
+    /**
+     * navigate to otp code screen with code
+     *
+     * @param otp
+     */
     private void navigateToVerifyOtp(String otp) {
         Bundle bundle = new Bundle();
         bundle.putString(WOCConstants.VERIFICATION_OTP, otp);
@@ -519,7 +536,7 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
             public void onFailure(Call<List<GetHoldsResp>> call, Throwable t) {
                 linearProgress.setVisibility(View.GONE);
                 Log.e(TAG, "onFailure: ", t);
-                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                showToast(mContext.getString(R.string.try_again));
             }
         });
     }
@@ -549,7 +566,7 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
             public void onFailure(Call<Void> call, Throwable t) {
                 linearProgress.setVisibility(View.GONE);
                 Log.e(TAG, "onFailure: ", t);
-                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                showToast(mContext.getString(R.string.try_again));
             }
         });
     }
@@ -579,7 +596,7 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
             public void onFailure(Call<List<CreateDeviceResp>> call, Throwable t) {
                 linearProgress.setVisibility(View.GONE);
                 Log.e(TAG, "onFailure: ", t);
-                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                showToast(mContext.getString(R.string.try_again));
             }
         });
 
@@ -590,7 +607,7 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
      */
     private void createDevice() {
         final HashMap<String, String> createDeviceReq = new HashMap<String, String>();
-        createDeviceReq.put(WOCConstants.KEY_DEVICE_NAME, mContext.getString(R.string.dash_wallet_name));
+        createDeviceReq.put(WOCConstants.KEY_DEVICE_NAME, mContext.getString(R.string.pivx_wallet_name));
         createDeviceReq.put(WOCConstants.KEY_DEVICE_CODE, getDeviceCode(mContext, ((BuyDashBaseActivity) mContext).buyDashPref));
         createDeviceReq.put(WOCConstants.KEY_PUBLISHER_ID, getString(R.string.WALLOFCOINS_PUBLISHER_ID));
         linearProgress.setVisibility(View.VISIBLE);
@@ -602,18 +619,18 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
                     ((BuyDashBaseActivity) mContext).buyDashPref.setDeviceId(createDeviceResp.getId() + "");
                     getAuthTokenCall("");
                 } else {
-                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                    showToast(mContext.getString(R.string.try_again));
                 }
             }
 
             @Override
             public void onFailure(Call<CreateDeviceResp> call, Throwable t) {
-                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                showToast(mContext.getString(R.string.try_again));
             }
         });
     }
 
-    //this method remove animation when user want to clear back stack
+    //this method remove animation when user want to clear whole back stack
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
         if (FragmentUtils.sDisableFragmentAnimations) {

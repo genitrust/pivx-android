@@ -78,8 +78,14 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             if (getNumAmount(bean.deposit.amount) >= 200) {
                 vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicode, bean.amount.dots, GenericUtils.currencySymbol(bean.deposit.currency), getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.DASH)));
+                /*vholder.binding.tvItrmOffer2.setText("("+"μⱣiv "+ bean.amount.dots+")"+
+                        "\n(at "+GenericUtils.currencySymbol(bean.deposit.currency)+
+                        getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.DASH)+")");
+*/
             } else {
                 vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicodeNoRate, bean.amount.dots));
+                //vholder.binding.tvItrmOffer2.setText("("+"μⱣiv "+bean.amount.dots+")");
+
             }
 
             if(incremented){
@@ -169,8 +175,14 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             if (getNumAmount(bean.deposit.amount) >= 200) {
                 vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicode, bean.amount.dots, GenericUtils.currencySymbol(bean.deposit.currency), getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.DASH)));
+                /*vholder.binding.tvItrmOffer2.setText("("+"μⱣiv "+ bean.amount.dots+")"+
+                        "\n(at "+GenericUtils.currencySymbol(bean.deposit.currency)+
+                        getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.DASH)+")");
+*/
             } else {
                 vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicodeNoRate, bean.amount.dots));
+                //vholder.binding.tvItrmOffer2.setText("("+"μⱣiv "+bean.amount.dots+")");
+
             }
 
             vholder.binding.buttonBuyDashItemOrder.setOnClickListener(new View.OnClickListener() {
@@ -205,7 +217,7 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
                             singleDepositBeenList.get(0).deposit.amount + ". You must click the ORDER button before you receive instructions to pay at the Cash Payment center.");
                 }
             } else {
-                more.setText("Best Value Options: More Dash for $" +
+                more.setText("Best Value Options: More PIVX for $" +
                         String.format("%.2f",Double.parseDouble(offerAmount)) + " Cash");
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

@@ -1,10 +1,12 @@
 package pivx.org.pivxwallet.wallofcoins.buyingwizard.models;
 
+import java.io.Serializable;
+
 /**
  * Created by  on 12-Mar-18.
  */
 
-public class CredentialsVO {
+public class CredentialsVO implements Serializable {
 
     private String phoneNumber = "";
 

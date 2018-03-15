@@ -37,6 +37,7 @@ import pivx.org.pivxwallet.wallofcoins.buyingwizard.utils.BuyDashAddressPref;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.utils.FragmentUtils;
 import pivx.org.pivxwallet.wallofcoins.response.BuyDashErrorResp;
 import pivx.org.pivxwallet.wallofcoins.response.CaptureHoldResp;
+import pivx.org.pivxwallet.wallofcoins.utils.NetworkUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,7 +56,7 @@ public class VerifycationOtpFragment extends BuyDashBaseFragment implements View
     private final String TAG = "VerifycationOtpFragment";
     private String otp = "", keyAddress = "";
     private Wallet wallet;
-   // private WalletApplication application;
+    // private WalletApplication application;
 
     @Override
     public void onAttach(Context context) {
@@ -77,7 +78,7 @@ public class VerifycationOtpFragment extends BuyDashBaseFragment implements View
     }
 
     private void init() {
-       // this.application = (WalletApplication) getActivity().getApplication();
+        // this.application = (WalletApplication) getActivity().getApplication();
         //this.wallet = application.getWallet();
         //this.loaderManager = getLoaderManager();
 
@@ -118,82 +119,86 @@ public class VerifycationOtpFragment extends BuyDashBaseFragment implements View
      */
     private void verifyOTP() {
 
-        hideKeyBoard();
-        HashMap<String, String> captureHoldReq = new HashMap<String, String>();
-        String otp = et_otp.getText().toString().trim();
+        if (NetworkUtil.isOnline(mContext)) {
+            hideKeyBoard();
+            HashMap<String, String> captureHoldReq = new HashMap<String, String>();
+            String otp = et_otp.getText().toString().trim();
 
-        if (TextUtils.isEmpty(otp)) {
-            Toast.makeText(getContext(), R.string.alert_purchase_code, Toast.LENGTH_LONG).show();
-            return;
-        }
+            if (TextUtils.isEmpty(otp)) {
+                Toast.makeText(getContext(), R.string.alert_purchase_code, Toast.LENGTH_LONG).show();
+                return;
+            }
 
-        captureHoldReq.put(WOCConstants.KEY_PUBLISHER_ID, getString(R.string.WALLOFCOINS_PUBLISHER_ID));
-        captureHoldReq.put(WOCConstants.KEY_VERIFICATION_CODE, otp);
-        linearProgress.setVisibility(View.VISIBLE);
-        WallofCoins.createService(interceptor, getActivity()).captureHold((
-                (BuyDashBaseActivity) mContext).buyDashPref.getHoldId(), captureHoldReq)
-                .enqueue(new Callback<List<CaptureHoldResp>>() {
-                    @Override
-                    public void onResponse(Call<List<CaptureHoldResp>> call, final Response<List<CaptureHoldResp>> response) {
-                        linearProgress.setVisibility(View.GONE);
-                        ((BuyDashBaseActivity) mContext).buyDashPref.setHoldId("");
-                        ((BuyDashBaseActivity) mContext).buyDashPref.setCreateHoldResp(null);
-                        Log.e(TAG, "onResponse: " + ((BuyDashBaseActivity) mContext).buyDashPref.getHoldId() + " here");
-                        if (null != response && null != response.body() && !response.body().isEmpty()) {
-                            if (response.body().get(0).account != null && !TextUtils.isEmpty(response.body().get(0).account)) {
-                                updateAddressBookValue(keyAddress, "WallofCoins.com - Order " + response.body().get(0).id);
-                                navigateToOrderList(true);
-                                // getOrderList(true);
-                            } else {
-                                //getOrderList(true);
-                                navigateToOrderList(true);
-                            }
-
-                            // hideViewExcept(binding.scrollCompletionDetail);
-
-                        } else if (null != response && null != response.errorBody()) {
+            captureHoldReq.put(WOCConstants.KEY_PUBLISHER_ID, getString(R.string.WALLOFCOINS_PUBLISHER_ID));
+            captureHoldReq.put(WOCConstants.KEY_VERIFICATION_CODE, otp);
+            linearProgress.setVisibility(View.VISIBLE);
+            WallofCoins.createService(interceptor, getActivity()).captureHold((
+                    (BuyDashBaseActivity) mContext).buyDashPref.getHoldId(), captureHoldReq)
+                    .enqueue(new Callback<List<CaptureHoldResp>>() {
+                        @Override
+                        public void onResponse(Call<List<CaptureHoldResp>> call, final Response<List<CaptureHoldResp>> response) {
                             linearProgress.setVisibility(View.GONE);
-
-                            if (response.code() == 404) {
-                                AlertDialog.Builder builder;
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    builder = new AlertDialog.Builder(mContext, android.R.style.Theme_Material_Dialog_Alert);
+                            ((BuyDashBaseActivity) mContext).buyDashPref.setHoldId("");
+                            ((BuyDashBaseActivity) mContext).buyDashPref.setCreateHoldResp(null);
+                            Log.e(TAG, "onResponse: " + ((BuyDashBaseActivity) mContext).buyDashPref.getHoldId() + " here");
+                            if (null != response && null != response.body() && !response.body().isEmpty()) {
+                                if (response.body().get(0).account != null && !TextUtils.isEmpty(response.body().get(0).account)) {
+                                    updateAddressBookValue(keyAddress, "WallofCoins.com - Order " + response.body().get(0).id);
+                                    navigateToOrderList(true);
+                                    // getOrderList(true);
                                 } else {
-                                    builder = new AlertDialog.Builder(mContext);
+                                    //getOrderList(true);
+                                    navigateToOrderList(true);
                                 }
-                                builder.setTitle(getString(R.string.alert_title_purchase_code))
-                                        .setMessage(getString(R.string.alert_description_purchase_code))
-                                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                // hideViewExcept(binding.layoutCreateHold);
-                                                navigateToLocation();
 
-                                            }
-                                        })
-                                        .show();
+                                // hideViewExcept(binding.scrollCompletionDetail);
+
+                            } else if (null != response && null != response.errorBody()) {
+                                linearProgress.setVisibility(View.GONE);
+
+                                if (response.code() == 404) {
+                                    AlertDialog.Builder builder;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        builder = new AlertDialog.Builder(mContext, android.R.style.Theme_Material_Dialog_Alert);
+                                    } else {
+                                        builder = new AlertDialog.Builder(mContext);
+                                    }
+                                    builder.setTitle(getString(R.string.alert_title_purchase_code))
+                                            .setMessage(getString(R.string.alert_description_purchase_code))
+                                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    // hideViewExcept(binding.layoutCreateHold);
+                                                    navigateToLocation();
+
+                                                }
+                                            })
+                                            .show();
+                                } else {
+                                    try {
+                                        BuyDashErrorResp buyDashErrorResp = new Gson().fromJson(response.errorBody().string(), BuyDashErrorResp.class);
+                                        Toast.makeText(getContext(), buyDashErrorResp.detail, Toast.LENGTH_LONG).show();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                                    }
+                                }
                             } else {
-                                try {
-                                    BuyDashErrorResp buyDashErrorResp = new Gson().fromJson(response.errorBody().string(), BuyDashErrorResp.class);
-                                    Toast.makeText(getContext(), buyDashErrorResp.detail, Toast.LENGTH_LONG).show();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
-                                }
+                                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                                linearProgress.setVisibility(View.GONE);
                             }
-                        } else {
-                            Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
-                            linearProgress.setVisibility(View.GONE);
                         }
-                    }
 
-                    @Override
-                    public void onFailure
-                            (Call<List<CaptureHoldResp>> call, Throwable t) {
-                        linearProgress.setVisibility(View.GONE);
-                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
-                        Log.e(TAG, "onFailure: ", t);
-                    }
-                });
+                        @Override
+                        public void onFailure
+                                (Call<List<CaptureHoldResp>> call, Throwable t) {
+                            linearProgress.setVisibility(View.GONE);
+                            Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                            Log.e(TAG, "onFailure: ", t);
+                        }
+                    });
+        } else
+            showToast(mContext.getString(R.string.network_not_avaialable));
+
     }
 
     /**
