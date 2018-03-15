@@ -36,12 +36,12 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
     private String offerAmount;
     private boolean incremented;
 
-    public BuyDashOffersAdapter(Context context, GetOffersResp getOffersResp,String offerAmount,
+    public BuyDashOffersAdapter(Context context, GetOffersResp getOffersResp, String offerAmount,
                                 AdapterView.OnItemSelectedListener onItemSelectedListener) {
         this.context = context;
         this.singleDepositBeenList = getOffersResp.singleDeposit;
         this.doubleDeposit = getOffersResp.doubleDeposit;
-        if(getOffersResp.multipleBanks!=null && doubleDeposit!=null)
+        if (getOffersResp.multipleBanks != null && doubleDeposit != null)
             this.doubleDeposit.addAll(getOffersResp.multipleBanks);
         this.onItemSelectedListener = onItemSelectedListener;
         this.incremented = getOffersResp.incremented;
@@ -77,18 +77,14 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
             vholder.binding.setItem(bean);
 
             if (getNumAmount(bean.deposit.amount) >= 200) {
-                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicode, bean.amount.dots, GenericUtils.currencySymbol(bean.deposit.currency), getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.DASH)));
-                /*vholder.binding.tvItrmOffer2.setText("("+"μⱣiv "+ bean.amount.dots+")"+
-                        "\n(at "+GenericUtils.currencySymbol(bean.deposit.currency)+
-                        getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.DASH)+")");
-*/
+                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicode, bean.amount.uPiv, GenericUtils.currencySymbol(bean.deposit.currency), getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.PIVX)));
+
             } else {
-                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicodeNoRate, bean.amount.dots));
-                //vholder.binding.tvItrmOffer2.setText("("+"μⱣiv "+bean.amount.dots+")");
+                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicodeNoRate, bean.amount.uPiv));
 
             }
 
-            if(incremented){
+            if (incremented) {
                 vholder.binding.txtAmount.setVisibility(View.VISIBLE);
             } else {
                 vholder.binding.txtAmount.setVisibility(View.INVISIBLE);
@@ -174,15 +170,11 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             if (getNumAmount(bean.deposit.amount) >= 200) {
-                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicode, bean.amount.dots, GenericUtils.currencySymbol(bean.deposit.currency), getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.DASH)));
-                /*vholder.binding.tvItrmOffer2.setText("("+"μⱣiv "+ bean.amount.dots+")"+
-                        "\n(at "+GenericUtils.currencySymbol(bean.deposit.currency)+
-                        getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.DASH)+")");
-*/
-            } else {
-                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicodeNoRate, bean.amount.dots));
-                //vholder.binding.tvItrmOffer2.setText("("+"μⱣiv "+bean.amount.dots+")");
+                //vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicode, bean.amount.uPiv, GenericUtils.currencySymbol(bean.deposit.currency), getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.DASH)));
+                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicode, bean.amount.uPiv, GenericUtils.currencySymbol(bean.deposit.currency), getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.PIVX)));
 
+            } else {
+                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicodeNoRate, bean.amount.uPiv));
             }
 
             vholder.binding.buttonBuyDashItemOrder.setOnClickListener(new View.OnClickListener() {
@@ -218,7 +210,7 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             } else {
                 more.setText("Best Value Options: More PIVX for $" +
-                        String.format("%.2f",Double.parseDouble(offerAmount)) + " Cash");
+                        String.format("%.2f", Double.parseDouble(offerAmount)) + " Cash");
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 more.setTextColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));

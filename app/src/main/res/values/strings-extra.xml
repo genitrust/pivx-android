@@ -5,6 +5,7 @@
     <string name="WALLOFCOINS_PUBLISHER_ID">47</string>
     <string name="base_url">https://woc.reference.genitrust.com/</string>
 
+
     <string name="send_coins_fragment_instantx_enable">Use InstantSend</string>
     <string name="transaction_row_message_own_instantx_lock_request_notsent">This InstantSend payment has not been transmitted yet.</string>
     <string name="transaction_row_message_own_instantx_lock_request">This InstantSend payment is awaiting verification by the PIVX Network.</string>

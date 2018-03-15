@@ -315,7 +315,7 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
                 discoveryInputsReq.put(WOCConstants.KEY_COUNTRY, getCountryCode(latitude, longitude).toLowerCase());
 
             //discoveryInputsReq.put(WOCConstants.KEY_CRYPTO, config.getFormat().code());
-            discoveryInputsReq.put(WOCConstants.KEY_CRYPTO, "DASH");
+            discoveryInputsReq.put(WOCConstants.KEY_CRYPTO, "PIVX");
             if (bankId != null)
                 discoveryInputsReq.put(WOCConstants.KEY_BANK, bankId);
 

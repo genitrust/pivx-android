@@ -68,7 +68,7 @@
                             android:layout_weight="1"
                             android:ellipsize="end"
                             android:lines="1"
-                            android:text='@{@string/dashUnicode(item.amount.DASH)}'
+                            android:text='@{@string/dashUnicode(item.amount.PIVX)}'
                             android:textSize="20dp"
                             android:textStyle="bold"
                             tools:text="\u0110ASH" />

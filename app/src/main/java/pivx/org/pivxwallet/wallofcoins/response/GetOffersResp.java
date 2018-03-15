@@ -179,5 +179,7 @@ public class GetOffersResp {
         public String dots;
         public String bits;
         public String BTC;
+        public String uPiv;
+        public String PIVX;
     }
 }
