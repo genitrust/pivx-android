@@ -6,6 +6,10 @@ package pivx.org.pivxwallet.wallofcoins;
  */
 
 public final class WOCConstants {
+
+
+    public static final String CRYPTO = "PIVX";
+
     // REST FUll API KEY Constant
     public static final String KEY_HEADER_AUTH_TOKEN = "X-Coins-Api-Token";
     public static final String KEY_HEADER_PUBLISHER_ID = "X-Coins-Publisher";

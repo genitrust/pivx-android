@@ -125,7 +125,7 @@ public class VerifycationOtpFragment extends BuyDashBaseFragment implements View
             String otp = et_otp.getText().toString().trim();
 
             if (TextUtils.isEmpty(otp)) {
-                Toast.makeText(getContext(), R.string.alert_purchase_code, Toast.LENGTH_LONG).show();
+                showToast(mContext.getString(R.string.alert_purchase_code));
                 return;
             }
 
@@ -179,11 +179,11 @@ public class VerifycationOtpFragment extends BuyDashBaseFragment implements View
                                         Toast.makeText(getContext(), buyDashErrorResp.detail, Toast.LENGTH_LONG).show();
                                     } catch (Exception e) {
                                         e.printStackTrace();
-                                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                                        showToast(mContext.getString(R.string.try_again));
                                     }
                                 }
                             } else {
-                                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                                showToast(mContext.getString(R.string.try_again));
                                 linearProgress.setVisibility(View.GONE);
                             }
                         }
@@ -192,7 +192,7 @@ public class VerifycationOtpFragment extends BuyDashBaseFragment implements View
                         public void onFailure
                                 (Call<List<CaptureHoldResp>> call, Throwable t) {
                             linearProgress.setVisibility(View.GONE);
-                            Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                            showToast(mContext.getString(R.string.try_again));
                             Log.e(TAG, "onFailure: ", t);
                         }
                     });

@@ -69,7 +69,7 @@
                             android:ellipsize="end"
                             android:lines="1"
                             android:text='@{@string/dashUnicode(item.amount.PIVX)}'
-                            android:textSize="20dp"
+                            android:textSize="20sp"
                             android:textStyle="bold"
                             tools:text="\u0110ASH" />
 
@@ -79,7 +79,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:maxLines="2"
-                            android:textSize="10dp"
+                            android:textSize="10sp"
                             tools:text="0.5458  \u0111ots" />
 
                     </LinearLayout>
@@ -90,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="25"
                         android:backgroundTint="#5cb85c"
-                        android:text="Order"
+                        android:text="@string/action_order"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -114,7 +114,7 @@
                             android:ellipsize="end"
                             android:lines="1"
                             android:text="@{item.bankName}"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:textStyle="bold"
                             tools:text="TextView" />
 
@@ -126,7 +126,7 @@
                             android:ellipsize="end"
                             android:lines="1"
                             android:text="@{item.address.length()>0?item.address:`Subject to local availability`}"
-                            android:textSize="12dp"
+                            android:textSize="12sp"
                             tools:text="TextView" />
 
                         <TextView
@@ -138,7 +138,7 @@
                             android:ellipsize="end"
                             android:lines="1"
                             android:text='@{item.distance>0?(String.format("%.1f",item.distance)+" miles - "+item.city+","+item.state):``}'
-                            android:textSize="12dp"
+                            android:textSize="12sp"
                             android:visibility="@{item.distance>0?View.VISIBLE:View.GONE}"
                             tools:text="TextView" />
                     </LinearLayout>
@@ -164,7 +164,7 @@
                             android:layout_gravity="bottom"
 
                             android:autoLink="web"
-                            android:text="Check Location"
+                            android:text="@string/action_check_location"
                             android:textColor="@color/colorPrimary"
                             android:textSize="14sp"
                             android:visibility='@{(item.distance==0 &amp;&amp; item.bankLocationUrl!=null &amp;&amp; item.bankLocationUrl.length()>0)?View.VISIBLE:View.INVISIBLE}' />

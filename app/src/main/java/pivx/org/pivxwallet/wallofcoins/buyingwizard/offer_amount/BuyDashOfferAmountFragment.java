@@ -315,7 +315,7 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
                 discoveryInputsReq.put(WOCConstants.KEY_COUNTRY, getCountryCode(latitude, longitude).toLowerCase());
 
             //discoveryInputsReq.put(WOCConstants.KEY_CRYPTO, config.getFormat().code());
-            discoveryInputsReq.put(WOCConstants.KEY_CRYPTO, "PIVX");
+            discoveryInputsReq.put(WOCConstants.KEY_CRYPTO, WOCConstants.CRYPTO);
             if (bankId != null)
                 discoveryInputsReq.put(WOCConstants.KEY_BANK, bankId);
 
@@ -390,7 +390,7 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
                                                     });
                                                     rv_offers.setAdapter(buyDashOffersAdapter);
                                                 } else {
-                                                    Toast.makeText(getContext(), R.string.alert_no_offers, Toast.LENGTH_LONG).show();
+                                                    showToast(mContext.getString(R.string.alert_no_offers));
                                                 }
                                             } else if (null != response && null != response.errorBody()) {
                                                 linearProgress.setVisibility(View.GONE);
@@ -399,24 +399,24 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
                                                     Toast.makeText(getContext(), buyDashErrorResp.detail, Toast.LENGTH_LONG).show();
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
-                                                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                                                    showToast(mContext.getString(R.string.try_again));
                                                 }
 
                                             } else {
                                                 linearProgress.setVisibility(View.GONE);
-                                                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                                                showToast(mContext.getString(R.string.try_again));
                                             }
                                         }
 
                                         @Override
                                         public void onFailure(Call<GetOffersResp> call, Throwable t) {
                                             linearProgress.setVisibility(View.GONE);
-                                            Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                                            showToast(mContext.getString(R.string.try_again));
                                         }
                                     });
                                 } else {
                                     linearProgress.setVisibility(View.GONE);
-                                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                                    showToast(mContext.getString(R.string.try_again));
                                 }
                             } else if (null != response && null != response.errorBody()) {
 
@@ -427,16 +427,16 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
                                     if (buyDashErrorResp.detail != null && !TextUtils.isEmpty(buyDashErrorResp.detail)) {
                                         Toast.makeText(getContext(), buyDashErrorResp.detail, Toast.LENGTH_LONG).show();
                                     } else {
-                                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                                        showToast(mContext.getString(R.string.try_again));
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                                    showToast(mContext.getString(R.string.try_again));
                                 }
 
                             } else {
                                 linearProgress.setVisibility(View.GONE);
-                                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                                showToast(mContext.getString(R.string.try_again));
                             }
                         }
 
@@ -445,7 +445,7 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
                             linearProgress.setVisibility(View.GONE);
                             String message = t.getMessage();
                             Log.d("failure", message);
-                            Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                            showToast(mContext.getString(R.string.try_again));
                         }
                     });
         } else
@@ -527,7 +527,7 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
                 @Override
                 public void onFailure(Call<CreateHoldResp> call, Throwable t) {
                     linearProgress.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                    showToast(mContext.getString(R.string.try_again));
                 }
             });
         } else
@@ -571,7 +571,7 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
                 public void onFailure(Call<List<GetHoldsResp>> call, Throwable t) {
                     linearProgress.setVisibility(View.GONE);
                     Log.e(TAG, "onFailure: ", t);
-                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                    showToast(mContext.getString(R.string.try_again));
                 }
             });
         } else
@@ -597,7 +597,7 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
                 public void onFailure(Call<Void> call, Throwable t) {
                     linearProgress.setVisibility(View.GONE);
                     Log.e(TAG, "onFailure: ", t);
-                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                    showToast(mContext.getString(R.string.try_again));
                 }
             });
         } else

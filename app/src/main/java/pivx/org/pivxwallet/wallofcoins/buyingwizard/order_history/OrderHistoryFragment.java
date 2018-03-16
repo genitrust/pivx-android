@@ -159,11 +159,10 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
                         public void onFailure(Call<List<OrderListResp>> call, Throwable t) {
                             linearProgress.setVisibility(View.GONE);
                             Log.e(TAG, "onFailure: ", t);
-                            Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                            showToast(mContext.getString(R.string.try_again));
                         }
                     });
-        }
-        else
+        } else
             showToast(mContext.getString(R.string.network_not_avaialable));
 
     }
@@ -412,26 +411,25 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
                                         //binding.editBuyDashPhone.setText(null);
                                         //checkAuth();
                                     } else {
-                                        Toast.makeText(mContext, R.string.alert_sign_out, Toast.LENGTH_LONG).show();
+                                        showToast(mContext.getString(R.string.alert_sign_out));
                                         //hideViewExcept(binding.layoutLocation);
                                         navigateToLocationScreen();
                                     }
                                 } else {
-                                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                                    showToast(mContext.getString(R.string.try_again));
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<CheckAuthResp> call, Throwable t) {
                                 linearProgress.setVisibility(View.GONE);
-                                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                                showToast(mContext.getString(R.string.try_again));
                             }
                         });
             } else {
-                Toast.makeText(getContext(), R.string.alert_phone, Toast.LENGTH_SHORT).show();
+                showToast(mContext.getString(R.string.alert_phone));
             }
-        }
-        else
+        } else
             showToast(mContext.getString(R.string.network_not_avaialable));
 
     }
@@ -524,14 +522,14 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     linearProgress.setVisibility(View.GONE);
                     if (response.code() == 204) {
-                        Toast.makeText(getContext(), R.string.alert_cancel_order, Toast.LENGTH_SHORT).show();
+                        showToast(mContext.getString(R.string.alert_cancel_order));
                         //binding.requestCoinsAmountBtcEdittext.setText("");
                         //binding.requestCoinsAmountLocalEdittext.setText("");
                         //binding.buyDashZip.setText("");
                         //hideViewExcept(binding.layoutLocation);
                         navigateToLocationScreen();
                     } else {
-                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                        showToast(mContext.getString(R.string.try_again));
                     }
                 }
 
@@ -539,11 +537,10 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
                 public void onFailure(Call<Void> call, Throwable t) {
                     Log.e(TAG, "onFailure: ", t);
                     linearProgress.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                    showToast(mContext.getString(R.string.try_again));
                 }
             });
-        }
-        else
+        } else
             showToast(mContext.getString(R.string.network_not_avaialable));
 
     }
@@ -563,7 +560,7 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
 
                     if (null != response && null != response.body()) {
                         //binding.scrollCompletionDetail.setVisibility(View.GONE);
-                        Toast.makeText(mContext, R.string.alert_payment_done, Toast.LENGTH_LONG).show();
+                        showToast(mContext.getString(R.string.alert_payment_done));
                         getOrderList(false);
                     } else if (null != response && null != response.errorBody()) {
                         try {
@@ -571,11 +568,11 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
                             Toast.makeText(getContext(), buyDashErrorResp.detail, Toast.LENGTH_LONG).show();
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                            showToast(mContext.getString(R.string.try_again));
                         }
 
                     } else {
-                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                        showToast(mContext.getString(R.string.try_again));
                     }
                 }
 
@@ -583,11 +580,10 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
                 public void onFailure(Call<ConfirmDepositResp> call, Throwable t) {
                     linearProgress.setVisibility(View.GONE);
                     Log.e(TAG, "onFailure: ", t);
-                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                    showToast(mContext.getString(R.string.try_again));
                 }
             });
-        }
-        else
+        } else
             showToast(mContext.getString(R.string.network_not_avaialable));
 
     }

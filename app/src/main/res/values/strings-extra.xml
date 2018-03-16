@@ -76,8 +76,8 @@
      <string name="dotUnicodeNoRate">(\u1D7D %s)</string>-->
 
     <string name="dashUnicode">\u2C63 %s</string>
-    <string name="dotUnicode">(μⱣiv %1$s)\n(at %2$s%3$.2f/\u2C63)</string>
-    <string name="dotUnicodeNoRate">(μⱣiv %s)</string>
+    <string name="dotUnicode">(μ %1$s)\n(at %2$s%3$.2f/\u2C63)</string>
+    <string name="dotUnicodeNoRate">(μ %s)</string>
 
     <string name="location_rationale">Your location is used to find nearest payment centers.</string>
     <string name="find_my_location">Find My Location</string>
@@ -179,4 +179,5 @@
     <string name="to_acquire_bitcoin_n_1_000_000_bits_1_pivx">to acquire PIVX (Ᵽ)\n(1,000,000 μⱣiv = 1 ⱣIVX)</string>
     <string name="buy_cash">Buy PIVX with Cash</string>
     <string name="network_not_avaialable">Please check internet connection</string>
+    <string name="action_order">Order</string>
 </resources>

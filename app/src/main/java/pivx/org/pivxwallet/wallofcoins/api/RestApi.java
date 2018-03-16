@@ -3,28 +3,19 @@ package pivx.org.pivxwallet.wallofcoins.api;
 import java.util.List;
 import java.util.Map;
 
-import pivx.org.pivxwallet.wallofcoins.request.CreateAuthReq;
-import pivx.org.pivxwallet.wallofcoins.response.AdsListActivityResp;
 import pivx.org.pivxwallet.wallofcoins.response.CaptureHoldResp;
 import pivx.org.pivxwallet.wallofcoins.response.CheckAuthResp;
 import pivx.org.pivxwallet.wallofcoins.response.ConfirmDepositResp;
-import pivx.org.pivxwallet.wallofcoins.response.CreateAdResp;
-import pivx.org.pivxwallet.wallofcoins.response.CreateAuthResp;
 import pivx.org.pivxwallet.wallofcoins.response.CreateDeviceResp;
 import pivx.org.pivxwallet.wallofcoins.response.CreateHoldResp;
-import pivx.org.pivxwallet.wallofcoins.response.CurrentAuthResp;
 import pivx.org.pivxwallet.wallofcoins.response.DiscoveryInputsResp;
 import pivx.org.pivxwallet.wallofcoins.response.GetAuthTokenResp;
 import pivx.org.pivxwallet.wallofcoins.response.GetCurrencyResp;
 import pivx.org.pivxwallet.wallofcoins.response.GetHoldsResp;
 import pivx.org.pivxwallet.wallofcoins.response.GetOffersResp;
-import pivx.org.pivxwallet.wallofcoins.response.GetPricingOptionsResp;
 import pivx.org.pivxwallet.wallofcoins.response.GetReceivingOptionsResp;
 import pivx.org.pivxwallet.wallofcoins.response.OrderListResp;
-import pivx.org.pivxwallet.wallofcoins.response.SendVerificationResp;
-import pivx.org.pivxwallet.wallofcoins.response.VerifyAdResp;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
@@ -40,11 +31,6 @@ import retrofit2.http.Query;
  */
 public interface RestApi {
 
-    @GET("api/v1/auth/current/")
-    Call<CurrentAuthResp> getCurrentAuth();
-
-    @POST("api/v1/auth/")
-    Call<CreateAuthResp> createAuth(@Body CreateAuthReq createAuthReq);
 
     @GET("api/v1/orders/")
     Call<List<OrderListResp>> getOrders(@Query("publisherId") String publisherId);
@@ -63,35 +49,14 @@ public interface RestApi {
     @POST("api/v1/auth/{phone}/authorize/")
     Call<GetAuthTokenResp> getAuthToken(@Path("phone") String username, @FieldMap Map<String, String> partMap);
 
-    @GET("api/v1/banks/")
-    Call<List<GetReceivingOptionsResp>> getReceivingOptions(@Query("country") String country, @Query("publisherId") String publisherId);
-
 
     //--------------dash wizard
     @GET("api/v1/banks/")
     Call<List<GetReceivingOptionsResp>> getReceivingOptions();
     //----------------------
 
-    @GET("api/v1/ad/")
-    Call<List<AdsListActivityResp>> getAdsListing();
-
-    @GET("api/v1/markets/{crypto}/{currency}/")
-    Call<List<GetPricingOptionsResp>> getPricingOptions(@Path("crypto") String crypto, @Path("currency") String currency);
-
     @GET("api/v1/currency/")
     Call<List<GetCurrencyResp>> getCurrency();
-
-    @FormUrlEncoded
-    @POST("api/adcreate/")
-    Call<CreateAdResp> createAd(@FieldMap Map<String, Object> partMap);
-
-    @FormUrlEncoded
-    @POST("api/sendVerification/")
-    Call<SendVerificationResp> sendVerification(@FieldMap Map<String, Object> partMap);
-
-    @FormUrlEncoded
-    @POST("api/verifyAd/")
-    Call<VerifyAdResp> verifyAd(@FieldMap Map<String, String> partMap);
 
     @FormUrlEncoded
     @POST("api/v1/discoveryInputs/")

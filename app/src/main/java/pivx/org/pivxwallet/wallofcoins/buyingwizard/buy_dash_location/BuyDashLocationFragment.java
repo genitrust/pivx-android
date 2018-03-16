@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -198,7 +197,7 @@ public class BuyDashLocationFragment extends BuyDashBaseFragment implements View
                     getAuthTokenCall(password);
                     alertDialog.dismiss();
                 } else {
-                    Toast.makeText(getContext(), R.string.password_alert, Toast.LENGTH_SHORT).show();
+                    showToast(mContext.getString(R.string.password_alert));
                 }
             }
         });
@@ -246,7 +245,7 @@ public class BuyDashLocationFragment extends BuyDashBaseFragment implements View
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                                showToast(mContext.getString(R.string.try_again));
                             }
                             return;
                         }
@@ -264,13 +263,13 @@ public class BuyDashLocationFragment extends BuyDashBaseFragment implements View
 
                     @Override
                     public void onFailure(Call<GetAuthTokenResp> call, Throwable t) {
-                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                        showToast(mContext.getString(R.string.try_again));
                         linear_progress.setVisibility(View.GONE);
                     }
                 });
 
             } else {
-                Toast.makeText(getContext(), R.string.alert_phone_password_required, Toast.LENGTH_SHORT).show();
+                showToast(mContext.getString(R.string.alert_phone_password_required));
             }
         } else
             showToast(mContext.getString(R.string.network_not_avaialable));
@@ -301,7 +300,7 @@ public class BuyDashLocationFragment extends BuyDashBaseFragment implements View
                 public void onFailure(Call<List<CreateDeviceResp>> call, Throwable t) {
                     linear_progress.setVisibility(View.GONE);
                     Log.e(TAG, "onFailure: ", t);
-                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                    showToast(mContext.getString(R.string.try_again));
                 }
             });
 
@@ -328,13 +327,13 @@ public class BuyDashLocationFragment extends BuyDashBaseFragment implements View
                         ((BuyDashBaseActivity) mContext).buyDashPref.setDeviceId(createDeviceResp.getId() + "");
                         getAuthTokenCall("");
                     } else {
-                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                        showToast(mContext.getString(R.string.try_again));
                     }
                 }
 
                 @Override
                 public void onFailure(Call<CreateDeviceResp> call, Throwable t) {
-                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                    showToast(mContext.getString(R.string.try_again));
                 }
             });
         } else
@@ -379,11 +378,11 @@ public class BuyDashLocationFragment extends BuyDashBaseFragment implements View
                     @Override
                     public void onFailure(Call<CheckAuthResp> call, Throwable t) {
                         linear_progress.setVisibility(View.GONE);
-                        Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                        showToast(mContext.getString(R.string.try_again));
                     }
                 });
             } else {
-                Toast.makeText(getContext(), R.string.alert_phone, Toast.LENGTH_SHORT).show();
+                showToast(mContext.getString(R.string.alert_phone));
             }
         } else
             showToast(mContext.getString(R.string.network_not_avaialable));
@@ -416,24 +415,24 @@ public class BuyDashLocationFragment extends BuyDashBaseFragment implements View
                                         // binding.editBuyDashPhone.setText(null);
                                         checkAuth();
                                     } else {
-                                        Toast.makeText(mContext, R.string.alert_sign_out, Toast.LENGTH_LONG).show();
+                                        showToast(mContext.getString(R.string.alert_sign_out));
                                         layout_sign_out.setVisibility(View.GONE);
                                         //hideViewExcept(binding.layoutLocation);
 
                                     }
                                 } else {
-                                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                                    showToast(mContext.getString(R.string.try_again));
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<CheckAuthResp> call, Throwable t) {
                                 linear_progress.setVisibility(View.GONE);
-                                Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_SHORT).show();
+                                showToast(mContext.getString(R.string.try_again));
                             }
                         });
             } else {
-                Toast.makeText(getContext(), R.string.alert_phone, Toast.LENGTH_SHORT).show();
+                showToast(mContext.getString(R.string.alert_phone));
             }
         } else
             showToast(mContext.getString(R.string.network_not_avaialable));

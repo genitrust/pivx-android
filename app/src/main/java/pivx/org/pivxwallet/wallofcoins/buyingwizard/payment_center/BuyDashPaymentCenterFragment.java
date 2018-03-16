@@ -13,9 +13,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import pivx.org.pivxwallet.R;
@@ -103,7 +104,7 @@ public class BuyDashPaymentCenterFragment extends BuyDashBaseFragment implements
                 @Override
                 public void onFailure(Call<List<GetReceivingOptionsResp>> call, Throwable t) {
                     linear_progress.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), R.string.try_again, Toast.LENGTH_LONG).show();
+                    showToast(mContext.getString(R.string.try_again));
                     t.printStackTrace();
                 }
             });
@@ -120,8 +121,11 @@ public class BuyDashPaymentCenterFragment extends BuyDashBaseFragment implements
     private void setPaymentOptNames(final List<GetReceivingOptionsResp> receivingOptionsResps) {
         final ArrayList<String> names = new ArrayList<String>();
         GetReceivingOptionsResp optionsRespDefaultName = new GetReceivingOptionsResp();
+        Collections.sort(receivingOptionsResps, new ContactComparator());
+
         optionsRespDefaultName.name = getString(R.string.label_select_payment_center);
         receivingOptionsResps.add(0, optionsRespDefaultName);
+
         for (GetReceivingOptionsResp receivingOptionsResp : receivingOptionsResps) {
             names.add((receivingOptionsResp.name));
         }
@@ -144,16 +148,23 @@ public class BuyDashPaymentCenterFragment extends BuyDashBaseFragment implements
 
     }
 
+    private class ContactComparator implements Comparator<GetReceivingOptionsResp> {
+        public int compare(GetReceivingOptionsResp optionsResp1, GetReceivingOptionsResp optionsResp2) {
+            //In the following line you set the criterion,
+            //which is the name of Contact in my example scenario
+            return optionsResp1.name.compareTo(optionsResp2.name);
+        }
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
 
             case R.id.button_buy_dash_bank_next:
-                if (sp_banks.getSelectedItemPosition() == 0) {
-                    Toast.makeText(mContext, R.string.alert_select_any_payment_center, Toast.LENGTH_LONG).show();
-                } else {
+                if (sp_banks.getSelectedItemPosition() == 0)
+                    showToast(mContext.getString(R.string.alert_select_any_payment_center));
+                else
                     navigateToOtherScreen();
-                }
                 break;
 
         }
