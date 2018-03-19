@@ -3,6 +3,7 @@
 
 
     <string name="WALLOFCOINS_PUBLISHER_ID">47</string>
+
     <string name="base_url">https://woc.reference.genitrust.com/</string>
 
 
@@ -180,4 +181,12 @@
     <string name="buy_cash">Buy PIVX with Cash</string>
     <string name="network_not_avaialable">Please check internet connection</string>
     <string name="action_order">Order</string>
+    <string name="wallofcoins_sign_up">WALLOFCOINS SIGN UP</string>
+    <string name="existing_wallofcoins_account_sign_in">Existing WallofCoins Account Sign in:</string>
+    <string name="action_sign_in">sign in</string>
+    <string name="action_sign_in_here">sign in here</string>
+    <string name="sign_in2">SIGN IN: %s</string>
+    <string name="no_phones_available">No phones available</string>
+    <string name="do_you_already_have_an_order">Do you already have an order?</string>
+    <string name="offerid_not_available">Offerid not available</string>
 </resources>

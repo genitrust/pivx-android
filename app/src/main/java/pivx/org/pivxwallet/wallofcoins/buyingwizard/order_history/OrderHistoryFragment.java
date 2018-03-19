@@ -90,23 +90,23 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
             return rootView;
     }
 
-    private void handleArgs() {
-
-        if (getArguments() != null && getArguments().containsKey("isFromCreateHold"))
-            isFromCreateHold = getArguments().getBoolean("isFromCreateHold");
-
-    }
-
-    private void setListeners() {
-        btn_buy_more.setOnClickListener(this);
-    }
-
     private void init() {
         fragment = this;
         rv_order_list = (RecyclerView) rootView.findViewById(R.id.rv_order_list);
         linearProgress = (LinearLayout) rootView.findViewById(R.id.linear_progress);
         btn_buy_more = (Button) rootView.findViewById(R.id.btn_buy_more);
         text_email_receipt = (TextView) rootView.findViewById(R.id.text_email_receipt);
+    }
+
+    private void setListeners() {
+        btn_buy_more.setOnClickListener(this);
+    }
+
+    private void handleArgs() {
+
+        if (getArguments() != null && getArguments().containsKey("isFromCreateHold"))
+            isFromCreateHold = getArguments().getBoolean("isFromCreateHold");
+
     }
 
     /**

@@ -291,7 +291,7 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
             keyAddress = address.toBase58();
             dashAddressPref.setBuyDashAddress(keyAddress);
 
-            Log.e("------------------", dashAddressPref.getBuyDashAddress());
+            //Log.e("------------------", dashAddressPref.getBuyDashAddress());
             discoveryInputsReq.put(WOCConstants.KEY_CRYPTO_ADDRESS, keyAddress);
             String offerAmount = "0";
 
