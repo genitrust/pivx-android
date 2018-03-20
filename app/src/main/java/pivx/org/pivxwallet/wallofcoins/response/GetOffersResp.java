@@ -148,6 +148,7 @@ public class GetOffersResp {
 
             for (String s : args) {
                 try {
+                    if (s != null)
                     amount += NumberFormat.getNumberInstance(Locale.getDefault()).parse(s).doubleValue();
                 } catch (ParseException e) {
                     e.printStackTrace();

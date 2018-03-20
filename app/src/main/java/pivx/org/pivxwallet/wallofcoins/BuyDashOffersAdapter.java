@@ -130,14 +130,14 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (beanTemp.secondOffer != null) {
                 bean.amount.BTC = beanTemp.sumAmounts(beanTemp.firstOffer.amount.BTC, beanTemp.secondOffer.amount.BTC);
                 bean.amount.bits = beanTemp.sumAmounts(beanTemp.firstOffer.amount.bits, beanTemp.secondOffer.amount.bits);
-                bean.amount.DASH = beanTemp.sumAmounts(beanTemp.firstOffer.amount.DASH, beanTemp.secondOffer.amount.DASH);
-                bean.amount.dots = beanTemp.sumAmounts(beanTemp.firstOffer.amount.dots, beanTemp.secondOffer.amount.dots);
+                bean.amount.PIVX = beanTemp.sumAmounts(beanTemp.firstOffer.amount.DASH, beanTemp.secondOffer.amount.PIVX);
+                bean.amount.uPiv = beanTemp.sumAmounts(beanTemp.firstOffer.amount.dots, beanTemp.secondOffer.amount.uPiv);
                 bean.deposit.amount = beanTemp.sumAmounts(beanTemp.firstOffer.deposit.amount, beanTemp.secondOffer.deposit.amount);
             } else {
                 bean.amount.BTC = beanTemp.firstOffer.amount.BTC;
                 bean.amount.bits = beanTemp.firstOffer.amount.bits;
-                bean.amount.DASH = beanTemp.firstOffer.amount.DASH;
-                bean.amount.dots = beanTemp.firstOffer.amount.dots;
+                bean.amount.PIVX = beanTemp.firstOffer.amount.PIVX;
+                bean.amount.uPiv = beanTemp.firstOffer.amount.uPiv;
                 bean.deposit.amount = beanTemp.firstOffer.deposit.amount;
             }
 

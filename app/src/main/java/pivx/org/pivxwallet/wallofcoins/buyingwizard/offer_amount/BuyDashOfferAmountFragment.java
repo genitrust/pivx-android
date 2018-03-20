@@ -241,14 +241,18 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
             return false;
         }
         return true;*/
+       String amt=edtViewDollar.getText().toString().trim();
 
         if (edtViewDollar.getText().toString().trim().isEmpty()) {
             showToast(mContext.getString(R.string.alert_amount));
             return false;
-        } else if (Long.parseLong(edtViewDollar.getText().toString().trim()) < 5) {
+        } else if (amt.matches("^\\.$")) {
+            showToast(mContext.getString(R.string.enter_valid_amt));
+            return false;
+        } else if (Double.parseDouble(edtViewDollar.getText().toString().trim()) < 5) {
             showToast(mContext.getString(R.string.alert_puchase_amout));
             return false;
-        } else if (Long.parseLong(edtViewDollar.getText().toString().trim()) > 1000000) {
+        } else if (Double.parseDouble(edtViewDollar.getText().toString().trim()) > 1000000) {
             showToast(mContext.getString(R.string.amount_less_than_1000000));
             return false;
         }
