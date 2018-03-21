@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import pivx.org.pivxwallet.R;
 import pivx.org.pivxwallet.wallofcoins.WOCConstants;
@@ -85,7 +86,13 @@ public class PhoneListFragment extends BuyDashBaseFragment implements View.OnCli
 
         ArrayList<PhoneListVO> phoneListVOS = credentialsPref.getStoredPhoneList();
 
-        if (phoneListVOS != null & phoneListVOS.size() > 0) {
+        HashSet<PhoneListVO> hashSet = new HashSet<>();
+        hashSet.addAll(phoneListVOS);
+        phoneListVOS.clear();
+        phoneListVOS.addAll(hashSet);
+
+        if (phoneListVOS != null & phoneListVOS.size() > 0)
+        {
             recyclerViewPhoneList.setAdapter(new PhoneListAdapter(mContext, credentialsPref.getStoredPhoneList(), fragment));
             txtViewNoData.setVisibility(View.GONE);
         } else

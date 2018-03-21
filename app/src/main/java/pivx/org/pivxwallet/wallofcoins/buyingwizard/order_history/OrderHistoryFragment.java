@@ -32,7 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import pivx.org.pivxwallet.R;
 import pivx.org.pivxwallet.wallofcoins.WOCConstants;
@@ -275,11 +274,16 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
             TextView textDepositeDue = textDepositeDue1.get();
             handler.postDelayed(this, countdownInterval);
             try {
+                //2018-03-21T19:03:51.900811+03:00
                 SimpleDateFormat dateFormat = new SimpleDateFormat(
-                        "yyyy-MM-dd HH:mm:ss");
-                dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                        "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZZZ");
+               /* SimpleDateFormat dateFormat = new SimpleDateFormat(
+                        "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ");*/
+//
                 // Here Set your Event Date
-                Date eventDate = dateFormat.parse(dueDateTime.replace("T", " ").substring(0, 19));
+                //dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                //Date eventDate = dateFormat.parse(dueDateTime.replace("T", " ").substring(0, 19));
+                Date eventDate = dateFormat.parse(dueDateTime);
                 Date currentDate = new Date();
                 if (!currentDate.after(eventDate)) {
                     long diff = eventDate.getTime()

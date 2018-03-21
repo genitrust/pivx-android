@@ -42,7 +42,7 @@ public abstract class BaseRecyclerAdapter<M, H extends BaseRecyclerViewHolder> e
     public void onBindViewHolder(H holder, final int position) {
         holder.itemView.setTag((holder.getHolderId() != 0) ? holder.getHolderId() : position);
         try {
-            // setting up custom listeners
+              // setting up custom listeners
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

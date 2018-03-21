@@ -129,13 +129,13 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             if (beanTemp.secondOffer != null) {
                 bean.amount.BTC = beanTemp.sumAmounts(beanTemp.firstOffer.amount.BTC, beanTemp.secondOffer.amount.BTC);
-                bean.amount.bits = beanTemp.sumAmounts(beanTemp.firstOffer.amount.bits, beanTemp.secondOffer.amount.bits);
+                //bean.amount.bits = beanTemp.sumAmounts(beanTemp.firstOffer.amount.bits, beanTemp.secondOffer.amount.bits);
                 bean.amount.PIVX = beanTemp.sumAmounts(beanTemp.firstOffer.amount.DASH, beanTemp.secondOffer.amount.PIVX);
                 bean.amount.uPiv = beanTemp.sumAmounts(beanTemp.firstOffer.amount.dots, beanTemp.secondOffer.amount.uPiv);
                 bean.deposit.amount = beanTemp.sumAmounts(beanTemp.firstOffer.deposit.amount, beanTemp.secondOffer.deposit.amount);
             } else {
                 bean.amount.BTC = beanTemp.firstOffer.amount.BTC;
-                bean.amount.bits = beanTemp.firstOffer.amount.bits;
+               // bean.amount.bits = beanTemp.firstOffer.amount.bits;
                 bean.amount.PIVX = beanTemp.firstOffer.amount.PIVX;
                 bean.amount.uPiv = beanTemp.firstOffer.amount.uPiv;
                 bean.deposit.amount = beanTemp.firstOffer.deposit.amount;
@@ -209,7 +209,7 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
                             singleDepositBeenList.get(0).deposit.amount + ". You must click the ORDER button before you receive instructions to pay at the Cash Payment center.");
                 }
             } else {
-                more.setText("Best Value Options: More PIVX for $" +
+                more.setText("Best Value Options: More PIV for $" +
                         String.format("%.2f", Double.parseDouble(offerAmount)) + " Cash");
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -233,7 +233,8 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
             e.printStackTrace();
         }
 
-        return amount;
+//        return amount;
+        return amount / 1000;
     }
 
 

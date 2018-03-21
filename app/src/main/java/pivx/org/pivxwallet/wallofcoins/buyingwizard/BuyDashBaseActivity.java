@@ -28,7 +28,6 @@ import pivx.org.pivxwallet.wallofcoins.WOCConstants;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.buy_dash_location.BuyDashLocationFragment;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.email_phone.EmailAndPhoneFragment;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.offer_amount.BuyDashOfferAmountFragment;
-import pivx.org.pivxwallet.wallofcoins.buyingwizard.order_history.OrderHistoryFragment;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.utils.FragmentUtils;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.verification_otp.VerifycationOtpFragment;
 import pivx.org.pivxwallet.wallofcoins.response.CreateHoldResp;
@@ -99,11 +98,12 @@ public class BuyDashBaseActivity extends AppCompatActivity implements SharedPref
                 //hideViewExcept(binding.rvOrderList);
                 //getOrderList(false);
                 //navigateToOrderList(false);
-                OrderHistoryFragment historyFragment = new OrderHistoryFragment();
+                /*OrderHistoryFragment historyFragment = new OrderHistoryFragment();
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isFromCreateHold", false);
                 historyFragment.setArguments(bundle);
-                replaceFragment(historyFragment, true, false);
+                replaceFragment(historyFragment, true, false);*/
+                replaceFragment(new BuyDashLocationFragment(), true, true);
             }
         } else
             replaceFragment(new BuyDashLocationFragment(), true, true);
