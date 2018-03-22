@@ -26,6 +26,7 @@ import pivx.org.pivxwallet.ui.contacts_activity.ContactsActivity;
 import pivx.org.pivxwallet.ui.donate.DonateActivity;
 import pivx.org.pivxwallet.ui.settings_activity.SettingsActivity;
 import pivx.org.pivxwallet.ui.wallet_activity.WalletActivity;
+import pivx.org.pivxwallet.wallofcoins.buyingwizard.BuyDashBaseActivity;
 
 import static pivx.org.pivxwallet.module.PivxContext.OUT_OF_SYNC_TIME;
 import static pivx.org.pivxwallet.service.IntentsConstants.ACTION_NOTIFICATION;
@@ -208,6 +209,8 @@ public class BaseDrawerActivity extends PivxActivity implements NavigationView.O
             startActivity(new Intent(this, SettingsActivity.class));
         } else if (id == R.id.nav_donations) {
             startActivity(new Intent(this, DonateActivity.class));
+        } else if (id == R.id.nav_buywithcash) {
+            startActivity(new Intent(this, BuyDashBaseActivity.class));
         }
 
         drawer.closeDrawer(GravityCompat.START);
