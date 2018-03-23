@@ -77,10 +77,12 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
             vholder.binding.setItem(bean);
 
             if (getNumAmount(bean.deposit.amount) >= 200) {
-                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicode, bean.amount.uPiv, GenericUtils.currencySymbol(bean.deposit.currency), getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.PIVX)));
+                double uPiv = Double.parseDouble(bean.amount.uPiv.replaceAll(",","")) / 1000;
+                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicode, String.format("%.2f", uPiv), GenericUtils.currencySymbol(bean.deposit.currency), getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.PIVX)));
 
             } else {
-                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicodeNoRate, bean.amount.uPiv));
+                double uPiv = Double.parseDouble(bean.amount.uPiv.replaceAll(",","")) / 1000;
+                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicodeNoRate, String.format("%.2f", uPiv)));
 
             }
 
@@ -130,12 +132,12 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (beanTemp.secondOffer != null) {
                 bean.amount.BTC = beanTemp.sumAmounts(beanTemp.firstOffer.amount.BTC, beanTemp.secondOffer.amount.BTC);
                 //bean.amount.bits = beanTemp.sumAmounts(beanTemp.firstOffer.amount.bits, beanTemp.secondOffer.amount.bits);
-                bean.amount.PIVX = beanTemp.sumAmounts(beanTemp.firstOffer.amount.DASH, beanTemp.secondOffer.amount.PIVX);
-                bean.amount.uPiv = beanTemp.sumAmounts(beanTemp.firstOffer.amount.dots, beanTemp.secondOffer.amount.uPiv);
+                bean.amount.PIVX = beanTemp.sumAmounts(beanTemp.firstOffer.amount.PIVX, beanTemp.secondOffer.amount.PIVX);
+                bean.amount.uPiv = beanTemp.sumAmounts(beanTemp.firstOffer.amount.uPiv, beanTemp.secondOffer.amount.uPiv);
                 bean.deposit.amount = beanTemp.sumAmounts(beanTemp.firstOffer.deposit.amount, beanTemp.secondOffer.deposit.amount);
             } else {
                 bean.amount.BTC = beanTemp.firstOffer.amount.BTC;
-               // bean.amount.bits = beanTemp.firstOffer.amount.bits;
+                // bean.amount.bits = beanTemp.firstOffer.amount.bits;
                 bean.amount.PIVX = beanTemp.firstOffer.amount.PIVX;
                 bean.amount.uPiv = beanTemp.firstOffer.amount.uPiv;
                 bean.deposit.amount = beanTemp.firstOffer.deposit.amount;
