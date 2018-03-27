@@ -137,8 +137,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.VHol
             });
 
 //              you must deposit cash
-//            double dots = Double.parseDouble(orderListResp.total) * 1000000;
-            double dots = Double.parseDouble(orderListResp.total) * 1000;
+            double dots = Double.parseDouble(orderListResp.total) * 1000000;
             DecimalFormat formatter = new DecimalFormat("#,###,###.##");
             String yourFormattedDots = formatter.format(dots);
 
@@ -156,7 +155,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.VHol
 
             if (orderListResp.status.equals("WD")) {
 
-                holder.itemBinding.orderDash.setText("Total PIV: " + orderListResp.total + " (" + yourFormattedDots + " mⱣiv)\n"
+                holder.itemBinding.orderDash.setText("Total PIVX: " + orderListResp.total + " (" + yourFormattedDots + " μⱣiv)\n"
                         + "You must deposit cash at the above Payment Center. Additional fees may apply. Paying in another method other than cash may delay your order.");
                 holder.itemBinding.orderDashInstruction.setVisibility(View.VISIBLE);
                 holder.itemBinding.btnCancelOrder.setVisibility(View.VISIBLE);
@@ -177,7 +176,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.VHol
 
             } else {
 
-                holder.itemBinding.orderDash.setText("Total PIV: " + orderListResp.total + " (" + yourFormattedDots + " mⱣiv)");
+                holder.itemBinding.orderDash.setText("Total PIVX: " + orderListResp.total + " (" + yourFormattedDots + " μⱣiv)");
                 holder.itemBinding.layoutDueDate.setVisibility(View.GONE);
                 holder.itemBinding.textPaymentDueDate.setVisibility(View.GONE);
                 holder.itemBinding.orderDashInstruction.setVisibility(View.GONE);

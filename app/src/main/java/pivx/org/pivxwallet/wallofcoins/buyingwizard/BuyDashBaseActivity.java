@@ -28,6 +28,7 @@ import pivx.org.pivxwallet.wallofcoins.WOCConstants;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.buy_dash_location.BuyDashLocationFragment;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.email_phone.EmailAndPhoneFragment;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.offer_amount.BuyDashOfferAmountFragment;
+import pivx.org.pivxwallet.wallofcoins.buyingwizard.order_history.OrderHistoryFragment;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.utils.FragmentUtils;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.verification_otp.VerifycationOtpFragment;
 import pivx.org.pivxwallet.wallofcoins.response.CreateHoldResp;
@@ -178,6 +179,8 @@ public class BuyDashBaseActivity extends AppCompatActivity implements SharedPref
                 ((BuyDashOfferAmountFragment) fragment).changeView();
             else if (fragment instanceof BuyDashLocationFragment)
                 this.finish();
+            else if (fragment instanceof OrderHistoryFragment)
+                ((OrderHistoryFragment)fragment).changeView();
             else
                 fragmentManager.popBackStack();
         } else
@@ -229,25 +232,7 @@ public class BuyDashBaseActivity extends AppCompatActivity implements SharedPref
     @Override
     public void onResume() {
         super.onResume();
-
-      /*  loaderManager.initLoader(ID_BALANCE_LOADER, null, balanceLoaderCallbacks);
-
-        if (rateLoaderCallbacks == null)
-            Log.e("nullllll","nullllll");
-        loaderManager.initLoader(ID_RATE_LOADER, null, rateLoaderCallbacks);
-        if (!initComplete) {
-            loaderManager.initLoader(ID_BLOCKCHAIN_STATE_LOADER, null, blockchainStateLoaderCallbacks);
-            initComplete = true;
-        } else
-            loaderManager.restartLoader(ID_BLOCKCHAIN_STATE_LOADER, null, blockchainStateLoaderCallbacks);
-
-        updateView();*/
     }
-
-   /* private void showExchangeRatesActivity() {
-        Intent intent = new Intent(this, ExchangeRatesActivity.class);
-        startActivity(intent);
-    }*/
 
     private void showWarningIfBalanceTooMuch() {
         if (balance != null && balance.isGreaterThan(TOO_MUCH_BALANCE_THRESHOLD)) {
@@ -256,98 +241,6 @@ public class BuyDashBaseActivity extends AppCompatActivity implements SharedPref
         }
     }
 
-    /*private void updateView() {
-
-        final boolean showProgress;
-
-        if (blockchainState != null && blockchainState.bestChainDate != null) {
-            final long blockchainLag = System.currentTimeMillis() - blockchainState.bestChainDate.getTime();
-            final boolean blockchainUptodate = blockchainLag < BLOCKCHAIN_UPTODATE_THRESHOLD_MS;
-            final boolean noImpediments = blockchainState.impediments.isEmpty();
-
-            showProgress = !(blockchainUptodate || !blockchainState.replaying);
-
-            final String downloading = getString(noImpediments ? R.string.blockchain_state_progress_downloading
-                    : R.string.blockchain_state_progress_stalled);
-
-            if (blockchainLag < 2 * DateUtils.DAY_IN_MILLIS) {
-                final long hours = blockchainLag / DateUtils.HOUR_IN_MILLIS;
-                progressMessage = getString(R.string.blockchain_state_progress_hours, downloading, hours);
-            } else if (blockchainLag < 2 * DateUtils.WEEK_IN_MILLIS) {
-                final long days = blockchainLag / DateUtils.DAY_IN_MILLIS;
-                progressMessage = getString(R.string.blockchain_state_progress_days, downloading, days);
-            } else if (blockchainLag < 90 * DateUtils.DAY_IN_MILLIS) {
-                final long weeks = blockchainLag / DateUtils.WEEK_IN_MILLIS;
-                progressMessage = getString(R.string.blockchain_state_progress_weeks, downloading, weeks);
-            } else {
-                final long months = blockchainLag / (30 * DateUtils.DAY_IN_MILLIS);
-                progressMessage = getString(R.string.blockchain_state_progress_months, downloading, months);
-            }
-        } else {
-            showProgress = false;
-        }
-
-        if (!showProgress) {
-            viewBalance.setVisibility(View.VISIBLE);
-
-            if (!showLocalBalance)
-                //viewBalanceLocal.setVisibility(View.GONE);
-                viewBalanceLocal.setVisibility(View.INVISIBLE);
-
-            if (balance != null) {
-                viewBalanceBtc.setVisibility(View.VISIBLE);
-                viewBalanceBtc.setFormat(config.getFormat().noCode());
-                viewBalanceBtc.setAmount(balance);
-
-                updateBalanceTooMuchWarning();
-
-                if (showLocalBalance) {
-                    if (exchangeRate != null) {
-                        final Fiat localValue = exchangeRate.rate.coinToFiat(balance);
-                        viewBalanceLocal.setVisibility(View.VISIBLE);
-                        viewBalanceLocal.setFormat(Constants.LOCAL_FORMAT.code(0, Constants.PREFIX_ALMOST_EQUAL_TO + exchangeRate.getCurrencyCode()));
-                        viewBalanceLocal.setAmount(localValue);
-                    } else {
-                        viewBalanceLocal.setVisibility(View.INVISIBLE);
-                    }
-                }
-            } else {
-                viewBalanceBtc.setVisibility(View.INVISIBLE);
-            }
-
-            //if(masternodeSyncStatus != MasternodeSync.MASTERNODE_SYNC_FINISHED)
-            //{
-//                progressView.setVisibility(View.VISIBLE);
-            viewBalance.setVisibility(View.VISIBLE);
-            //            String syncStatus = wallet.getContext().masternodeSync.getSyncStatus();
-            //          showAppBarMessage(syncStatus);
-            //    } else {
-            //Show sync status of Masternodes
-            //int masternodesLoaded = wallet.getContext().masternodeSync.mapSeenSyncMNB.size();
-            //int totalMasternodes = wallet.getContext().masternodeSync.masterNodeCountFromNetwork();
-
-            //if(totalMasternodes == 0 || totalMasternodes < masternodesLoaded + 100) {
-            progressView.setVisibility(View.GONE);
-            showAppBarMessage(null);
-            //}
-            //else
-            //{
-            //showAppBarMessage("Masternodes Loaded: " + masternodesLoaded *100 /totalMasternodes +"%");
-            //	showAppBarMessage("Masternodes Loaded: " + masternodesLoaded +" of "+ totalMasternodes);
-            //}
-            //}
-        } else {
-            showAppBarMessage(progressMessage);
-            progressView.setVisibility(View.VISIBLE);
-            progressView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(application, progressMessage, Toast.LENGTH_LONG).show();
-                }
-            });
-            viewBalance.setVisibility(View.INVISIBLE);
-        }
-    }*/
 
     private void showAppBarMessage(CharSequence message) {
         if (message != null) {
@@ -365,62 +258,6 @@ public class BuyDashBaseActivity extends AppCompatActivity implements SharedPref
         boolean tooMuch = balance.isGreaterThan(TOO_MUCH_BALANCE_THRESHOLD);
         viewBalanceTooMuch.setVisibility(tooMuch ? View.VISIBLE : View.GONE);
     }
-
-    /*private final LoaderManager.LoaderCallbacks<BlockchainState> blockchainStateLoaderCallbacks = new LoaderManager.LoaderCallbacks<BlockchainState>() {
-        @Override
-        public Loader<BlockchainState> onCreateLoader(final int id, final Bundle args) {
-            return new BlockchainStateLoader((AbstractBindServiceActivity) getApplicationContext());
-        }
-
-        @Override
-        public void onLoadFinished(final Loader<BlockchainState> loader, final BlockchainState blockchainState1) {
-            blockchainState = blockchainState1;
-
-            updateView();
-        }
-
-        @Override
-        public void onLoaderReset(final Loader<BlockchainState> loader) {
-        }
-    };
-
-    private final LoaderManager.LoaderCallbacks<Coin> balanceLoaderCallbacks = new LoaderManager.LoaderCallbacks<Coin>() {
-        @Override
-        public Loader<Coin> onCreateLoader(final int id, final Bundle args) {
-            return new WalletBalanceLoader(getApplicationContext(), wallet);
-        }
-
-        @Override
-        public void onLoadFinished(final Loader<Coin> loader, final Coin balance1) {
-            balance = balance1;
-
-            updateView();
-        }
-
-        @Override
-        public void onLoaderReset(final Loader<Coin> loader) {
-        }
-    };
-
-    private final LoaderManager.LoaderCallbacks<Cursor> rateLoaderCallbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
-        @Override
-        public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
-            return new ExchangeRatesLoader(getApplicationContext(), config);
-        }
-
-        @Override
-        public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
-            if (data != null && data.getCount() > 0) {
-                data.moveToFirst();
-                exchangeRate = ExchangeRatesProvider.getExchangeRate(data);
-                updateView();
-            }
-        }
-
-        @Override
-        public void onLoaderReset(final Loader<Cursor> loader) {
-        }
-    };*/
 
     public void popBackAllFragmentsExcept(String tag) {
         fragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE);

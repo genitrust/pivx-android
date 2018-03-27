@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include
@@ -29,6 +30,73 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/text_no_order_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_order_history"
+            android:padding="4dp"
+            android:visibility="visible" />
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:padding="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true">
+            <LinearLayout
+                android:id="@+id/lay_help_instruction_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen_8dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:id="@+id/text_help_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textSize="16sp" />
+                                <Button
+                    android:id="@+id/btn_WebLink"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wallofcoins_com" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:padding="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true">
+            <LinearLayout
+                android:id="@+id/lay_logout_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen_8dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:id="@+id/text_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textSize="16sp" />
+                <Button
+                    android:id="@+id/btn_signout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/action_sign_out" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <TextView
             android:id="@+id/text_email_receipt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,9 +107,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_order_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/btn_buy_more"
-            android:layout_weight="1" />
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 

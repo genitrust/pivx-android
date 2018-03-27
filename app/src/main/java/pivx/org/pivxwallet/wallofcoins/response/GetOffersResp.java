@@ -154,7 +154,7 @@ public class GetOffersResp {
                     e.printStackTrace();
                 }
             }
-            return NumberFormat.getNumberInstance(Locale.getDefault()).format(amount/1000);
+            return NumberFormat.getNumberInstance(Locale.getDefault()).format(amount/1000000);
         }
     }
 

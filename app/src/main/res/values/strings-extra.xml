@@ -77,8 +77,8 @@
      <string name="dotUnicodeNoRate">(\u1D7D %s)</string>-->
 
     <string name="dashUnicode">\u2C63 %s</string>
-    <string name="dotUnicode">(mⱣiv %1$s)\n(at %2$s%3$.2f/\u2C63)</string>
-    <string name="dotUnicodeNoRate">(mⱣiv %s)</string>
+    <string name="dotUnicode">(μⱣiv %1$s)\n(at %2$s%3$.2f/\u2C63)</string>
+    <string name="dotUnicodeNoRate">(μⱣiv %s)</string>
 
     <string name="location_rationale">Your location is used to find nearest payment centers.</string>
     <string name="find_my_location">Find My Location</string>
@@ -165,7 +165,7 @@
     <string name="action_check_location">Check Location</string>
     <string name="subject_to_local_availability">Subject to local availability</string>
     <string name="action_order_history">Order History</string>
-
+    <string name="no_order_history">You have no order history with PIVX for iOS. To see your full order history across all devices, visit <a href="https://wallofcoins.com">https://wallofcoins.com</a></string>
     <string name="import_export_keys_dialog_password">password</string>
     <string name="exchange_rates_fragment_rate">rate</string>
     <string name="exchange_rates_fragment_default">(default)</string>
@@ -177,7 +177,7 @@
     <string name="exchange_rates_options_search">Search exchange rate</string>
     <string name="exchange_rates_fragment_empty_search">Could not find exchange rate.</string>
     <string name="amount_less_than_1000000">Amount should be less than $1000000.</string>
-    <string name="to_acquire_bitcoin_n_1_000_000_bits_1_pivx">to acquire PIV (Ᵽ)\n(1,000 mⱣiv = 1 ⱣIV)</string>
+    <string name="to_acquire_bitcoin_n_1_000_000_bits_1_pivx">to acquire PIV (Ᵽ)\n(1,000,000 μⱣiv = 1 ⱣIV)</string>
     <string name="buy_cash">Buy PIV with Cash</string>
     <string name="network_not_avaialable">Please check internet connection</string>
     <string name="action_order">Order</string>

@@ -77,11 +77,11 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
             vholder.binding.setItem(bean);
 
             if (getNumAmount(bean.deposit.amount) >= 200) {
-                double uPiv = Double.parseDouble(bean.amount.uPiv.replaceAll(",","")) / 1000;
+                double uPiv = Double.parseDouble(bean.amount.uPiv.replaceAll(",","")) / 1000000;
                 vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicode, String.format("%.2f", uPiv), GenericUtils.currencySymbol(bean.deposit.currency), getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.PIVX)));
 
             } else {
-                double uPiv = Double.parseDouble(bean.amount.uPiv.replaceAll(",","")) / 1000;
+                double uPiv = Double.parseDouble(bean.amount.uPiv.replaceAll(",","")) / 1000000;
                 vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicodeNoRate, String.format("%.2f", uPiv)));
 
             }

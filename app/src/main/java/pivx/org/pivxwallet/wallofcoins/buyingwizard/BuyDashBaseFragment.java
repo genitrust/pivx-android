@@ -37,7 +37,9 @@ import java.util.Locale;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;
+import pivx.org.pivxwallet.PivxApplication;
 import pivx.org.pivxwallet.R;
+import pivx.org.pivxwallet.module.PivxModule;
 import pivx.org.pivxwallet.wallofcoins.BuyDashPref;
 import pivx.org.pivxwallet.wallofcoins.WOCConstants;
 import pivx.org.pivxwallet.wallofcoins.addressbook.AddressBookProvider;
@@ -51,10 +53,14 @@ public class BuyDashBaseFragment extends Fragment {
 
     private final int PERMISSIONS_REQUEST_LOCATION = 8989;
     protected Context mContext;
+    private PivxModule module;
+    private org.pivxj.core.Address address;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+               module = PivxApplication.getInstance().getModule();
+        address = module.getReceiveAddress();
     }
 
 
@@ -196,6 +202,8 @@ public class BuyDashBaseFragment extends Fragment {
 
         try {
             if (KEY_ADDRESS != null && newLabel != null) {
+
+
                 org.bitcoinj.core.Address keyAddress = org.bitcoinj.core.Address.fromBase58(Constants.NETWORK_PARAMETERS, KEY_ADDRESS);
                 final Uri uri = AddressBookProvider.contentUri(mContext.getPackageName()).buildUpon().appendPath(keyAddress.toBase58()).build();
                 final String addressLabel = AddressBookProvider.resolveLabel(mContext, keyAddress.toBase58());

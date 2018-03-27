@@ -60,12 +60,12 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
     private final String TAG = "OrderHistoryFragment";
     private View rootView;
     private RecyclerView rv_order_list;
-    private LinearLayout linearProgress;
-    private Button btn_buy_more;
+    private LinearLayout linearProgress, layoutOrderHistory, layoutInstruction, layoutLogout;
+    private Button btn_buy_more, btnSignout, btnWebLink;
     private boolean isFromCreateHold;
     private OrderHistoryFragment fragment;
     private int countdownInterval = 1000;
-    private TextView text_email_receipt;
+    private TextView text_email_receipt, text_no_order, text_message, textHelpMessage;
     private Handler handler;
     private MyRunnable myRunnable;
 
@@ -73,6 +73,7 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+
     }
 
     @Nullable
@@ -93,12 +94,22 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
         fragment = this;
         rv_order_list = (RecyclerView) rootView.findViewById(R.id.rv_order_list);
         linearProgress = (LinearLayout) rootView.findViewById(R.id.linear_progress);
+        layoutOrderHistory = (LinearLayout) rootView.findViewById(R.id.layout_order_list);
+        layoutInstruction = (LinearLayout) rootView.findViewById(R.id.lay_help_instruction_order);
+        layoutLogout = (LinearLayout) rootView.findViewById(R.id.lay_logout_order);
+        text_message = (TextView ) rootView.findViewById(R.id.text_message);
+        textHelpMessage = (TextView ) rootView.findViewById(R.id.text_help_message);
+        btnSignout = (Button) rootView.findViewById(R.id.btn_signout);
+        btnWebLink = (Button) rootView.findViewById(R.id.btn_WebLink);
         btn_buy_more = (Button) rootView.findViewById(R.id.btn_buy_more);
         text_email_receipt = (TextView) rootView.findViewById(R.id.text_email_receipt);
+        text_no_order = (TextView) rootView.findViewById(R.id.text_no_order_history);
     }
 
     private void setListeners() {
         btn_buy_more.setOnClickListener(this);
+        btnSignout.setOnClickListener(this);
+        btnWebLink.setOnClickListener(this);
     }
 
     private void handleArgs() {
@@ -144,7 +155,8 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
                                     }
                                 } else {
                                     //hideViewExcept(binding.layoutLocation);
-                                    navigateToLocationScreen();
+                                    //navigateToLocationScreen();
+                                    blankOrderHistory();
                                 }
                             } else if (response.code() == 403) {
                                 //hideViewExcept(binding.layoutLocation);
@@ -184,20 +196,19 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
                     btn_buy_more.setVisibility(View.VISIBLE);
                 }
             }
-            /*binding.btnBuyMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    binding.requestCoinsAmountBtcEdittext.setText("");
-                    binding.requestCoinsAmountLocalEdittext.setText("");
-                    binding.buyDashZip.setText("");
-                    hideViewExcept(binding.layoutLocation);
-                }
-            });*/
 
             int lastWDV = -1;
             for (int i = 0; i < orderList.size(); i++) {
                 if (orderList.get(i).status.equals("WD")) {
-                    lastWDV = i;
+                    if(i != 0){
+                        OrderListResp tempOrder = orderList.get(i);
+                        orderList.remove(i);
+                        orderList.add(0,tempOrder);
+                        lastWDV = 0;
+                    }else{
+                        lastWDV = i;
+                    }
+
                 }
             }
 
@@ -247,13 +258,39 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
             rv_order_list.setAdapter(new OrderListAdapter(mContext, orderList, fragment, ((BuyDashBaseActivity) mContext).buyDashPref));
         } else {
             //hideViewExcept(binding.layoutLocation);
-            navigateToLocationScreen();
+            //navigateToLocationScreen();
+            blankOrderHistory();
         }
     }
 
     private void navigateToLocationScreen() {
         ((BuyDashBaseActivity) mContext).replaceFragment(new BuyDashLocationFragment(), true, false);
     }
+
+    private void blankOrderHistory(){
+        layoutOrderHistory.setVisibility(View.VISIBLE);
+        text_no_order.setVisibility(View.VISIBLE);
+        btn_buy_more.setVisibility(View.VISIBLE);
+        layoutLogout.setVisibility(View.VISIBLE);
+        layoutInstruction.setVisibility(View.VISIBLE);
+        text_message.setText(mContext.getString(R.string.wallet_is_signed) + " " +
+                ((BuyDashBaseActivity) mContext).buyDashPref.getPhone());
+        textHelpMessage.setText(R.string.call_for_help);
+    }
+
+    /**
+     * hide show view
+     */
+    public void changeView() {
+        if (isFromCreateHold ) {
+            isFromCreateHold = false;
+            getOrderList(isFromCreateHold);
+        } else {
+            navigateToLocationScreen();
+        }
+    }
+
+
 
     private static class MyRunnable implements Runnable {
         WeakReference<TextView> textDepositeDue1;
@@ -342,51 +379,6 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
             myRunnable = new MyRunnable(textDepositeDue, handler, dueDateTime, countdownInterval);
             handler.postDelayed(myRunnable, 0);
         }
-
-        /*final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                handler.postDelayed(this, countdownInterval);
-                try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat(
-                            "yyyy-MM-dd HH:mm:ss");
-                    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-                    // Here Set your Event Date
-                    Date eventDate = dateFormat.parse(dueDateTime.replace("T", " ").substring(0, 19));
-                    Date currentDate = new Date();
-                    if (!currentDate.after(eventDate)) {
-                        long diff = eventDate.getTime()
-                                - currentDate.getTime();
-                        long hours = diff / (60 * 60 * 1000);
-                        diff -= hours * (60 * 60 * 1000);
-                        long minutes = diff / (60 * 1000);
-                        diff -= minutes * (60 * 1000);
-                        long seconds = diff / 1000;
-
-                        if (hours > 0) {
-                            textDepositeDue.setText("Deposit Due: " + hours + " hours " + minutes + " minutes");
-                            countdownInterval = 60 * 1000;
-                        } else {
-                            if (minutes < 10) {
-                                textDepositeDue.setTextColor(Color.parseColor("#DD0000"));
-                            } else {
-                                textDepositeDue.setTextColor(Color.parseColor("#000000"));
-                            }
-                            textDepositeDue.setText("Deposit Due: " + minutes + " minutes " + seconds + " seconds");
-                            countdownInterval = 1000;
-                        }
-                    } else {
-                        textDepositeDue.setText("Deposit Due: 0 minutes 0 seconds");
-                        handler.removeMessages(0);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };*/
-        //handler.postDelayed(runnable, 0);
-
-
     }
 
     /**
@@ -602,6 +594,12 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
         switch (view.getId()) {
             case R.id.btn_buy_more:
                 navigateToLocationScreen();
+                break;
+            case R.id.btn_signout:
+                deleteAuthCall(false);
+                break;
+            case R.id.btn_WebLink:
+                goToGivenUrl(WOCConstants.KEY_WEB_URL);
                 break;
         }
     }
