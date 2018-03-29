@@ -164,28 +164,15 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
     public void onResume() {
         super.onResume();
 
-        /*amountCalculatorLink.setListener(new CurrencyAmountView.Listener() {
-            @Override
-            public void changed() {
-            }
-
-            @Override
-            public void focusChanged(final boolean hasFocus) {
-            }
-        });*/
-        // loaderManager.initLoader(ID_RATE_LOADER, null, rateLoaderCallbacks);
     }
 
     @Override
     public void onPause() {
-        //amountCalculatorLink.setListener(null);
         super.onPause();
     }
 
     @Override
     public void onDestroy() {
-        // config.unregisterOnSharedPreferenceChangeListener(this);
-        //config.setLastExchangeDirection(amountCalculatorLink.getExchangeDirection());
         loaderManager.destroyLoader(ID_RATE_LOADER);
         super.onDestroy();
     }
@@ -206,23 +193,6 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
         switch (view.getId()) {
             case R.id.button_buy_dash_get_offers:
                 hideKeyBoard();
-            /*    if (Float.valueOf(request_coins_amount_local_edittext.getHint().toString()) > 0f
-                        || !TextUtils.isEmpty(request_coins_amount_local_edittext.getText())) {
-
-                    if (!TextUtils.isEmpty(request_coins_amount_local_edittext.getText().toString())
-                            && Float.valueOf(request_coins_amount_local_edittext.getText().toString()) >= 5f
-
-                            || !TextUtils.isEmpty(request_coins_amount_local_edittext.getHint().toString())
-                            && Float.valueOf(request_coins_amount_local_edittext.getHint().toString()) >= 5f) {
-
-                        if (isValidAmount())
-                            callDiscoveryInputs();
-                    } else {
-                        Toast.makeText(mContext, R.string.alert_puchase_amout, Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(getContext(), R.string.alert_amount, Toast.LENGTH_SHORT).show();
-                }*/
                 if (isValidAmount())
                     callDiscoveryInputs();
                 break;
@@ -232,15 +202,6 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
     }
 
     private boolean isValidAmount() {
-       /* if (!TextUtils.isEmpty(request_coins_amount_local_edittext.getText().toString())
-                && Float.valueOf(request_coins_amount_local_edittext.getText().toString()) > 1000000f
-
-                || !TextUtils.isEmpty(request_coins_amount_local_edittext.getHint().toString())
-                && Float.valueOf(request_coins_amount_local_edittext.getHint().toString()) > 1000000f) {
-            showToast("Amount should be less than 1000000.");
-            return false;
-        }
-        return true;*/
        String amt=edtViewDollar.getText().toString().trim();
 
         if (edtViewDollar.getText().toString().trim().isEmpty()) {
@@ -259,43 +220,14 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
         return true;
     }
 
-    /**
-     * Callback Manager for Load Exchange rate from Exchange rate Provider
-     */
-    /*private final LoaderManager.LoaderCallbacks<Cursor> rateLoaderCallbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
-        @Override
-        public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
-            return new ExchangeRateLoader(mContext, config);
-        }
-
-        @Override
-        public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
-            if (data != null && data.getCount() > 0) {
-                data.moveToFirst();
-                final ExchangeRate exchangeRate = ExchangeRatesProvider.getExchangeRate(data);
-                amountCalculatorLink.setExchangeRate(exchangeRate.rate);
-            }
-        }
-
-        @Override
-        public void onLoaderReset(final Loader<Cursor> loader) {
-        }
-    };*/
-
-
-    /**
-     * Method for call discovery inputs & offers for discovery input
-     */
 
     private void callDiscoveryInputs() {
         if (NetworkUtil.isOnline(mContext)) {
             HashMap<String, String> discoveryInputsReq = new HashMap<String, String>();
             discoveryInputsReq.put(WOCConstants.KEY_PUBLISHER_ID, getString(R.string.WALLOFCOINS_PUBLISHER_ID));
-            //keyAddress = wallet.freshAddress(RECEIVE_FUNDS).toBase58();
             keyAddress = address.toBase58();
             dashAddressPref.setBuyDashAddress(keyAddress);
 
-            //Log.e("------------------", dashAddressPref.getBuyDashAddress());
             discoveryInputsReq.put(WOCConstants.KEY_CRYPTO_ADDRESS, keyAddress);
             String offerAmount = "0";
 
@@ -357,9 +289,7 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
 
                                                 if (null != response.body().singleDeposit && !response.body().singleDeposit.isEmpty()) {
                                                     rv_offers.setVisibility(View.VISIBLE);
-                                                    GetOffersResp getOffersResp = response.body();
                                                     layout_create_hold.setVisibility(View.GONE);
-                                                    //binding.spBanks.setAdapter(null);
 
                                                     BuyDashOffersAdapter buyDashOffersAdapter = new BuyDashOffersAdapter(mContext, response.body(), finalOfferAmount, new AdapterView.OnItemSelectedListener() {
                                                         @Override
@@ -382,8 +312,6 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
 
                                                                 ((BuyDashBaseActivity) mContext).replaceFragment(fragment, true,
                                                                         true);
-                                                                // hideViewExcept(binding.linearEmail);
-                                                                //clearForm((ViewGroup) binding.getRoot());
                                                             }
                                                         }
 
@@ -494,37 +422,25 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
                         if (!TextUtils.isEmpty(response.body().token)) {
                             ((BuyDashBaseActivity) mContext).buyDashPref.setAuthToken(createHoldResp.token);
                         }
-                        //hideViewExcept(binding.layoutVerifyOtp);
-                        //clearForm((ViewGroup) binding.getRoot());
-                        //binding.etOtp.setText(createHoldResp.__PURCHASE_CODE);
                         navigateToVerifyOtp(createHoldResp.__PURCHASE_CODE);
 
                     } else if (null != response.errorBody()) {
                         if (response.code() == 403 && TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
-                            //hideViewExcept(binding.layoutHold);
-                            //clearForm((ViewGroup) binding.getRoot());
                         } else if (response.code() == 403 && !TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
                             getHolds();
                         } else if (response.code() == 400) {
                             if (!TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
                                 navigateToOrderList(false);
-                                //getOrderList(false);
-                            } else {
-                                //hideViewExcept(binding.layoutHold);
-                                //clearForm((ViewGroup) binding.getRoot());
                             }
                         } else {
                             try {
                                 if (!TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
-                                    //getOrderList(false);
                                     navigateToOrderList(false);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
-                    } else {
-                        //clearForm((ViewGroup) binding.getRoot());
                     }
                 }
 
@@ -562,10 +478,8 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
                             }
                             if (holdCount == 0) {
                                 navigateToOrderList(false);
-                                //getOrderList(false);
                             }
                         } else {
-                            //getOrderList(false);
                             navigateToOrderList(false);
                         }
                     }

@@ -555,7 +555,6 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
                     linearProgress.setVisibility(View.GONE);
 
                     if (null != response && null != response.body()) {
-                        //binding.scrollCompletionDetail.setVisibility(View.GONE);
                         showToast(mContext.getString(R.string.alert_payment_done));
                         getOrderList(false);
                     } else if (null != response && null != response.errorBody()) {

@@ -15,7 +15,6 @@ public final class WOCConstants {
     public static final String KEY_HEADER_PUBLISHER_ID = "X-Coins-Publisher";
     public static final String KEY_HEADER_CONTENT_TYPE = "Content-Type";
     public static final String KEY_HEADER_CONTENT_TYPE_VALUE = "application/json";
-    public static final String KEY_DASH = "DASH";
     public static final String KEY_PUBLISHER_ID = "publisherId";
     public static final String KEY_VERIFICATION_CODE = "verificationCode";
     public static final String KEY_CRYPTO_ADDRESS = "cryptoAddress";

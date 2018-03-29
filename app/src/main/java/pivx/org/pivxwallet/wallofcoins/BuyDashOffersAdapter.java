@@ -181,6 +181,7 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             vholder.binding.buttonBuyDashItemOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
+
                 public void onClick(View v) {
                     onItemSelectedListener.onItemSelected(null, vholder.binding.getRoot(), position, 0);
                 }

@@ -4,7 +4,7 @@
 
     <string name="WALLOFCOINS_PUBLISHER_ID">46</string>
 
-    <string name="base_url">https://woc.reference.genitrust.com/</string>
+    <string name="base_url">https://woc.reference.genitrust.com"/</string>
 
 
     <string name="send_coins_fragment_instantx_enable">Use InstantSend</string>
