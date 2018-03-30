@@ -32,7 +32,7 @@ import java.util.List;
 import pivx.org.pivxwallet.PivxApplication;
 import pivx.org.pivxwallet.R;
 import pivx.org.pivxwallet.module.PivxModule;
-import pivx.org.pivxwallet.wallofcoins.BuyDashOffersAdapter;
+import pivx.org.pivxwallet.wallofcoins.buyingwizard.adapters.BuyDashOffersAdapter;
 import pivx.org.pivxwallet.wallofcoins.WOCConstants;
 import pivx.org.pivxwallet.wallofcoins.api.WallofCoins;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.BuyDashBaseActivity;
@@ -101,9 +101,6 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
 
 
     private void init() {
-        //this.application = (WalletApplication) getActivity().getApplication();
-        // this.config = application.getConfiguration();
-        //this.wallet = application.getWallet();
         module = PivxApplication.getInstance().getModule();
         address = module.getReceiveAddress();
         this.loaderManager = getLoaderManager();

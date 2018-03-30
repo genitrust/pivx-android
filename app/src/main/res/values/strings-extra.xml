@@ -4,7 +4,7 @@
 
     <string name="WALLOFCOINS_PUBLISHER_ID">46</string>
 
-    <string name="base_url">https://woc.reference.genitrust.com"/</string>
+    <string name="base_url">https://woc.reference.genitrust.com/</string>
 
 
     <string name="send_coins_fragment_instantx_enable">Use InstantSend</string>
@@ -165,7 +165,7 @@
     <string name="action_check_location">Check Location</string>
     <string name="subject_to_local_availability">Subject to local availability</string>
     <string name="action_order_history">Order History</string>
-    <string name="no_order_history">You have no order history with PIVX for iOS. To see your full order history across all devices, visit <a href="https://wallofcoins.com">https://wallofcoins.com</a></string>
+    <string name="no_order_history">You have no order history with PIV for Android. To see your full order history across all devices, visit <a href="https://wallofcoins.com">https://wallofcoins.com</a></string>
     <string name="import_export_keys_dialog_password">password</string>
     <string name="exchange_rates_fragment_rate">rate</string>
     <string name="exchange_rates_fragment_default">(default)</string>

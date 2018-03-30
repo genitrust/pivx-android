@@ -149,12 +149,12 @@ public class GetOffersResp {
             for (String s : args) {
                 try {
                     if (s != null)
-                    amount += NumberFormat.getNumberInstance(Locale.getDefault()).parse(s).doubleValue();
+                    amount += NumberFormat.getNumberInstance(Locale.getDefault()).parse(s.replaceAll(",","")).doubleValue();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
-            return NumberFormat.getNumberInstance(Locale.getDefault()).format(amount/1000000);
+            return NumberFormat.getNumberInstance(Locale.getDefault()).format(amount);
         }
     }
 

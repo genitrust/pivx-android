@@ -33,27 +33,29 @@
             android:weightSum="100">
 
             <ImageView
-            android:id="@+id/iv_offer1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dimen_8dp"
-            android:layout_weight="20"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center"
-            tools:src="@drawable/ic_account_balance_black_24dp"/>
+                android:id="@+id/iv_offer1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/dimen_8dp"
+                android:layout_weight="20"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                tools:imageUrl="@{item.firstOffer.bankIcon}"
+                tools:src="@drawable/ic_account_balance_black_24dp" />
 
 
             <ImageView
                 android:id="@+id/iv_offer_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginRight="@dimen/dimen_8dp"
                 android:layout_weight="20"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_gravity="center"
-                tools:src="@drawable/ic_account_balance_black_24dp"/>
+                tools:imageUrl="@{item.secondOffer.bankIcon}"
+                tools:src="@drawable/ic_account_balance_black_24dp" />
 
 
             <LinearLayout
@@ -67,9 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:text='@{@string/dashUnicode(item.sumAmounts(item.firstOffer.amount.uPiv,item.secondOffer.amount.PIVX))}'
+                    android:text='@{@string/dashUnicode(item.sumAmounts(item.firstOffer.amount.PIVX,item.secondOffer.amount.PIVX))}'
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:text="\u0110ASH" />

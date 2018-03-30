@@ -1,4 +1,4 @@
-package pivx.org.pivxwallet.wallofcoins;
+package pivx.org.pivxwallet.wallofcoins.buyingwizard.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,8 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.List;
@@ -35,6 +34,7 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
     private AdapterView.OnItemSelectedListener onItemSelectedListener;
     private String offerAmount;
     private boolean incremented;
+    private DecimalFormat formatter;
 
     public BuyDashOffersAdapter(Context context, GetOffersResp getOffersResp, String offerAmount,
                                 AdapterView.OnItemSelectedListener onItemSelectedListener) {
@@ -46,6 +46,7 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.onItemSelectedListener = onItemSelectedListener;
         this.incremented = getOffersResp.incremented;
         this.offerAmount = offerAmount;
+        formatter = new DecimalFormat("#,###,###.##");
     }
 
     @Override
@@ -77,33 +78,20 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
             vholder.binding.setItem(bean);
 
             if (getNumAmount(bean.deposit.amount) >= 200) {
-                double uPiv = Double.parseDouble(bean.amount.uPiv.replaceAll(",","")) / 1000000;
-                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicode, String.format("%.2f", uPiv), GenericUtils.currencySymbol(bean.deposit.currency), getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.PIVX)));
+                double uPiv = Double.parseDouble(bean.amount.uPiv.replaceAll(",", "")) ;
+                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicode, formatter.format(uPiv),
+                        GenericUtils.currencySymbol(bean.deposit.currency), getNumAmount(bean.deposit.amount)
+                                / getNumAmount(bean.amount.PIVX)));
 
             } else {
-                double uPiv = Double.parseDouble(bean.amount.uPiv.replaceAll(",","")) / 1000000;
-                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicodeNoRate, String.format("%.2f", uPiv)));
-
+                double uPiv = Double.parseDouble(bean.amount.uPiv.replaceAll(",", "")) ;
+                vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicodeNoRate, formatter.format(uPiv)));
             }
 
             if (incremented) {
                 vholder.binding.txtAmount.setVisibility(View.VISIBLE);
             } else {
                 vholder.binding.txtAmount.setVisibility(View.INVISIBLE);
-            }
-            if (bean.bankLogo != null
-                    && !bean.bankLogo.equals("")) {
-                Glide.with(context)
-                        .load(bean.bankLogo)
-                        .placeholder(R.drawable.ic_account_balance_black_24dp)
-                        .error(R.drawable.ic_account_balance_black_24dp)
-                        .into(vholder.binding.ivOffer);
-            } else {
-                Glide.with(context)
-                        .load(bean.bankIcon)
-                        .placeholder(R.drawable.ic_account_balance_black_24dp)
-                        .error(R.drawable.ic_account_balance_black_24dp)
-                        .into(vholder.binding.ivOffer);
             }
 
 
@@ -130,14 +118,10 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
             bean.amount = new GetOffersResp.AmountBean();
 
             if (beanTemp.secondOffer != null) {
-                bean.amount.BTC = beanTemp.sumAmounts(beanTemp.firstOffer.amount.BTC, beanTemp.secondOffer.amount.BTC);
-                //bean.amount.bits = beanTemp.sumAmounts(beanTemp.firstOffer.amount.bits, beanTemp.secondOffer.amount.bits);
                 bean.amount.PIVX = beanTemp.sumAmounts(beanTemp.firstOffer.amount.PIVX, beanTemp.secondOffer.amount.PIVX);
                 bean.amount.uPiv = beanTemp.sumAmounts(beanTemp.firstOffer.amount.uPiv, beanTemp.secondOffer.amount.uPiv);
                 bean.deposit.amount = beanTemp.sumAmounts(beanTemp.firstOffer.deposit.amount, beanTemp.secondOffer.deposit.amount);
             } else {
-                bean.amount.BTC = beanTemp.firstOffer.amount.BTC;
-                // bean.amount.bits = beanTemp.firstOffer.amount.bits;
                 bean.amount.PIVX = beanTemp.firstOffer.amount.PIVX;
                 bean.amount.uPiv = beanTemp.firstOffer.amount.uPiv;
                 bean.deposit.amount = beanTemp.firstOffer.deposit.amount;
@@ -156,20 +140,6 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
             final VHolderDouble1 vholder = (VHolderDouble1) holder;
             vholder.binding.setItem(bean);
 
-            if (bean.bankLogo != null
-                    && !bean.bankLogo.equals("")) {
-                Glide.with(context)
-                        .load(bean.bankLogo)
-                        .placeholder(R.drawable.ic_account_balance_black_24dp)
-                        .error(R.drawable.ic_account_balance_black_24dp)
-                        .into(vholder.binding.ivOffer);
-            } else {
-                Glide.with(context)
-                        .load(bean.bankIcon)
-                        .placeholder(R.drawable.ic_account_balance_black_24dp)
-                        .error(R.drawable.ic_account_balance_black_24dp)
-                        .into(vholder.binding.ivOffer);
-            }
 
             if (getNumAmount(bean.deposit.amount) >= 200) {
                 //vholder.binding.tvItrmOffer2.setText(context.getString(R.string.dotUnicode, bean.amount.uPiv, GenericUtils.currencySymbol(bean.deposit.currency), getNumAmount(bean.deposit.amount) / getNumAmount(bean.amount.DASH)));
@@ -237,7 +207,7 @@ public class BuyDashOffersAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
 //        return amount;
-        return amount / 1000;
+        return amount ;
     }
 
 
