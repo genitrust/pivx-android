@@ -54,6 +54,7 @@ public final class WOCConstants {
     public static String BANK_ID = "bankId";
     public static String OFFER_ID = "offerId";
     public static String VERIFICATION_OTP = "otp";
+    public static String SCREEN_TYPE = "screenType";
 
     public static int DIVIDENT_VALUE=1000000;
 }

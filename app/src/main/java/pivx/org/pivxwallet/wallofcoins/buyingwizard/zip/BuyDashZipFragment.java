@@ -65,13 +65,23 @@ public class BuyDashZipFragment extends BuyDashBaseFragment implements View.OnCl
         switch (view.getId()) {
             case R.id.button_buy_dash_zip_next:
                 zipCode = buy_dash_zip.getText().toString().trim();
-                if (TextUtils.isEmpty(zipCode)) {
-                    navigateToOtherScreen();
+                if (TextUtils.isEmpty(zipCode)) { // open bank list screen
+                    navigateToBankListScreen();
                 } else {
-                    navigateToOtherScreen1();
+                    if (isValidZip())
+                        navigateToOtherScreen1();
                 }
                 break;
         }
+    }
+
+    private boolean isValidZip() {
+        if (buy_dash_zip.getText().toString().trim().length() < 5 || buy_dash_zip.getText().toString().trim().length() > 6) {
+            buy_dash_zip.requestFocus();
+            showToast(getString(R.string.invalid_zip_code));
+            return false;
+        }
+        return true;
     }
 
     private void navigateToOtherScreen1() {
@@ -84,7 +94,7 @@ public class BuyDashZipFragment extends BuyDashBaseFragment implements View.OnCl
     }
 
     //if zip code is empty user navigate to all bank list screen
-    private void navigateToOtherScreen() {
+    private void navigateToBankListScreen() {
         BuyDashPaymentCenterFragment centerFragment = new BuyDashPaymentCenterFragment();
         ((BuyDashBaseActivity) mContext).replaceFragment(centerFragment, true, true);
     }

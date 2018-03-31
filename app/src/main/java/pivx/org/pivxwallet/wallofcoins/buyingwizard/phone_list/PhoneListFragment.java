@@ -55,14 +55,11 @@ public class PhoneListFragment extends BuyDashBaseFragment implements View.OnCli
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_phone_list, container, false);
-            init();
-            setListeners();
-            setPhoneList();
-            return rootView;
-        } else
-            return rootView;
+        rootView = inflater.inflate(R.layout.layout_phone_list, container, false);
+        init();
+        setListeners();
+        setPhoneList();
+        return rootView;
     }
 
     private void init() {
@@ -73,7 +70,6 @@ public class PhoneListFragment extends BuyDashBaseFragment implements View.OnCli
         txtViewNoData = (TextView) rootView.findViewById(R.id.txtViewNoData);
         recyclerViewPhoneList.setLayoutManager(new LinearLayoutManager(mContext));
     }
-
 
     private void setListeners() {
         btnExistingSignIn.setOnClickListener(this);
@@ -91,8 +87,7 @@ public class PhoneListFragment extends BuyDashBaseFragment implements View.OnCli
         phoneListVOS.clear();
         phoneListVOS.addAll(hashSet);
 
-        if (phoneListVOS != null & phoneListVOS.size() > 0)
-        {
+        if (phoneListVOS != null & phoneListVOS.size() > 0) {
             recyclerViewPhoneList.setAdapter(new PhoneListAdapter(mContext, credentialsPref.getStoredPhoneList(), fragment));
             txtViewNoData.setVisibility(View.GONE);
         } else
@@ -104,7 +99,12 @@ public class PhoneListFragment extends BuyDashBaseFragment implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnExistingSignIn:
-                ((BuyDashBaseActivity) mContext).replaceFragment(new EmailAndPhoneFragment(), true, true);
+                Bundle bundle = new Bundle();
+                bundle.putString(WOCConstants.SCREEN_TYPE, "PhoneListFragment");
+                EmailAndPhoneFragment phoneFragment = new EmailAndPhoneFragment();
+                phoneFragment.setArguments(bundle);
+
+                ((BuyDashBaseActivity) mContext).replaceFragment(phoneFragment, true, true);
                 break;
             case R.id.btnSignUp:
                 goToUrl(WOCConstants.KEY_SIGN_UP_URL);

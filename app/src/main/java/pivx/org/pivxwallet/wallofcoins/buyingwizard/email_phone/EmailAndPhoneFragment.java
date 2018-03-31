@@ -68,6 +68,7 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
     private CreateDeviceResp createDeviceResp;
     private CreateHoldResp createHoldResp;
     private BuyDashPhoneListPref credentilasPref;
+    private String fromScreen = "";
 
     @Override
     public void onAttach(Context context) {
@@ -120,6 +121,9 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
             if (getArguments().containsKey(WOCConstants.OFFER_ID)) {
                 offerId = getArguments().getString(WOCConstants.OFFER_ID);
             }
+            if (getArguments().containsKey(WOCConstants.SCREEN_TYPE)) {
+                fromScreen = getArguments().getString(WOCConstants.SCREEN_TYPE);
+            }
         }
     }
 
@@ -144,17 +148,17 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
             case R.id.btn_next_phone:
                 if (isValidPhone()) {
                     hideKeyBoard();
-                    if (!offerId.isEmpty()) {
-                        country_code = countryData.countries.get(sp_country.getSelectedItemPosition()).code;
-                        phone_no = edit_buy_dash_phone.getText().toString().trim();
-                        String phone = country_code + edit_buy_dash_phone.getText().toString().trim();
-                        ((BuyDashBaseActivity) mContext).buyDashPref.setPhone(phone);
+                    // if (!offerId.isEmpty()) {
+                    country_code = countryData.countries.get(sp_country.getSelectedItemPosition()).code;
+                    phone_no = edit_buy_dash_phone.getText().toString().trim();
+                    String phone = country_code + edit_buy_dash_phone.getText().toString().trim();
+                    ((BuyDashBaseActivity) mContext).buyDashPref.setPhone(phone);
 
-                        checkAuth();
-                    } else {
+                    checkAuth();
+                    /*} else {
                         showToast(getString(R.string.offerid_not_available));
                         ((BuyDashBaseActivity) mContext).popBackDirect();
-                    }
+                    }*/
                 }
                 break;
 
@@ -381,7 +385,11 @@ public class EmailAndPhoneFragment extends BuyDashBaseFragment implements View.O
                         if (!TextUtils.isEmpty(password) && TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId())) {
                             getDevice();
                         } else {
-                            createHold();
+                            credentilasPref.addPhone(country_code + edit_buy_dash_phone.getText().toString().trim(), ((BuyDashBaseActivity) mContext).buyDashPref.getDeviceId());
+                            if (fromScreen.equalsIgnoreCase("PhoneListFragment"))
+                                ((BuyDashBaseActivity) mContext).popBackAllFragmentsExcept("pivx.org.pivxwallet.wallofcoins.buyingwizard.phone_list.PhoneListFragment");
+                            else
+                                createHold();
                         }
                     }
 

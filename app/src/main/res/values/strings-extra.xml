@@ -190,4 +190,5 @@
     <string name="do_you_already_have_an_order">Do you already have an order?</string>
     <string name="enter_valid_amt">Enter valid Amount</string>
     <string name="offerid_not_available">Offerid not available</string>
+    <string name="invalid_zip_code">Zip code shold be between 5 to 6 digits.</string>
 </resources>
