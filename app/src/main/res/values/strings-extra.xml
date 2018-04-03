@@ -191,4 +191,21 @@
     <string name="enter_valid_amt">Enter valid Amount</string>
     <string name="offerid_not_available">Offerid not available</string>
     <string name="invalid_zip_code">Zip code shold be between 5 to 6 digits.</string>
+
+
+    <!-- Selling wizard-->
+    <string name="title_selling">Sell Your PIVX</string>
+
+    <string name="title_contact_details">Contact Details</string>
+    <string name="phone_and_email_msg">Phone and email are the only means we use to establish contact with you, and you will use your contact information to access your sale portal.</string>
+    <string name="mobile_include_area_code">Mobile # (include Area Code)</string>
+    <string name="sms_messages_will_be_sent_here_to_verify_payments">SMS messages will be sent here to verify payments.</string>
+    <string name="email">Email</string>
+    <string name="our_team_will_use_this_email_to_contact_you">Our team will use this email to contact you.</string>
+    <string name="confirm_email">Confirm Email</string>
+    <string name="password">Password</string>
+    <string name="a_password_is_needed_to_view_and_alter_your_ad_details">A password is needed to view and alter your ad details.</string>
+    <string name="action_continue"><![CDATA[Continue ->]]></string>
+
+
 </resources>
