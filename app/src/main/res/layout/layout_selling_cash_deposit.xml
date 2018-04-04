@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="@string/phone_and_email_msg"
+                android:text="@string/only_qualified"
                 android:textColor="@color/text_color_black"
                 android:textSize="14sp" />
 
@@ -32,133 +32,88 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtViewMsg"
                 android:layout_marginTop="20dp"
-                android:text="@string/mobile_include_area_code"
+                android:text="@string/select_your_bank_or_payment_destination"
                 android:textColor="@color/text_color_black"
                 android:textSize="@dimen/text_size_edt_label" />
 
             <RelativeLayout
-                android:id="@+id/layouMobile"
+                android:id="@+id/layoutBanklist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_below="@+id/txtViewLabelMobile"
-                android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
-                android:background="@drawable/border_selling_edttxt"
-                android:padding="4dp">
+                android:background="@drawable/border_selling_edttxt">
 
-                <Spinner
-                    android:id="@+id/sp_country"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal" />
-
-                <EditText
-                    android:id="@+id/edtViewMobile"
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/sp_banks"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/sp_country"
-                    android:background="@null"
-                    android:maxLength="10"
-                    android:hint="@string/mobile_include_area_code"
-                    android:singleLine="true"
-                    android:textColor="@color/edt_text_color" />
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/txtViewMobileInstru"
-                style="@style/styleInstrucText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/layouMobile"
-                android:gravity="center_horizontal"
-                android:text="@string/sms_messages_will_be_sent_here_to_verify_payments" />
-
 
             <TextView
-                android:id="@+id/txtViewEmailLabel"
+                android:id="@+id/txtViewNameLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtViewMobileInstru"
+                android:layout_below="@+id/layoutBanklist"
                 android:layout_marginTop="20dp"
-                android:text="@string/email"
+                android:text="@string/name_on_account2"
                 android:textColor="@color/text_color_black"
                 android:textSize="@dimen/text_size_edt_label" />
 
             <EditText
-                android:id="@+id/edtViewEmail"
+                android:id="@+id/edtViewHolderName"
                 style="@style/styleEdt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtViewEmailLabel"
+                android:layout_below="@+id/txtViewNameLabel"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:singleLine="true" />
-
-            <TextView
-                android:id="@+id/txtViewEmailInstru"
-                style="@style/styleInstrucText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/edtViewEmail"
-                android:gravity="center_horizontal"
-                android:text="@string/our_team_will_use_this_email_to_contact_you" />
+                android:hint="@string/name_on_account2"
+                android:inputType="text" />
 
 
             <TextView
-                android:id="@+id/txtViewConfirmEmailLabel"
+                android:id="@+id/txtViewAccLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtViewEmailInstru"
+                android:layout_below="@+id/edtViewHolderName"
                 android:layout_marginTop="20dp"
-                android:text="@string/confirm_email"
+                android:text="@string/account"
                 android:textColor="@color/text_color_black"
                 android:textSize="@dimen/text_size_edt_label" />
 
             <EditText
-                android:id="@+id/edtViewConfirmEmail"
+                android:id="@+id/edtViewAcc"
                 style="@style/styleEdt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtViewConfirmEmailLabel"
+                android:layout_below="@+id/txtViewAccLabel"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
-                android:hint="@string/confirm_email"
-                android:inputType="textEmailAddress"
-                android:singleLine="true" />
+                android:hint="@string/account"
+                android:inputType="number" />
 
             <TextView
-                android:id="@+id/txtViewPassLabel"
+                android:id="@+id/txtViewConfirmAccLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/edtViewConfirmEmail"
+                android:layout_below="@+id/edtViewAcc"
                 android:layout_marginTop="20dp"
-                android:text="@string/password"
+                android:text="@string/confirm_account"
                 android:textColor="@color/text_color_black"
                 android:textSize="@dimen/text_size_edt_label" />
 
             <EditText
-                android:id="@+id/edtViewPass"
+                android:id="@+id/edtViewConfirmAcc"
                 style="@style/styleEdt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtViewPassLabel"
+                android:layout_below="@+id/txtViewConfirmAccLabel"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:singleLine="true" />
-
-            <TextView
-                android:id="@+id/txtViewPassInstru"
-                style="@style/styleInstrucText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/edtViewPass"
-                android:gravity="center_horizontal"
-                android:text="@string/a_password_is_needed_to_view_and_alter_your_ad_details" />
+                android:hint="@string/confirm_account"
+                android:inputType="number" />
 
         </RelativeLayout>
     </ScrollView>

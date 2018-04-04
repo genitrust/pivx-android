@@ -46,4 +46,11 @@
             android:layout_marginTop="6dp"
             android:text="@string/existing_wallofcoins_account_sign_in" />
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 </RelativeLayout>

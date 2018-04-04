@@ -206,6 +206,27 @@
     <string name="password">Password</string>
     <string name="a_password_is_needed_to_view_and_alter_your_ad_details">A password is needed to view and alter your ad details.</string>
     <string name="action_continue"><![CDATA[Continue ->]]></string>
+    <string name="select_your_bank_or_payment_destination">Select Your Bank (or Payment Destination)</string>
+    <string name="only_qualified">Only qualified, serious buyers will have access to your deposit details.</string>
+    <string name="name_on_account2">Name on Account</string>
+    <string name="account">Account #</string>
+    <string name="confirm_account">Confirm Account #</string>
+    <string name="please_select_bank">Please select bank.</string>
+    <string name="please_enter_holder">Please enter account holder name.</string>
+    <string name="please_enter_acc_no">Please enter account number.</string>
+    <string name="please_enter_conf_acc_no">Please enter confirm account number.</string>
+    <string name="acc_not_matched"><![CDATA[Account & confirm account don\'t matched.]]></string>
+    <string name="price_per_coin">Price Per Coin</string>
+    <string name="how_much_do_you_want_per_pivx">How much do you want per PIVX?</string>
+    <string name="dollar_sign">$</string>
+    <string name="enter_mo_no">Please enter mobile no.</string>
+    <string name="enter_country_code">Please select country code</string>
+    <string name="enter_email">Please enter email.</string>
+    <string name="enter_valid_email">Please enter valid email.</string>
+    <string name="enter_confirm_email">Please enter confirm email.</string>
+    <string name="enter_valid_confirm_email">Please enter valid confirm email.</string>
+    <string name="email_not_matched"><![CDATA[Email & confirm email don\'t matched.]]></string>
+    <string name="enter_pass">Please enter password.</string>
 
 
 </resources>

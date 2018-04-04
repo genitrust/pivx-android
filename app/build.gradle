@@ -106,5 +106,10 @@ dependencies {
     compile 'com.google.code.findbugs:jsr305:2.0.3'
     compile 'org.dashj:dashj-core:0.14.4.3'
 
+
+    //selling dependencies
+
+    compile 'com.github.joielechong:countrycodepicker:2.1.5'
+
 }
 

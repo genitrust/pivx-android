@@ -1,4 +1,4 @@
-package pivx.org.pivxwallet.wallofcoins.selling_wizard.contact_details;
+package pivx.org.pivxwallet.wallofcoins.selling_wizard;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,9 +28,9 @@ import java.util.Locale;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import pivx.org.pivxwallet.R;
-import pivx.org.pivxwallet.wallofcoins.BuyDashPref;
-import pivx.org.pivxwallet.wallofcoins.WOCConstants;
-import pivx.org.pivxwallet.wallofcoins.buyingwizard.BuyDashBaseActivity;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingApiConstants;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.storage.SharedPreferenceUtil;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.utils.SellingConstants;
 
 /**
  * Created by  on 03-Apr-18.
@@ -93,15 +93,15 @@ public class SellingBaseFragment extends Fragment {
 
 
     @SuppressLint("HardwareIds")
-    protected String getDeviceCode(Context context, BuyDashPref buyDashPref) {
+    protected String getDeviceCode(Context context) {
 
-        String deviceUID = buyDashPref.getDeviceCode();
+        String deviceUID = SharedPreferenceUtil.getString(SellingConstants.DEVICE_CODE, "");
         if (TextUtils.isEmpty(deviceUID)) {
             String deviceID;
             deviceID = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
             byte[] data = (deviceID + deviceID + deviceID).getBytes(Charsets.UTF_8);
             deviceUID = Base64.encodeToString(data, Base64.DEFAULT).substring(0, 39);
-            buyDashPref.setDeviceCode(deviceUID);
+            SharedPreferenceUtil.putValue(SellingConstants.DEVICE_CODE, deviceUID);
         }
 
         return deviceUID;
@@ -154,11 +154,13 @@ public class SellingBaseFragment extends Fragment {
             Request original = chain.request();
             // Request customization: add request headers
             Request.Builder requestBuilder = original.newBuilder();
-            if (!TextUtils.isEmpty(((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken())) {
-                requestBuilder.addHeader(WOCConstants.KEY_HEADER_AUTH_TOKEN, ((BuyDashBaseActivity) mContext).buyDashPref.getAuthToken());
+            if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, ""))) {
+                requestBuilder.addHeader(SellingApiConstants.KEY_HEADER_AUTH_TOKEN, SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, ""));
             }
-            requestBuilder.addHeader(WOCConstants.KEY_HEADER_PUBLISHER_ID, getString(R.string.WALLOFCOINS_PUBLISHER_ID));
-            requestBuilder.addHeader(WOCConstants.KEY_HEADER_CONTENT_TYPE, WOCConstants.KEY_HEADER_CONTENT_TYPE_VALUE);
+            requestBuilder.addHeader(SellingApiConstants.KEY_HEADER_PUBLISHER_ID,
+                    SellingApiConstants.WALLOFCOINS_PUBLISHER_ID);
+            requestBuilder.addHeader(SellingApiConstants.KEY_HEADER_CONTENT_TYPE,
+                    SellingApiConstants.KEY_HEADER_CONTENT_TYPE_VALUE);
             Request request = requestBuilder.build();
             return chain.proceed(request);
         }

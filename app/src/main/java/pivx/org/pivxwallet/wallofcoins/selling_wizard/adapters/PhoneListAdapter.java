@@ -15,7 +15,7 @@ import pivx.org.pivxwallet.wallofcoins.selling_wizard.phone_list.PhoneListFragme
 
 
 /**
- * Created by  on 19-Mar-18.
+ * Created by on 19-Mar-18.
  */
 
 public class PhoneListAdapter extends RecyclerView.Adapter<PhoneListAdapter.MyViewHolder> {
@@ -39,7 +39,7 @@ public class PhoneListAdapter extends RecyclerView.Adapter<PhoneListAdapter.MyVi
     }
 
     @Override
-    public void onBindViewHolder(PhoneListAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(PhoneListAdapter.MyViewHolder holder, final int position) {
         final PhoneListVO phoneListVO = phoneListVOS.get(holder.getAdapterPosition());
 
         holder.btnPhone.setText(mContext.getString(R.string.sign_in2, phoneListVO.getPhoneNumber()));
@@ -47,7 +47,7 @@ public class PhoneListAdapter extends RecyclerView.Adapter<PhoneListAdapter.MyVi
         holder.btnPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //fragment.getAuthTokenCall(phoneListVO.getPhoneNumber(), phoneListVO.getDeviceId());
+                fragment.onItemClick(phoneListVO.getPhoneNumber());
             }
         });
 

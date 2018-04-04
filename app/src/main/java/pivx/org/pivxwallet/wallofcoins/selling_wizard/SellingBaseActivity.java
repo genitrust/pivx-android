@@ -111,9 +111,8 @@ public class SellingBaseActivity extends AppCompatActivity implements View.OnCli
         super.onResume();
     }
 
-    public void popBackAllFragmentsExcept(String tag) {
+    public void popBackInclusive(String tag) {
         fragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
     }
 
     public void removeAllFragmentFromStack() {

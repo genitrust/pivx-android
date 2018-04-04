@@ -92,10 +92,6 @@ public class BuyDashPaymentCenterFragment extends BuyDashBaseFragment implements
                     if (response.body() != null) {
                         Log.e(TAG, "onResponse: " + response.body().size());
                         linear_progress.setVisibility(View.GONE);
-                        //receivingOptionsResps = response.body();
-                        // hideViewExcept(binding.layoutBanks);
-
-                        //set data in drop down list
                         setPaymentOptNames(response.body());
                     }
 

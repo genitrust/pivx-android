@@ -1,4 +1,4 @@
-package pivx.org.pivxwallet.wallofcoins.selling_wizard.selling_home;
+package pivx.org.pivxwallet.wallofcoins.selling_wizard.price;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,22 +7,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import pivx.org.pivxwallet.R;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseActivity;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseFragment;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.phone_list.PhoneListFragment;
 
 /**
- * Created by  on 03-Apr-18.
+ * Created by  on 04-Apr-18.
  */
 
-public class SellingHomeFragment extends SellingBaseFragment implements View.OnClickListener {
+public class PriceFragment extends SellingBaseFragment implements View.OnClickListener {
 
 
     private View rootView;
-    private Button btnSignHere;
-    private final String TAG = "SellingHomeFragment";
+    private Button btnContinue;
+    private EditText edtViewPrice;
+    private final String TAG = "PriceFragment";
+    private ProgressBar progressBar;
 
     @Override
     public void onAttach(Context context) {
@@ -34,7 +37,7 @@ public class SellingHomeFragment extends SellingBaseFragment implements View.OnC
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_selling_home, container, false);
+            rootView = inflater.inflate(R.layout.layout_selling_price, container, false);
             init();
             setListeners();
             setTopbar();
@@ -45,11 +48,15 @@ public class SellingHomeFragment extends SellingBaseFragment implements View.OnC
 
     private void init() {
 
-        btnSignHere = (Button) rootView.findViewById(R.id.btnSignHere);
+        edtViewPrice = (EditText) rootView.findViewById(R.id.edtViewPrice);
+
+        btnContinue = (Button) rootView.findViewById(R.id.btnContinue);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+
     }
 
     private void setListeners() {
-        btnSignHere.setOnClickListener(this);
+        btnContinue.setOnClickListener(this);
     }
 
     private void setTopbar() {
@@ -59,18 +66,10 @@ public class SellingHomeFragment extends SellingBaseFragment implements View.OnC
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        setTopbar();
-    }
-
-    @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.btnSignHere:
-                ((SellingBaseActivity) mContext).replaceFragment(new PhoneListFragment(),
-                        true, true);
+            case R.id.btnContinue:
                 break;
         }
     }

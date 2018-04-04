@@ -6,11 +6,33 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import pivx.org.pivxwallet.R;
+import pivx.org.pivxwallet.wallofcoins.response.CountryData;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseActivity;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseFragment;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.adapters.CountryAdapter;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingAPIClient;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingApiConstants;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.common.PhoneUtil;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SignUpResponseVo;
+import pivx.org.pivxwallet.wallofcoins.utils.NetworkUtil;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by  on 03-Apr-18.
@@ -23,6 +45,10 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
     private Button btnContinue;
     private EditText edtViewMobile, edtViewEmail, edtViewConfirmEmail, edtViewPass;
     private final String TAG = "ContactDetailsFragment";
+    private CountryData countryData;
+    private Spinner sp_country;
+    private ProgressBar progressBar;
+    private String country_code = "";
 
     @Override
     public void onAttach(Context context) {
@@ -38,6 +64,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
             init();
             setListeners();
             setTopbar();
+            addCountryCodeList();
             return rootView;
         } else
             return rootView;
@@ -49,12 +76,25 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
         edtViewEmail = (EditText) rootView.findViewById(R.id.edtViewEmail);
         edtViewConfirmEmail = (EditText) rootView.findViewById(R.id.edtViewConfirmEmail);
         edtViewPass = (EditText) rootView.findViewById(R.id.edtViewPass);
-
+        sp_country = (Spinner) rootView.findViewById(R.id.sp_country);
         btnContinue = (Button) rootView.findViewById(R.id.btnContinue);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
     }
 
     private void setListeners() {
         btnContinue.setOnClickListener(this);
+        sp_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                country_code = countryData.countries.get(i).code;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
     private void setTopbar() {
@@ -63,11 +103,133 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
                 mContext.getString(R.string.title_contact_details));
     }
 
+    private void addCountryCodeList() {
+        String json;
+        try {
+            InputStream is = getActivity().getAssets().open("countries.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return;
+        }
+
+        countryData = new Gson().fromJson(json, CountryData.class);
+
+        List<String> stringList = new ArrayList<>();
+
+        for (CountryData.CountriesBean bean : countryData.countries) {
+            stringList.add(bean.name + " (" + bean.code + ")");
+        }
+        CountryAdapter customAdapter = new CountryAdapter(getActivity(), R.layout.spinner_row_country, countryData.countries);
+        customAdapter.setDropDownViewResource(R.layout.spinner_row_country);
+        sp_country.setAdapter(customAdapter);
+    }
+
+    private boolean isValidDetails() {
+        String email, confirmEmail;
+        email = edtViewEmail.getText().toString().trim();
+        confirmEmail = edtViewConfirmEmail.getText().toString().trim();
+
+        if (edtViewMobile.getText().toString().trim().isEmpty()) {
+            showToast(getString(R.string.enter_mo_no));
+            return false;
+        } else if (country_code.isEmpty()) {
+            showToast(getString(R.string.enter_country_code));
+            return false;
+        } else if (email.isEmpty()) {
+            showToast(getString(R.string.enter_email));
+            return false;
+        } else if (!isValidEmail(email)) {
+            showToast(getString(R.string.enter_valid_email));
+            return false;
+        } else if (confirmEmail.isEmpty()) {
+            showToast(getString(R.string.enter_confirm_email));
+            return false;
+        } else if (!isValidEmail(confirmEmail)) {
+            showToast(getString(R.string.enter_valid_confirm_email));
+            return false;
+        } else if (!email.equalsIgnoreCase(confirmEmail)) {
+            showToast(getString(R.string.email_not_matched));
+            return false;
+        } else if (edtViewPass.getText().toString().trim().isEmpty()) {
+            showToast(getString(R.string.enter_pass));
+            return false;
+        }
+        return true;
+    }
+
+    private void registerUser() {
+        if (NetworkUtil.isOnline(mContext)) {
+            progressBar.setVisibility(View.VISIBLE);
+            HashMap<String, String> signUpHashMap = new HashMap<String, String>();
+            signUpHashMap.put(SellingApiConstants.KEY_PHONE, country_code + edtViewMobile.getText().toString().trim());
+            signUpHashMap.put(SellingApiConstants.KEY_EMAIL, edtViewEmail.getText().toString().trim());
+            signUpHashMap.put(SellingApiConstants.KEY_PASSWORD, edtViewPass.getText().toString().trim());
+
+            SellingAPIClient.createService(interceptor, mContext)
+                    .signUp(signUpHashMap)
+                    .enqueue(new Callback<SignUpResponseVo>() {
+                        @Override
+                        public void onResponse(Call<SignUpResponseVo> call, Response<SignUpResponseVo> response) {
+                            progressBar.setVisibility(View.GONE);
+                            if (response.body() != null) {
+                                SignUpResponseVo signUpVo = response.body();
+                                PhoneUtil.addPhone(signUpVo.getPhone(), "");
+                                ((SellingBaseActivity) mContext).popBackDirect();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<SignUpResponseVo> call, Throwable t) {
+                            progressBar.setVisibility(View.GONE);
+                            showToast(t.getMessage());
+                        }
+                    });
+        } else
+            showToast(mContext.getString(R.string.network_not_avaialable));
+
+    }
+
+    /*private void sendVerification() {
+        if (NetworkUtil.isOnline(mContext)) {
+            HashMap<String, String> hashMap = new HashMap<String, String>();
+            hashMap.put(SellingApiConstants.KEY_PHONE, "");
+            hashMap.put(SellingApiConstants.AD_ID, "");
+
+            SellingAPIClient.createService(interceptor, mContext)
+                    .sendVerificationCode(hashMap)
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            progressBar.setVisibility(View.GONE);
+                            if (response.body() != null) {
+                                *//*((SellingBaseActivity) mContext).replaceFragment(new ContactDetailsFragment(), true,
+                                        true);*//*
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            progressBar.setVisibility(View.GONE);
+                            showToast(t.getMessage());
+                        }
+                    });
+        } else
+            showToast(mContext.getString(R.string.network_not_avaialable));
+
+    }*/
+
     @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
             case R.id.btnContinue:
+                if (isValidDetails())
+                    registerUser();
                 break;
         }
     }
