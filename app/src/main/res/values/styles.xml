@@ -143,6 +143,7 @@
     <style name="styleEdt">
         <item name="android:textColor">@color/edt_text_color</item>
         <item name="android:textSize">@dimen/text_size_edt</item>
+        <item name="android:singleLine">true</item>
         <item name="android:background">@drawable/border_selling_edttxt</item>
         <item name="android:paddingTop">6dp</item>
         <item name="android:paddingBottom">6dp</item>

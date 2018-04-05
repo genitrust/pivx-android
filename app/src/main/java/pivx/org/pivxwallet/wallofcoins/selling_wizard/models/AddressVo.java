@@ -1,10 +1,12 @@
 package pivx.org.pivxwallet.wallofcoins.selling_wizard.models;
 
+import java.io.Serializable;
+
 /**
  * Created by  on 04-Apr-18.
  */
 
-public class AddressVo {
+public class AddressVo implements Serializable {
 
     //for create add
     private String number;
@@ -33,7 +35,7 @@ public class AddressVo {
 
     private String minPayment;
 
-    private String dynamicPrice;
+    private boolean dynamicPrice;
 
     private String createdIp;
 
@@ -45,7 +47,7 @@ public class AddressVo {
 
     private String publicBalance;
 
-    private String userEnabled;
+    private boolean userEnabled;
 
     private String published;
 
@@ -184,11 +186,11 @@ public class AddressVo {
         this.minPayment = minPayment;
     }
 
-    public String getDynamicPrice() {
+    public boolean getDynamicPrice() {
         return dynamicPrice;
     }
 
-    public void setDynamicPrice(String dynamicPrice) {
+    public void setDynamicPrice(boolean dynamicPrice) {
         this.dynamicPrice = dynamicPrice;
     }
 
@@ -232,11 +234,11 @@ public class AddressVo {
         this.publicBalance = publicBalance;
     }
 
-    public String getUserEnabled() {
+    public boolean getUserEnabled() {
         return userEnabled;
     }
 
-    public void setUserEnabled(String userEnabled) {
+    public void setUserEnabled(boolean userEnabled) {
         this.userEnabled = userEnabled;
     }
 

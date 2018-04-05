@@ -3,6 +3,7 @@ package pivx.org.pivxwallet.wallofcoins.selling_wizard.contact_details;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.google.gson.Gson;
@@ -27,8 +29,12 @@ import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseFragment;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.adapters.CountryAdapter;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingAPIClient;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingApiConstants;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.cash_deposit.CashDepositFragment;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.common.PhoneUtil;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.AddressVo;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SignUpResponseVo;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.storage.SharedPreferenceUtil;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.utils.SellingConstants;
 import pivx.org.pivxwallet.wallofcoins.utils.NetworkUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +55,8 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
     private Spinner sp_country;
     private ProgressBar progressBar;
     private String country_code = "";
+    private RelativeLayout layoutPass;
+    private boolean isLoggedIn;
 
     @Override
     public void onAttach(Context context) {
@@ -65,10 +73,14 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
             setListeners();
             setTopbar();
             addCountryCodeList();
+            handleArgs();
+
+
             return rootView;
         } else
             return rootView;
     }
+
 
     private void init() {
 
@@ -79,6 +91,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
         sp_country = (Spinner) rootView.findViewById(R.id.sp_country);
         btnContinue = (Button) rootView.findViewById(R.id.btnContinue);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        layoutPass = (RelativeLayout) rootView.findViewById(R.id.layoutPass);
     }
 
     private void setListeners() {
@@ -127,6 +140,31 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
         CountryAdapter customAdapter = new CountryAdapter(getActivity(), R.layout.spinner_row_country, countryData.countries);
         customAdapter.setDropDownViewResource(R.layout.spinner_row_country);
         sp_country.setAdapter(customAdapter);
+    }
+
+    private void handleArgs() {
+        if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, ""))) {
+            layoutPass.setVisibility(View.GONE);
+            isLoggedIn = true;
+            edtViewMobile.setEnabled(false);
+            sp_country.setEnabled(false);
+            edtViewMobile.setText(SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_PHONE, ""));
+            edtViewEmail.setText(SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_EMAIL, ""));
+        }
+    }
+
+    private boolean checkDetails() {
+        String email;
+        email = edtViewEmail.getText().toString().trim();
+
+        if (email.isEmpty()) {
+            showToast(getString(R.string.enter_email));
+            return false;
+        } else if (!isValidEmail(email)) {
+            showToast(getString(R.string.enter_valid_email));
+            return false;
+        }
+        return true;
     }
 
     private boolean isValidDetails() {
@@ -228,10 +266,32 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
 
         switch (view.getId()) {
             case R.id.btnContinue:
-                if (isValidDetails())
-                    registerUser();
+
+                if (isLoggedIn) {
+                    if (checkDetails()) {
+
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(SellingConstants.ADDRESS_DETAILS_VO, getSellingDetails());
+                        CashDepositFragment fragment = new CashDepositFragment();
+                        fragment.setArguments(bundle);
+
+                        ((SellingBaseActivity) mContext).replaceFragment(fragment, true, true);
+                    }
+                } else {
+                    if (isValidDetails())
+                        registerUser();
+                }
+
                 break;
         }
     }
 
+    //if user is logged in
+    private AddressVo getSellingDetails() {
+        AddressVo detailsVo = new AddressVo();
+        detailsVo.setEmail(edtViewEmail.getText().toString().trim());
+        detailsVo.setPhone(edtViewMobile.getText().toString().trim());
+
+        return detailsVo;
+    }
 }

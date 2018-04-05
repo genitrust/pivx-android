@@ -29,6 +29,7 @@ import pivx.org.pivxwallet.wallofcoins.buyingwizard.utils.FragmentUtils;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseActivity;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseFragment;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.adapters.PhoneListAdapter;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.RetrofitErrorUtil;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingAPIClient;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingApiConstants;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.common.PhoneUtil;
@@ -149,6 +150,10 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
                             }*/
                             showUserPasswordAuthenticationDialog();
                         }
+                    } else {
+                        String error = RetrofitErrorUtil.parseError(response);
+                        if (error != null && !error.isEmpty())
+                            showToast(error);
                     }
                 }
 
@@ -227,7 +232,9 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
             } else {
                 hashMap.put(SellingApiConstants.KEY_DEVICECODE, getDeviceCode(mContext));
             }
-
+            if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.DEVICE_ID, ""))) {
+                hashMap.put(WOCConstants.KEY_DEVICEID, SharedPreferenceUtil.getString(SellingConstants.DEVICE_ID, ""));
+            }
             hashMap.put(SellingApiConstants.KEY_PUBLISHER_ID, SellingApiConstants.WALLOFCOINS_PUBLISHER_ID);
 
             progressBar.setVisibility(View.VISIBLE);
@@ -251,14 +258,19 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
                                 return;
                             }
 
+
                             if (!TextUtils.isEmpty(response.body().getToken())) {
-                                SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, response.body().getToken());
+                                SharedPreferenceUtil.putValue(SellingConstants.TOKEN_ID, response.body().getToken());
+                                SharedPreferenceUtil.putValue(SellingConstants.LOGGED_IN_PHONE, selectedPhone);
                             }
+
                             if (!TextUtils.isEmpty(password) &&
                                     TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.DEVICE_ID, ""))) {
                                 getDevice();
-                            } else
+                            } else {
                                 ((SellingBaseActivity) mContext).popBackDirect();
+                            }
+
                         }
 
                         @Override
@@ -280,8 +292,9 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
         SellingAPIClient.createService(interceptor, mContext).getDevice().enqueue(new Callback<List<CreateDeviceVo>>() {
             @Override
             public void onResponse(Call<List<CreateDeviceVo>> call, Response<List<CreateDeviceVo>> response) {
+                progressBar.setVisibility(View.GONE);
                 if (response.code() == 200 && response.body() != null) {
-                    progressBar.setVisibility(View.GONE);
+
                     List<CreateDeviceVo> deviceList = response.body();
                     if (deviceList.size() > 0) {
                         SharedPreferenceUtil.putValue(SellingConstants.DEVICE_ID, deviceList.get(deviceList.size() - 1).getId() + "");
@@ -289,6 +302,10 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
                     } else {
                         createDevice();
                     }
+                } else {
+                    String error = RetrofitErrorUtil.parseError(response);
+                    if (error != null && !error.isEmpty())
+                        showToast(error);
                 }
             }
 
@@ -307,23 +324,27 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
     private void createDevice() {
         final HashMap<String, String> hashMap = new HashMap<String, String>();
         hashMap.put(SellingApiConstants.KEY_DEVICE_NAME, SellingApiConstants.DEVICE_NAME);
-        hashMap.put(SellingApiConstants.KEY_DEVICECODE, getDeviceCode(mContext));
+        hashMap.put(SellingApiConstants.KEY_CODE, getDeviceCode(mContext));
         hashMap.put(SellingApiConstants.KEY_PUBLISHER_ID, SellingApiConstants.WALLOFCOINS_PUBLISHER_ID);
         progressBar.setVisibility(View.VISIBLE);
         SellingAPIClient.createService(interceptor, mContext).createDevice(hashMap).enqueue(new Callback<CreateDeviceVo>() {
             @Override
             public void onResponse(Call<CreateDeviceVo> call, Response<CreateDeviceVo> response) {
+                progressBar.setVisibility(View.GONE);
                 if (null != response.body() && response.code() < 299) {
                     SharedPreferenceUtil.putValue(SellingConstants.DEVICE_ID, response.body().getId() + "");
 
                     authorize("");
                 } else {
-                    showToast(mContext.getString(R.string.try_again));
+                    String error = RetrofitErrorUtil.parseError(response);
+                    if (error != null && !error.isEmpty())
+                        showToast(error);
                 }
             }
 
             @Override
             public void onFailure(Call<CreateDeviceVo> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
                 showToast(mContext.getString(R.string.try_again));
             }
         });

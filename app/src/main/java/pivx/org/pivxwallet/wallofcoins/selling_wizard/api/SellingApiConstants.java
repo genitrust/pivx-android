@@ -29,6 +29,11 @@ public class SellingApiConstants {
     public static final String KEY_DEVICEID = "deviceId";
     public static final String DEVICE_NAME = "PIV Wallet (Android)";
     public static final String KEY_DEVICE_NAME = "name";
+    public static final String KEY_CODE = "code";
+    public static final String KEY_USER_ENABLED = "userEnabled";
+
+
+
 
 
 

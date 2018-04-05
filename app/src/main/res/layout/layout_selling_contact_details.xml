@@ -24,7 +24,7 @@
                 android:gravity="center_horizontal"
                 android:text="@string/phone_and_email_msg"
                 android:textColor="@color/text_color_black"
-                android:textSize="14sp" />
+                android:textSize="@dimen/text_size_top_msg" />
 
             <TextView
                 android:id="@+id/txtViewLabelMobile"
@@ -59,8 +59,9 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/sp_country"
                     android:background="@null"
-                    android:maxLength="10"
                     android:hint="@string/mobile_include_area_code"
+                    android:inputType="number"
+                    android:maxLength="10"
                     android:singleLine="true"
                     android:textColor="@color/edt_text_color" />
             </RelativeLayout>
@@ -107,59 +108,65 @@
                 android:text="@string/our_team_will_use_this_email_to_contact_you" />
 
 
-            <TextView
-                android:id="@+id/txtViewConfirmEmailLabel"
+            <RelativeLayout
+                android:id="@+id/layoutPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtViewEmailInstru"
-                android:layout_marginTop="20dp"
-                android:text="@string/confirm_email"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_edt_label" />
+                android:layout_below="@+id/txtViewEmailInstru">
 
-            <EditText
-                android:id="@+id/edtViewConfirmEmail"
-                style="@style/styleEdt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtViewConfirmEmailLabel"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="4dp"
-                android:hint="@string/confirm_email"
-                android:inputType="textEmailAddress"
-                android:singleLine="true" />
+                <TextView
+                    android:id="@+id/txtViewConfirmEmailLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-            <TextView
-                android:id="@+id/txtViewPassLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/edtViewConfirmEmail"
-                android:layout_marginTop="20dp"
-                android:text="@string/password"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_edt_label" />
+                    android:layout_marginTop="20dp"
+                    android:text="@string/confirm_email"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_edt_label" />
 
-            <EditText
-                android:id="@+id/edtViewPass"
-                style="@style/styleEdt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtViewPassLabel"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="4dp"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:singleLine="true" />
+                <EditText
+                    android:id="@+id/edtViewConfirmEmail"
+                    style="@style/styleEdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtViewConfirmEmailLabel"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    android:hint="@string/confirm_email"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true" />
 
-            <TextView
-                android:id="@+id/txtViewPassInstru"
-                style="@style/styleInstrucText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/edtViewPass"
-                android:gravity="center_horizontal"
-                android:text="@string/a_password_is_needed_to_view_and_alter_your_ad_details" />
+                <TextView
+                    android:id="@+id/txtViewPassLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edtViewConfirmEmail"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/password"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_edt_label" />
 
+                <EditText
+                    android:id="@+id/edtViewPass"
+                    style="@style/styleEdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtViewPassLabel"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/txtViewPassInstru"
+                    style="@style/styleInstrucText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edtViewPass"
+                    android:gravity="center_horizontal"
+                    android:text="@string/a_password_is_needed_to_view_and_alter_your_ad_details" />
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 

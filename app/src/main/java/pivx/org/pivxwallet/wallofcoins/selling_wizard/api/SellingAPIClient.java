@@ -72,10 +72,10 @@ public class SellingAPIClient {
      * @param context context object of parent class
      * @return RestApi Client object
      */
-    public static RestApi createService(Context context) {
+    public static SellingApi createService(Context context) {
         API_BASE_URL = SellingApiConstants.BASE_URL;
         return getClient(null)
-                .create(RestApi.class);
+                .create(SellingApi.class);
     }
 
     /**

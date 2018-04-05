@@ -24,7 +24,7 @@
                 android:gravity="center_horizontal"
                 android:text="@string/only_qualified"
                 android:textColor="@color/text_color_black"
-                android:textSize="14sp" />
+                android:textSize="@dimen/text_size_top_msg" />
 
             <TextView
                 android:id="@+id/txtViewLabelMobile"
@@ -40,8 +40,8 @@
                 android:id="@+id/layoutBanklist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_below="@+id/txtViewLabelMobile"
-                android:layout_marginTop="4dp"
                 android:background="@drawable/border_selling_edttxt">
 
                 <android.support.v7.widget.AppCompatSpinner
@@ -51,70 +51,77 @@
             </RelativeLayout>
 
 
-            <TextView
-                android:id="@+id/txtViewNameLabel"
+            <RelativeLayout
+                android:id="@+id/layoutAccDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/layoutBanklist"
-                android:layout_marginTop="20dp"
-                android:text="@string/name_on_account2"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_edt_label" />
+                android:visibility="gone">
 
-            <EditText
-                android:id="@+id/edtViewHolderName"
-                style="@style/styleEdt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtViewNameLabel"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="4dp"
-                android:hint="@string/name_on_account2"
-                android:inputType="text" />
+                <TextView
+                    android:id="@+id/txtViewNameLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="20dp"
+                    android:text="@string/name_on_account2"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_edt_label" />
+
+                <EditText
+                    android:id="@+id/edtViewHolderName"
+                    style="@style/styleEdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtViewNameLabel"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    android:hint="@string/name_on_account2"
+                    android:inputType="text" />
 
 
-            <TextView
-                android:id="@+id/txtViewAccLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/edtViewHolderName"
-                android:layout_marginTop="20dp"
-                android:text="@string/account"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_edt_label" />
+                <TextView
+                    android:id="@+id/txtViewAccLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edtViewHolderName"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/account"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_edt_label" />
 
-            <EditText
-                android:id="@+id/edtViewAcc"
-                style="@style/styleEdt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtViewAccLabel"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="4dp"
-                android:hint="@string/account"
-                android:inputType="number" />
+                <EditText
+                    android:id="@+id/edtViewAcc"
+                    style="@style/styleEdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtViewAccLabel"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    android:hint="@string/account"
+                    android:inputType="number" />
 
-            <TextView
-                android:id="@+id/txtViewConfirmAccLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/edtViewAcc"
-                android:layout_marginTop="20dp"
-                android:text="@string/confirm_account"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_edt_label" />
+                <TextView
+                    android:id="@+id/txtViewConfirmAccLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/edtViewAcc"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/confirm_account"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_edt_label" />
 
-            <EditText
-                android:id="@+id/edtViewConfirmAcc"
-                style="@style/styleEdt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtViewConfirmAccLabel"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="4dp"
-                android:hint="@string/confirm_account"
-                android:inputType="number" />
-
+                <EditText
+                    android:id="@+id/edtViewConfirmAcc"
+                    style="@style/styleEdt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtViewConfirmAccLabel"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    android:hint="@string/confirm_account"
+                    android:inputType="number" />
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 

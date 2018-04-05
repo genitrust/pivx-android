@@ -195,8 +195,12 @@
 
     <!-- Selling wizard-->
     <string name="title_selling">Sell Your PIVX</string>
-
+    <string name="title_price">Price</string>
+    <string name="title_verify_selling_details">Verify Selling Details</string>
     <string name="title_contact_details">Contact Details</string>
+    <string name="title_cash_depo_details">Cash Deposit Details</string>
+
+
     <string name="phone_and_email_msg">Phone and email are the only means we use to establish contact with you, and you will use your contact information to access your sale portal.</string>
     <string name="mobile_include_area_code">Mobile # (include Area Code)</string>
     <string name="sms_messages_will_be_sent_here_to_verify_payments">SMS messages will be sent here to verify payments.</string>
@@ -205,7 +209,7 @@
     <string name="confirm_email">Confirm Email</string>
     <string name="password">Password</string>
     <string name="a_password_is_needed_to_view_and_alter_your_ad_details">A password is needed to view and alter your ad details.</string>
-    <string name="action_continue"><![CDATA[Continue ->]]></string>
+    <string name="action_continue">Continue</string>
     <string name="select_your_bank_or_payment_destination">Select Your Bank (or Payment Destination)</string>
     <string name="only_qualified">Only qualified, serious buyers will have access to your deposit details.</string>
     <string name="name_on_account2">Name on Account</string>
@@ -227,6 +231,19 @@
     <string name="enter_valid_confirm_email">Please enter valid confirm email.</string>
     <string name="email_not_matched"><![CDATA[Email & confirm email don\'t matched.]]></string>
     <string name="enter_pass">Please enter password.</string>
-
+    <string name="wallet_is_signed_msg">Your wallet is signed into Wall of Coins using your mobile number %s</string>
+    <string name="enter_price">Please enter price.</string>
+    <string name="verify_details_msg">Please verify your selling details. If everything looks good, click \"Verify Phone\" to have a verification code sent to your mobile phone. For the sake of all members, Wall of Coins requires all sellers to have a valid, authorized mobile phone.</string>
+    <string name="account_1">Account</string>
+    <string name="currentprice">CurrentPrice</string>
+    <string name="action_verify_phone">Verify Phone</string>
+    <string name="verification_code_msg">The Mobile phone (239) 777-6543 will receive a verification code within 10 seconds. When you receive the code, input it below.</string>
+    <string name="code">Code</string>
+    <string name="primary_market_lbl">Primary Market:</string>
+    <string name="secondary_market_lbl">Secondary Market:</string>
+    <string name="minimum_payment_lbl">Minimum Payment:</string>
+    <string name="maximum_payment_lbl">Maximum Payment:</string>
+    <string name="seller_fee_lbl">Seller Fee</string>
+    <string name="static_price_lbl">Static Price:</string>
 
 </resources>

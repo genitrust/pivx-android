@@ -155,7 +155,8 @@ public class SellingBaseFragment extends Fragment {
             // Request customization: add request headers
             Request.Builder requestBuilder = original.newBuilder();
             if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, ""))) {
-                requestBuilder.addHeader(SellingApiConstants.KEY_HEADER_AUTH_TOKEN, SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, ""));
+                requestBuilder.addHeader(SellingApiConstants.KEY_HEADER_AUTH_TOKEN,
+                        SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, ""));
             }
             requestBuilder.addHeader(SellingApiConstants.KEY_HEADER_PUBLISHER_ID,
                     SellingApiConstants.WALLOFCOINS_PUBLISHER_ID);

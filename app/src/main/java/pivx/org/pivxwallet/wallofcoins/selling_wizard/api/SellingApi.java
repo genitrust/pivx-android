@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.ResponseBody;
 import pivx.org.pivxwallet.wallofcoins.response.CaptureHoldResp;
 import pivx.org.pivxwallet.wallofcoins.response.CheckAuthResp;
 import pivx.org.pivxwallet.wallofcoins.response.ConfirmDepositResp;
@@ -20,7 +19,9 @@ import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.AuthVo;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.CreateDeviceVo;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.GetReceivingOptionsResp;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.MarketsVo;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SendVerificationRespVo;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SignUpResponseVo;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.VerifyAdResp;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -43,10 +44,9 @@ public interface SellingApi {
     Call<SignUpResponseVo> signUp(@FieldMap Map<String, String> partMap);
 
 
-    //CRYPTO=PIVX   FIAT=USD
-    @FormUrlEncoded
-    @POST(SellingApiConstants.MARKETS + "{CRYPTO}" + "/{FIAT}")
-    Call<ArrayList<MarketsVo>> getMarkets(@Path("CRYPTO") String crypto, @Path("FIAT") String fiat);
+    //crypto=PIVX   currency=USD
+    @GET(SellingApiConstants.MARKETS + "{crypto}/{currency}/")
+    Call<ArrayList<MarketsVo>> getMarkets(@Path("crypto") String crypto, @Path("currency") String currency);
 
 
     //create address
@@ -58,7 +58,7 @@ public interface SellingApi {
     //send verification code
     @FormUrlEncoded
     @POST(SellingApiConstants.SEND_VERIFICATION)
-    Call<ResponseBody> sendVerificationCode(@FieldMap Map<String, String> partMap);
+    Call<SendVerificationRespVo> sendVerificationCode(@FieldMap Map<String, String> partMap);
 
     @GET(SellingApiConstants.GET_AUTH + "{phone}/")
     Call<AuthVo> getAuthToken(@Path("phone") String phone, @Query("publisherId") String publisherId);
@@ -68,13 +68,17 @@ public interface SellingApi {
     @POST("api/v1/auth/{phone}/authorize/")
     Call<AuthVo> authorize(@Path("phone") String username, @FieldMap Map<String, String> partMap);
 
+    @DELETE("api/v1/auth/{phone}/")
+    Call<CheckAuthResp> deleteAuth(@Path("phone") String username, @Query("publisherId") String publisherId);
+
+    @FormUrlEncoded
+    @POST("api/verifyAd/")
+    Call<VerifyAdResp> verifyAd(@FieldMap Map<String, String> partMap);
+
     //----------------------------------------------------------
     @GET("api/v1/orders/")
     Call<List<OrderListResp>> getOrders(@Query("publisherId") String publisherId);
 
-
-    @DELETE("api/v1/auth/{phone}/")
-    Call<CheckAuthResp> deleteAuth(@Path("phone") String username, @Query("publisherId") String publisherId);
 
     @DELETE("api/v1/orders/{orderId}/")
     Call<Void> cancelOrder(@Path("orderId") String orderId, @Query("publisherId") String publisherId);
@@ -120,6 +124,7 @@ public interface SellingApi {
     @FormUrlEncoded
     @POST("api/v1/devices/")
     Call<CreateDeviceVo> createDevice(@FieldMap Map<String, String> partMap);
+
     @GET("api/v1/devices/")
     Call<List<CreateDeviceVo>> getDevice();
 

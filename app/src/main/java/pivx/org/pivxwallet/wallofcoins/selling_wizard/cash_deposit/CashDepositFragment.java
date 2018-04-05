@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,9 +22,12 @@ import java.util.List;
 
 import pivx.org.pivxwallet.R;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseActivity;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingAPIClient;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseFragment;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingAPIClient;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.AddressVo;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.GetReceivingOptionsResp;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.price.PriceFragment;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.utils.SellingConstants;
 import pivx.org.pivxwallet.wallofcoins.utils.NetworkUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,6 +48,8 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
     private ProgressBar progressBar;
     private String bankId = "";
     private List<GetReceivingOptionsResp> bankList;
+    private RelativeLayout layoutAccDetails;
+    private AddressVo addressVo;
 
     @Override
     public void onAttach(Context context) {
@@ -60,6 +66,7 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
             setListeners();
             setTopbar();
             getReceivingOptions();
+            handleArgs();
             return rootView;
         } else
             return rootView;
@@ -73,6 +80,7 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
         sp_banks = (AppCompatSpinner) rootView.findViewById(R.id.sp_banks);
         btnContinue = (Button) rootView.findViewById(R.id.btnContinue);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        layoutAccDetails = (RelativeLayout) rootView.findViewById(R.id.layoutAccDetails);
 
         bankList = new ArrayList<>();
     }
@@ -83,9 +91,11 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
+                    layoutAccDetails.setVisibility(View.GONE);
                     bankId = "";
                     return;
                 }
+                layoutAccDetails.setVisibility(View.VISIBLE);
                 bankId = "" + bankList.get(position).id;
             }
 
@@ -100,7 +110,7 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
     private void setTopbar() {
 
         ((SellingBaseActivity) mContext).setTopbarTitle(
-                mContext.getString(R.string.title_contact_details));
+                mContext.getString(R.string.title_cash_depo_details));
     }
 
     private boolean isValidDetails() {
@@ -128,6 +138,12 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setTopbar();
     }
 
     /**
@@ -161,6 +177,14 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
         } else
             showToast(mContext.getString(R.string.network_not_avaialable));
 
+    }
+
+    private void handleArgs() {
+
+        if (getArguments() != null) {
+            addressVo = (AddressVo)
+                    getArguments().getSerializable(SellingConstants.ADDRESS_DETAILS_VO);
+        }
     }
 
     /**
@@ -200,9 +224,23 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
 
         switch (view.getId()) {
             case R.id.btnContinue:
-                if (isValidDetails())
-                    break;
+                if (isValidDetails()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(SellingConstants.ADDRESS_DETAILS_VO, getSellingDetails());
+                    PriceFragment fragment = new PriceFragment();
+                    fragment.setArguments(bundle);
+                    ((SellingBaseActivity) mContext).replaceFragment(fragment,
+                            true, true);
+                }
+                break;
         }
     }
 
+    private AddressVo getSellingDetails() {
+        addressVo.setName(edtViewHolderName.getText().toString().trim());
+        addressVo.setNumber(edtViewAcc.getText().toString().trim());
+        addressVo.setNumber2(edtViewConfirmAcc.getText().toString().trim());
+        addressVo.setBankBusiness(bankId);
+        return addressVo;
+    }
 }
