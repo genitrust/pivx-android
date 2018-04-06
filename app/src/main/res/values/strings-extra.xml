@@ -245,5 +245,14 @@
     <string name="maximum_payment_lbl">Maximum Payment:</string>
     <string name="seller_fee_lbl">Seller Fee</string>
     <string name="static_price_lbl">Static Price:</string>
-
+    <string name="no_ad_created">No Address created</string>
+    <string name="type_a_secure_password_to_continue_using_wall_of_coins">Type a secure password to continue using Wall of Coins.</string>
+    <string name="mobile">Mobile #</string>
+    <string name="new_password">New password</string>
+    <string name="confirm_new_password">Confirm new password</string>
+    <string name="title_create_pass">Create Password</string>
+    <string name="action_set_password">Set Password</string>
+    <string name="pass_not_matched">Password dont matched</string>
+    <string name="enter_new_pass">Please enter new password.</string>
+    <string name="enter_confirm_pass">Please enter confirm password.</string>
 </resources>

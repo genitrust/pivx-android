@@ -14,6 +14,7 @@ import pivx.org.pivxwallet.wallofcoins.response.GetCurrencyResp;
 import pivx.org.pivxwallet.wallofcoins.response.GetHoldsResp;
 import pivx.org.pivxwallet.wallofcoins.response.GetOffersResp;
 import pivx.org.pivxwallet.wallofcoins.response.OrderListResp;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.AddressListRespVo;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.AddressVo;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.AuthVo;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.CreateDeviceVo;
@@ -23,7 +24,6 @@ import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SendVerificationRes
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SignUpResponseVo;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.VerifyAdResp;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
@@ -52,7 +52,7 @@ public interface SellingApi {
     //create address
     @FormUrlEncoded
     @POST(SellingApiConstants.CREATE_ADDRESS)
-    Call<AddressVo> createAddress(@Body AddressVo addressVo);
+    Call<AddressVo> createAddress(@FieldMap Map<String, Object> partMap);
 
 
     //send verification code
@@ -74,6 +74,9 @@ public interface SellingApi {
     @FormUrlEncoded
     @POST("api/verifyAd/")
     Call<VerifyAdResp> verifyAd(@FieldMap Map<String, String> partMap);
+
+    @GET("api/v1/ad/")
+    Call<ArrayList<AddressListRespVo>> getAddressListing();
 
     //----------------------------------------------------------
     @GET("api/v1/orders/")

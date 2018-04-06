@@ -22,7 +22,7 @@
                 android:gravity="center_horizontal"
                 android:text="@string/how_much_do_you_want_per_pivx"
                 android:textColor="@color/text_color_black"
-                android:textSize="14sp" />
+                android:textSize="@dimen/text_size_top_msg" />
 
 
             <TextView
@@ -86,38 +86,55 @@
                     android:textColor="@color/text_color_black"
                     android:textSize="@dimen/text_size_edt_label" />
 
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/sp_primary_market"
+                <RelativeLayout
+                    android:id="@+id/layoutSP"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
                     android:layout_below="@+id/txtViewPMLabel"
                     android:layout_marginBottom="4dp"
-                    android:layout_marginTop="4dp" />
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/border_selling_edttxt">
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/sp_primary_market"
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp" />
+                </RelativeLayout>
+
 
                 <TextView
                     android:id="@+id/txtViewSMLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/sp_primary_market"
+                    android:layout_below="@+id/layoutSP"
                     android:layout_marginTop="10dp"
                     android:text="@string/secondary_market_lbl"
                     android:textColor="@color/text_color_black"
                     android:textSize="@dimen/text_size_edt_label" />
 
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/sp_secondary_market"
+                <RelativeLayout
+                    android:id="@+id/layoutPM"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/txtViewSMLabel"
                     android:layout_marginBottom="4dp"
-                    android:layout_marginTop="4dp" />
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/border_selling_edttxt">
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/sp_secondary_market"
+                        android:layout_width="match_parent"
+                        android:layout_height="34dp"
+                        android:layout_alignParentStart="true" />
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/txtViewMPLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/sp_secondary_market"
+                    android:layout_below="@+id/layoutPM"
                     android:layout_marginTop="10dp"
                     android:text="@string/minimum_payment_lbl"
                     android:textColor="@color/text_color_black"

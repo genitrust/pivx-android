@@ -17,6 +17,7 @@ import pivx.org.pivxwallet.R;
 import pivx.org.pivxwallet.wallofcoins.response.CheckAuthResp;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseActivity;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseFragment;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.add_listing.AddressListingFragment;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.RetrofitErrorUtil;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingAPIClient;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.contact_details.ContactDetailsFragment;
@@ -110,7 +111,10 @@ public class SellingHomeFragment extends SellingBaseFragment implements View.OnC
                 ((SellingBaseActivity) mContext).replaceFragment(new PhoneListFragment(),
                         true, true);
                 break;
-
+            case R.id.btn_list:
+                ((SellingBaseActivity) mContext).replaceFragment(new AddressListingFragment(),
+                        true, true);
+                break;
             case R.id.btn_sign_out_woc:
                 deleteAuthCall();
                 break;

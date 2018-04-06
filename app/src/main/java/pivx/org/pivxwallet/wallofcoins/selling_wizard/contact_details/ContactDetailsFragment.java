@@ -27,6 +27,7 @@ import pivx.org.pivxwallet.wallofcoins.response.CountryData;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseActivity;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseFragment;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.adapters.CountryAdapter;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.RetrofitErrorUtil;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingAPIClient;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingApiConstants;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.cash_deposit.CashDepositFragment;
@@ -74,7 +75,6 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
             setTopbar();
             addCountryCodeList();
             handleArgs();
-
 
             return rootView;
         } else
@@ -145,6 +145,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
     private void handleArgs() {
         if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, ""))) {
             layoutPass.setVisibility(View.GONE);
+            sp_country.setVisibility(View.GONE);
             isLoggedIn = true;
             edtViewMobile.setEnabled(false);
             sp_country.setEnabled(false);
@@ -214,10 +215,15 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
                         @Override
                         public void onResponse(Call<SignUpResponseVo> call, Response<SignUpResponseVo> response) {
                             progressBar.setVisibility(View.GONE);
-                            if (response.body() != null) {
+                            if (response.body() != null && response.code() == 200 ||
+                                    response.body() != null && response.code() == 201) {
                                 SignUpResponseVo signUpVo = response.body();
                                 PhoneUtil.addPhone(signUpVo.getPhone(), "");
                                 ((SellingBaseActivity) mContext).popBackDirect();
+                            } else {
+                                String error = RetrofitErrorUtil.parseError(response);
+                                if (error != null && !error.isEmpty())
+                                    showToast(error);
                             }
                         }
 
@@ -232,34 +238,11 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
 
     }
 
-    /*private void sendVerification() {
-        if (NetworkUtil.isOnline(mContext)) {
-            HashMap<String, String> hashMap = new HashMap<String, String>();
-            hashMap.put(SellingApiConstants.KEY_PHONE, "");
-            hashMap.put(SellingApiConstants.AD_ID, "");
-
-            SellingAPIClient.createService(interceptor, mContext)
-                    .sendVerificationCode(hashMap)
-                    .enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            progressBar.setVisibility(View.GONE);
-                            if (response.body() != null) {
-                                *//*((SellingBaseActivity) mContext).replaceFragment(new ContactDetailsFragment(), true,
-                                        true);*//*
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            progressBar.setVisibility(View.GONE);
-                            showToast(t.getMessage());
-                        }
-                    });
-        } else
-            showToast(mContext.getString(R.string.network_not_avaialable));
-
-    }*/
+    @Override
+    public void onResume() {
+        super.onResume();
+        setTopbar();
+    }
 
     @Override
     public void onClick(View view) {
@@ -291,6 +274,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
         AddressVo detailsVo = new AddressVo();
         detailsVo.setEmail(edtViewEmail.getText().toString().trim());
         detailsVo.setPhone(edtViewMobile.getText().toString().trim());
+        detailsVo.setPhoneCode(country_code);
 
         return detailsVo;
     }

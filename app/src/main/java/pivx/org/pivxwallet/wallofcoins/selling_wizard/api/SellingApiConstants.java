@@ -31,9 +31,20 @@ public class SellingApiConstants {
     public static final String KEY_DEVICE_NAME = "name";
     public static final String KEY_CODE = "code";
     public static final String KEY_USER_ENABLED = "userEnabled";
-
-
-
+    public static final String KEY_PHONE_CODE = "phoneCode";
+    public static final String KEY_BANK_BUSINESS = "bankBusiness";
+    public static final String KEY_DYNAMIC_PRICE = "dynamicPrice";
+    public static final String KEY_USER_PAY_FIELDS = "usePayFields";
+    public static final String KEY_PRIMARY_MARKETS = "primaryMarket";
+    public static final String KEY_SECONDARY_MARKETS = "secondaryMarket";
+    public static final String KEY_MIN_PAYMETS = "minPayment";
+    public static final String KEY_MAX_PAYMETS = "maxPayment";
+    public static final String KEY_SELLER_FEE = "sellerFee";
+    public static final String KEY_CURRENT_PRICE = "currentPrice";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_NUMBER = "number";
+    public static final String KEY_NUMBER2 = "number2";
+    public static final String KEY_SELL_CRYPTO = "sellCrypto";
 
 
 

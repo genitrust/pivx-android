@@ -39,8 +39,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
                     android:gravity="center_horizontal"
-                    android:textColor="@color/text_color_black"
                     android:text="@string/do_you_already_have_an_order"
+                    android:textColor="@color/text_color_black"
                     android:textSize="16sp" />
 
                 <Button
@@ -103,7 +103,6 @@
                     style="@style/styleBtn"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_margin="4dp"
                     android:layout_marginBottom="@dimen/dimen_8dp"
                     android:text="@string/action_order_history"
                     android:textAllCaps="true"

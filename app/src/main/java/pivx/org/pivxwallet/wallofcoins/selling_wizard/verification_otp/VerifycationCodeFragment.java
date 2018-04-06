@@ -127,7 +127,6 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
 
         } else
             showToast(mContext.getString(R.string.network_not_avaialable));
-
     }
 
     /**

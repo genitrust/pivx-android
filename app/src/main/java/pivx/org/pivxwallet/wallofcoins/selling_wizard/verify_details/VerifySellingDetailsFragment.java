@@ -111,9 +111,65 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
 
     private void createAddress() {
         if (NetworkUtil.isOnline(mContext)) {
+/**
+ * {
+ "phone": "9417972681",
+ "email": "demo@geni.to",
+ "phoneCode": "1",
+ "bankBusiness": "2",
+ "sellCrypto": "DASH",
+ "userEnabled": true,
+ "dynamicPrice": true,
+ "primaryMarket": "5",
+ "secondaryMarket": "4",
+ "minPayment": "10",
+ "maxPayment": "1000",
+ "sellerFee": "111",
+ "currentPrice": "11",
+ "name": "a",
+ "number": "1",
+ "number2": "1"
+ }
+
+ number=123&dynamicPrice=true&
+ number2=123&primaryMarket=5&
+ bankBusiness=null&
+ email=abc%40gmail.com&phone=%2B123977765&
+ minPayment=10&phoneCode=1&sellCrypto=DASH&
+ maxPayment=11&name=abc&sellerFee=12&secondaryMarket=4&currentPrice=10&userEnabled=true
+
+
+
+ */
+            HashMap<String, Object> hashMap = new HashMap<String, Object>();
+            hashMap.put(SellingApiConstants.KEY_PHONE, "2397776543");
+            hashMap.put(SellingApiConstants.KEY_EMAIL, addressVo.getEmail());
+            hashMap.put(SellingApiConstants.KEY_PHONE_CODE, "1");
+            hashMap.put(SellingApiConstants.KEY_BANK_BUSINESS, "" + addressVo.getBankBusiness());//bank id
+            hashMap.put(SellingApiConstants.KEY_SELL_CRYPTO, "DASH");
+            hashMap.put(SellingApiConstants.KEY_USER_ENABLED, "true");
+            hashMap.put(SellingApiConstants.KEY_DYNAMIC_PRICE, "" + addressVo.getDynamicPrice());
+            //hashMap.put(SellingApiConstants.KEY_USER_PAY_FIELDS, "" + (receivingOptionsResp.payFields.payFieldsB == null));
+
+            if (addressVo.getDynamicPrice()) {
+
+                hashMap.put(SellingApiConstants.KEY_PRIMARY_MARKETS, addressVo.getPrimaryMarket());
+                hashMap.put(SellingApiConstants.KEY_SECONDARY_MARKETS, addressVo.getSecondaryMarket());
+
+                hashMap.put(SellingApiConstants.KEY_MIN_PAYMETS, addressVo.getMinPayment());
+                hashMap.put(SellingApiConstants.KEY_MAX_PAYMETS, addressVo.getMaxPayment());
+                hashMap.put(SellingApiConstants.KEY_SELLER_FEE, addressVo.getSellerFee());
+            }
+
+            hashMap.put(SellingApiConstants.KEY_CURRENT_PRICE, addressVo.getCurrentPrice());
+
+            hashMap.put(SellingApiConstants.KEY_NAME, addressVo.getName());//acc holder name
+            hashMap.put(SellingApiConstants.KEY_NUMBER, addressVo.getNumber());//acc number
+            hashMap.put(SellingApiConstants.KEY_NUMBER2, addressVo.getNumber2());//acc confirm number
+
 
             progressBar.setVisibility(View.VISIBLE);
-            SellingAPIClient.createService(interceptor, mContext).createAddress(addressVo).
+            SellingAPIClient.createService(interceptor, mContext).createAddress(hashMap).
                     enqueue(new Callback<AddressVo>() {
                         @Override
                         public void onResponse(Call<AddressVo> call, Response<AddressVo> response) {

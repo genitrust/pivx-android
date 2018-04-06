@@ -61,7 +61,6 @@
                     android:background="@null"
                     android:hint="@string/mobile_include_area_code"
                     android:inputType="number"
-                    android:maxLength="10"
                     android:singleLine="true"
                     android:textColor="@color/edt_text_color" />
             </RelativeLayout>

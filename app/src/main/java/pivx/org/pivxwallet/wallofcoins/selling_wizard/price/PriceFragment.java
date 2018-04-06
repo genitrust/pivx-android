@@ -203,7 +203,7 @@ public class PriceFragment extends SellingBaseFragment implements View.OnClickLi
 
     private void getMarkes() {
         if (NetworkUtil.isOnline(mContext)) {
-            SellingAPIClient.createService(mContext).getMarkets("PIVX", "USD").enqueue(new Callback<ArrayList<MarketsVo>>() {
+            SellingAPIClient.createService(mContext).getMarkets("DASH", "USD").enqueue(new Callback<ArrayList<MarketsVo>>() {
                 @Override
                 public void onResponse(Call<ArrayList<MarketsVo>> call, Response<ArrayList<MarketsVo>> response) {
 
