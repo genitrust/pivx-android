@@ -72,9 +72,7 @@
     <color name="instruct_text_color">#737373</color>
     <color name="edt_text_color">#737373</color>
     <color name="colorPrimaryDarkAlpha">#cc45385a</color>
-
-
-
+    <color name="color_blue_light">#4590ca</color>
 
 
 </resources>

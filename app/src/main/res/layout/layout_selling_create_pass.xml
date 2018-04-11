@@ -31,7 +31,7 @@
         android:layout_below="@+id/txtViewMobileLabel"
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
-        android:inputType="text" />
+        android:inputType="number" />
 
 
     <TextView
@@ -53,7 +53,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
         android:hint="@string/new_password"
-        android:inputType="number" />
+        android:inputType="textPassword" />
 
     <TextView
         android:id="@+id/txtViewConfirmPassLabel"
@@ -74,7 +74,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
         android:hint="@string/confirm_new_password"
-        android:inputType="number" />
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btnSetPass"

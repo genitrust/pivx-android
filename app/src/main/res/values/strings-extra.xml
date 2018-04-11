@@ -194,7 +194,7 @@
 
 
     <!-- Selling wizard-->
-    <string name="title_selling">Sell Your PIVX</string>
+    <string name="title_selling">Sell Your PIV</string>
     <string name="title_price">Price</string>
     <string name="title_verify_selling_details">Verify Selling Details</string>
     <string name="title_contact_details">Contact Details</string>
@@ -221,7 +221,7 @@
     <string name="please_enter_conf_acc_no">Please enter confirm account number.</string>
     <string name="acc_not_matched"><![CDATA[Account & confirm account don\'t matched.]]></string>
     <string name="price_per_coin">Price Per Coin</string>
-    <string name="how_much_do_you_want_per_pivx">How much do you want per PIVX?</string>
+    <string name="how_much_do_you_want_per_pivx">How much do you want per PIV?</string>
     <string name="dollar_sign">$</string>
     <string name="enter_mo_no">Please enter mobile no.</string>
     <string name="enter_country_code">Please select country code</string>
@@ -255,4 +255,24 @@
     <string name="pass_not_matched">Password dont matched</string>
     <string name="enter_new_pass">Please enter new password.</string>
     <string name="enter_confirm_pass">Please enter confirm password.</string>
+    <string name="you_will_receive_an_sms_text_message_with_every_deposit">You will receive an SMS text message with every deposit.</string>
+    <string name="send_piv_to">Send PIV to</string>
+    <string name="none_available">(None Available)</string>
+    <string name="publicly_audit_transactions">Publicly Audit Transactions</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="account_number">Account Number</string>
+    <string name="piv_available">PIV Available</string>
+    <string name="your_current_rate">Your Current Rate</string>
+    <string name="edit_your_current_rate">Edit Your Current Rate</string>
+    <string name="advanced_options">Advanced options</string>
+    <string name="sms_verification_notice">SMS Verification Notice:</string>
+    <string name="notice">The quicker you respond to our texts, the better your seller rating! Double check that you are responding with the proper status code.</string>
+    <string name="transaction_notice">Transaction Notice:</string>
+    <string name="notice1">Send the amount of PIVX you would like to sell to the Wall of Coins peer-to-peer market.\n
+Coins are available to the public shortly after network confirmation.\n
+
+Should you need to cancel this request, Wall of Coins staff will need to do this manually on your behalf.</string>
+    <string name="notice2">Coins are available to the public shortly after network confirmation.</string>
+    <string name="notice4">Contact our support at 866-841-COIN (866-841-2646).</string>
+    <string name="instructions_to_sell_pivx">Instructions to sell PIVX</string>
 </resources>
