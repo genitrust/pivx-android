@@ -275,4 +275,9 @@ Should you need to cancel this request, Wall of Coins staff will need to do this
     <string name="notice2">Coins are available to the public shortly after network confirmation.</string>
     <string name="notice4">Contact our support at 866-841-COIN (866-841-2646).</string>
     <string name="instructions_to_sell_pivx">Instructions to sell PIVX</string>
+    <string name="action_edit">Edit</string>
+    <string name="minimum_deposit_payment_amount_for_buyers">Minimum deposit payment amount for buyers.</string>
+    <string name="maximum_deposit_payment_amount">Maximum deposit payment amount.</string>
+    <string name="offer_these_coins_to_buyers">Offer these coins to buyers?</string>
+    <string name="title_advanced_options">Advanced Options</string>
 </resources>

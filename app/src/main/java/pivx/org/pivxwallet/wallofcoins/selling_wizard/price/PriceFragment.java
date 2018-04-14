@@ -184,6 +184,7 @@ public class PriceFragment extends SellingBaseFragment implements View.OnClickLi
             secMarketPos = sp_secondary_market.getSelectedItemPosition();
             addressVo.setPrimaryMarket(marketsVoArrayList.get(priMarketPos - 1).getId());
             addressVo.setSecondaryMarket(marketsVoArrayList.get(secMarketPos - 1).getId());
+
             addressVo.setSellerFee(edtViewSellerPrice.getText().toString().trim());
             addressVo.setMinPayment(edtViewMinPayment.getText().toString().trim());
             addressVo.setMaxPayment(edtViewMaxPayment.getText().toString().trim());
