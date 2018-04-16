@@ -43,7 +43,7 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
     private View rootView;
     private Button btnContinue;
     private EditText edtViewHolderName, edtViewAcc, edtViewConfirmAcc;
-    private final String TAG = "ContactDetailsFragment";
+    private final String TAG = "CashDepositFragment";
     private AppCompatSpinner sp_banks;
     private ProgressBar progressBar;
     private String bankId = "";

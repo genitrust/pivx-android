@@ -10,7 +10,7 @@ public class SellingApiConstants {
     public final static String CREATE_AUTH = "api/v1/auth/";
     public final static String GET_AUTH = "api/v1/auth/";
     public final static String MARKETS = "api/v1/markets/";
-    public final static String CREATE_ADDRESS = "api/v1/adcreate/";
+    public final static String CREATE_ADDRESS = "api/adcreate/";
     public final static String SEND_VERIFICATION = "api/v1/sendVerification/";
 
 

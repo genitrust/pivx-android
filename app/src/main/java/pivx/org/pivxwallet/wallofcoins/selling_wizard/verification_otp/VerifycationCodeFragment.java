@@ -16,10 +16,10 @@ import java.util.HashMap;
 import pivx.org.pivxwallet.R;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.BuyDashBaseActivity;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.BuyDashBaseFragment;
-import pivx.org.pivxwallet.wallofcoins.buyingwizard.buy_dash_location.BuyDashLocationFragment;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.utils.FragmentUtils;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingAPIClient;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingApiConstants;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.instruction.InstructionFragment;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.VerifyAdResp;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.utils.SellingConstants;
 import pivx.org.pivxwallet.wallofcoins.utils.NetworkUtil;
@@ -111,7 +111,7 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
                     if (null != response && null != response.body()) {
 
                         if (null != response.body().fundingAddress) {
-
+                            navigateToLocation();
 
                         } else {
                             showToast(getString(R.string.try_again));
@@ -135,8 +135,8 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
      * @param
      */
     private void navigateToLocation() {
-        BuyDashLocationFragment locationFragment = new BuyDashLocationFragment();
-        ((BuyDashBaseActivity) mContext).replaceFragment(locationFragment, true, true);
+        InstructionFragment instructionFragment = new InstructionFragment();
+        ((BuyDashBaseActivity) mContext).replaceFragment(instructionFragment, true, true);
     }
 
 
