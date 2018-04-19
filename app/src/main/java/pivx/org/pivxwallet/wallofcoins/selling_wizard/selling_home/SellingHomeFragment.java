@@ -119,12 +119,12 @@ public class SellingHomeFragment extends SellingBaseFragment implements View.OnC
                 deleteAuthCall();
                 break;
             case R.id.btnSellPiv:
-                if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, "")))
-                    ((SellingBaseActivity) mContext).replaceFragment(new ContactDetailsFragment(),
-                            true, true);
-                else
+                //if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, "")))
+                ((SellingBaseActivity) mContext).replaceFragment(new ContactDetailsFragment(),
+                        true, true);
+               /* else
                     showToast("Please Sign in first");
-                    break;
+                    break;*/
 
         }
     }

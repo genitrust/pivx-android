@@ -14,9 +14,9 @@ import android.widget.ProgressBar;
 import java.util.HashMap;
 
 import pivx.org.pivxwallet.R;
-import pivx.org.pivxwallet.wallofcoins.buyingwizard.BuyDashBaseActivity;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.BuyDashBaseFragment;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.utils.FragmentUtils;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseActivity;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingAPIClient;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingApiConstants;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.instruction.InstructionFragment;
@@ -86,10 +86,12 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
 
         switch (view.getId()) {
             case R.id.btnResendOtp:
+               showToast("Under Implementation");
                 // verifyOTP();
                 break;
             case R.id.btnVerifyAdd:
-                verifyAd();
+                navigateToLocation();
+                //verifyAd();
                 break;
         }
     }
@@ -136,7 +138,7 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
      */
     private void navigateToLocation() {
         InstructionFragment instructionFragment = new InstructionFragment();
-        ((BuyDashBaseActivity) mContext).replaceFragment(instructionFragment, true, true);
+        ((SellingBaseActivity) mContext).replaceFragment(instructionFragment, true, true);
     }
 
 

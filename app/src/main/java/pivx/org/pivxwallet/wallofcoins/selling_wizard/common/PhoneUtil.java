@@ -14,7 +14,7 @@ import pivx.org.pivxwallet.wallofcoins.selling_wizard.utils.ObjectSerializer;
 
 public class PhoneUtil {
 
-    private static final String CREDENTIALS_LIST = "credentials_list";
+    private static final String CREDENTIALS_LIST = "selling_credentials_list";
 
     public static void addPhone(String phone, String deviceId) {
         ArrayList<PhoneListVO> voArrayList;
@@ -22,7 +22,7 @@ public class PhoneUtil {
         try {
             voArrayList = (ArrayList<PhoneListVO>) ObjectSerializer.deserialize(
                     SharedPreferenceUtil.getString(CREDENTIALS_LIST,
-                    ObjectSerializer.serialize(new ArrayList())));
+                            ObjectSerializer.serialize(new ArrayList())));
             PhoneListVO createHoldResp = new PhoneListVO();
             createHoldResp.setDeviceId(deviceId);
             createHoldResp.setPhoneNumber(phone);
@@ -43,13 +43,14 @@ public class PhoneUtil {
             e.printStackTrace();
         }
     }
+
     public static ArrayList<PhoneListVO> getStoredPhoneList() {
         ArrayList<PhoneListVO> voArrayList = new ArrayList<>();
 
         try {
             voArrayList = (ArrayList) ObjectSerializer.deserialize(
                     SharedPreferenceUtil.getString(CREDENTIALS_LIST,
-                    ObjectSerializer.serialize(new ArrayList())));
+                            ObjectSerializer.serialize(new ArrayList())));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,10 +64,10 @@ public class PhoneUtil {
         try {
             voArrayList = (ArrayList<PhoneListVO>) ObjectSerializer.
                     deserialize(SharedPreferenceUtil.getString(CREDENTIALS_LIST,
-                    ObjectSerializer.serialize(new ArrayList())));
+                            ObjectSerializer.serialize(new ArrayList())));
 
             for (PhoneListVO vo : voArrayList) {
-                Log.e("Stored phone",vo.getPhoneNumber()+"---"+"Stored deviceId"+vo.getDeviceId());
+                Log.e("Stored phone", vo.getPhoneNumber() + "---" + "Stored deviceId" + vo.getDeviceId());
                 if (vo.getPhoneNumber().equalsIgnoreCase(phone)) {
                     deviceId = vo.getDeviceId();
                     break;

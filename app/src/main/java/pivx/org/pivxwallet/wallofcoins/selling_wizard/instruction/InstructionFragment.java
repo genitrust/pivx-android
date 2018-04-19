@@ -93,6 +93,7 @@ public class InstructionFragment extends SellingBaseFragment implements View.OnC
                 break;
 
             case R.id.txtViewSave:
+                edtViewCurrRate.setEnabled(false);
                 layoutCancel.setVisibility(View.GONE);
                 txtViewEditCurrRate.setVisibility(View.VISIBLE);
                 break;
@@ -116,6 +117,23 @@ public class InstructionFragment extends SellingBaseFragment implements View.OnC
         EditText edtViewMinPayment, edtViewMaxPayment;
         edtViewMinPayment = (EditText) dialog.findViewById(R.id.edtViewMinPayment);
         edtViewMaxPayment = (EditText) dialog.findViewById(R.id.edtViewMaxPayment);
+
+        Button btnCancle, btnSave;
+
+        btnCancle = (Button) dialog.findViewById(R.id.btnCancle);
+        btnSave = (Button) dialog.findViewById(R.id.btnSave);
+        btnCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 

@@ -104,7 +104,8 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
 
         switch (view.getId()) {
             case R.id.btnContinue:
-                createAddress();
+                // createAddress();
+                navigateToCodeScreen("52015");
                 break;
         }
     }
