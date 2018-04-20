@@ -260,10 +260,13 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
 
 
                             if (!TextUtils.isEmpty(response.body().getToken())) {
+
                                 SharedPreferenceUtil.putValue(SellingConstants.TOKEN_ID, response.body().getToken());
                                 SharedPreferenceUtil.putValue(SellingConstants.LOGGED_IN_PHONE, selectedPhone);
-                            }
 
+                            }
+                            if (response.body().getEmail() != null)
+                                SharedPreferenceUtil.putValue(SellingConstants.LOGGED_IN_EMAIL, response.body().getEmail());
                             if (!TextUtils.isEmpty(password) &&
                                     TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.DEVICE_ID, ""))) {
                                 getDevice();

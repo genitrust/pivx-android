@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,7 +151,10 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
             edtViewMobile.setEnabled(false);
             sp_country.setEnabled(false);
             edtViewMobile.setText(SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_PHONE, ""));
-            edtViewEmail.setText(SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_EMAIL, ""));
+            String email=SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_EMAIL, "");
+            edtViewEmail.setText(email);
+            Log.e("Email------",email);
+
         }
     }
 

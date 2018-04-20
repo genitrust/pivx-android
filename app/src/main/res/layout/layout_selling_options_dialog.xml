@@ -42,7 +42,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
         android:inputType="numberDecimal"
-        android:text="0" />
+        android:hint="0" />
 
 
     <TextView
@@ -64,7 +64,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
         android:inputType="numberDecimal"
-        android:text="0" />
+        android:hint="0" />
 
     <LinearLayout
         android:id="@+id/layoutCancel"
@@ -80,7 +80,7 @@
             android:layout_height="40dp"
             android:layout_marginEnd="4dp"
             android:background="@drawable/border_selling_edttxt"
-            android:text="Cancle"
+            android:text="@string/action_cancle"
             android:textColor="@color/bgBlackX"
             android:visibility="visible" />
 
@@ -91,7 +91,7 @@
             android:layout_marginStart="4dp"
             android:background="@drawable/selector_edit_btn"
             android:padding="6dp"
-            android:text="Save"
+            android:text="@string/action_save"
             android:textColor="@color/textColorWhite"
             android:visibility="visible" />
 
