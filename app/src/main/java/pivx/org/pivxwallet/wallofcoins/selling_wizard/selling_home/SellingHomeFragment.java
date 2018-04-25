@@ -38,7 +38,7 @@ public class SellingHomeFragment extends SellingBaseFragment implements View.OnC
 
 
     private View rootView;
-    private Button btnSignHere, btn_list, btn_sign_out_woc, btnSellPiv;
+    private Button button_sign_here, button_list, button_sign_out_woc, button_sell_piv;
     private final String TAG = "SellingHomeFragment";
     private LinearLayout layout_sign_out, layout_sign_in;
     private TextView text_message_sign_out;
@@ -64,22 +64,22 @@ public class SellingHomeFragment extends SellingBaseFragment implements View.OnC
     }
 
     private void init() {
-        btnSignHere = (Button) rootView.findViewById(R.id.btnSignHere);
-        btn_list = (Button) rootView.findViewById(R.id.btn_list);
-        btn_sign_out_woc = (Button) rootView.findViewById(R.id.btn_sign_out_woc);
+        button_sign_here = (Button) rootView.findViewById(R.id.button_sign_here);
+        button_list = (Button) rootView.findViewById(R.id.button_list);
+        button_sign_out_woc = (Button) rootView.findViewById(R.id.button_sign_out_woc);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         text_message_sign_out = (TextView) rootView.findViewById(R.id.text_message_sign_out);
 
         layout_sign_out = (LinearLayout) rootView.findViewById(R.id.layout_sign_out);
         layout_sign_in = (LinearLayout) rootView.findViewById(R.id.layout_sign_in);
-        btnSellPiv = (Button) rootView.findViewById(R.id.btnSellPiv);
+        button_sell_piv = (Button) rootView.findViewById(R.id.button_sell_piv);
     }
 
     private void setListeners() {
-        btnSignHere.setOnClickListener(this);
-        btn_list.setOnClickListener(this);
-        btn_sign_out_woc.setOnClickListener(this);
-        btnSellPiv.setOnClickListener(this);
+        button_sign_here.setOnClickListener(this);
+        button_list.setOnClickListener(this);
+        button_sign_out_woc.setOnClickListener(this);
+        button_sell_piv.setOnClickListener(this);
     }
 
     private void setTopbar() {
@@ -107,18 +107,18 @@ public class SellingHomeFragment extends SellingBaseFragment implements View.OnC
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.btnSignHere:
+            case R.id.button_sign_here:
                 ((SellingBaseActivity) mContext).replaceFragment(new PhoneListFragment(),
                         true, true);
                 break;
-            case R.id.btn_list:
+            case R.id.button_list:
                 ((SellingBaseActivity) mContext).replaceFragment(new AddressListingFragment(),
                         true, true);
                 break;
-            case R.id.btn_sign_out_woc:
+            case R.id.button_sign_out_woc:
                 deleteAuthCall();
                 break;
-            case R.id.btnSellPiv:
+            case R.id.button_sell_piv:
                 //if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, "")))
                 ((SellingBaseActivity) mContext).replaceFragment(new ContactDetailsFragment(),
                         true, true);

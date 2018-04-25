@@ -50,14 +50,14 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
 
 
     private View rootView;
-    private Button btnContinue;
-    private EditText edtViewMobile, edtViewEmail, edtViewConfirmEmail, edtViewPass;
+    private Button button_continue;
+    private EditText edit_mobile, edit_email, edit_confirm_email, edit_password;
     private final String TAG = "ContactDetailsFragment";
     private CountryData countryData;
-    private Spinner sp_country;
+    private Spinner spinner_country;
     private ProgressBar progressBar;
     private String country_code = "";
-    private RelativeLayout layoutPass;
+    private RelativeLayout layout_password;
     private boolean isLoggedIn;
 
     @Override
@@ -85,19 +85,19 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
 
     private void init() {
 
-        edtViewMobile = (EditText) rootView.findViewById(R.id.edtViewMobile);
-        edtViewEmail = (EditText) rootView.findViewById(R.id.edtViewEmail);
-        edtViewConfirmEmail = (EditText) rootView.findViewById(R.id.edtViewConfirmEmail);
-        edtViewPass = (EditText) rootView.findViewById(R.id.edtViewPass);
-        sp_country = (Spinner) rootView.findViewById(R.id.sp_country);
-        btnContinue = (Button) rootView.findViewById(R.id.btnContinue);
+        edit_mobile = (EditText) rootView.findViewById(R.id.edit_mobile);
+        edit_email = (EditText) rootView.findViewById(R.id.edit_email);
+        edit_confirm_email = (EditText) rootView.findViewById(R.id.edit_confirm_email);
+        edit_password = (EditText) rootView.findViewById(R.id.edit_password);
+        spinner_country = (Spinner) rootView.findViewById(R.id.spinner_country);
+        button_continue = (Button) rootView.findViewById(R.id.button_continue);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-        layoutPass = (RelativeLayout) rootView.findViewById(R.id.layoutPass);
+        layout_password = (RelativeLayout) rootView.findViewById(R.id.layout_password);
     }
 
     private void setListeners() {
-        btnContinue.setOnClickListener(this);
-        sp_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        button_continue.setOnClickListener(this);
+        spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 country_code = countryData.countries.get(i).code;
@@ -140,19 +140,19 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
         }
         CountryAdapter customAdapter = new CountryAdapter(getActivity(), R.layout.spinner_row_country, countryData.countries);
         customAdapter.setDropDownViewResource(R.layout.spinner_row_country);
-        sp_country.setAdapter(customAdapter);
+        spinner_country.setAdapter(customAdapter);
     }
 
     private void handleArgs() {
         if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, ""))) {
-            layoutPass.setVisibility(View.GONE);
-            sp_country.setVisibility(View.GONE);
+            layout_password.setVisibility(View.GONE);
+            spinner_country.setVisibility(View.GONE);
             isLoggedIn = true;
-            edtViewMobile.setEnabled(false);
-            sp_country.setEnabled(false);
-            edtViewMobile.setText(SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_PHONE, ""));
+            edit_mobile.setEnabled(false);
+            spinner_country.setEnabled(false);
+            edit_mobile.setText(SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_PHONE, ""));
             String email=SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_EMAIL, "");
-            edtViewEmail.setText(email);
+            edit_email.setText(email);
             Log.e("Email------",email);
 
         }
@@ -160,7 +160,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
 
     private boolean checkDetails() {
         String email;
-        email = edtViewEmail.getText().toString().trim();
+        email = edit_email.getText().toString().trim();
 
         if (email.isEmpty()) {
             showToast(getString(R.string.enter_email));
@@ -174,10 +174,10 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
 
     private boolean isValidDetails() {
         String email, confirmEmail;
-        email = edtViewEmail.getText().toString().trim();
-        confirmEmail = edtViewConfirmEmail.getText().toString().trim();
+        email = edit_email.getText().toString().trim();
+        confirmEmail = edit_confirm_email.getText().toString().trim();
 
-        if (edtViewMobile.getText().toString().trim().isEmpty()) {
+        if (edit_mobile.getText().toString().trim().isEmpty()) {
             showToast(getString(R.string.enter_mo_no));
             return false;
         } else if (country_code.isEmpty()) {
@@ -198,7 +198,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
         } else if (!email.equalsIgnoreCase(confirmEmail)) {
             showToast(getString(R.string.email_not_matched));
             return false;
-        } else if (edtViewPass.getText().toString().trim().isEmpty()) {
+        } else if (edit_password.getText().toString().trim().isEmpty()) {
             showToast(getString(R.string.enter_pass));
             return false;
         }
@@ -209,9 +209,9 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
         if (NetworkUtil.isOnline(mContext)) {
             progressBar.setVisibility(View.VISIBLE);
             HashMap<String, String> signUpHashMap = new HashMap<String, String>();
-            signUpHashMap.put(SellingApiConstants.KEY_PHONE, country_code + edtViewMobile.getText().toString().trim());
-            signUpHashMap.put(SellingApiConstants.KEY_EMAIL, edtViewEmail.getText().toString().trim());
-            signUpHashMap.put(SellingApiConstants.KEY_PASSWORD, edtViewPass.getText().toString().trim());
+            signUpHashMap.put(SellingApiConstants.KEY_PHONE, country_code + edit_mobile.getText().toString().trim());
+            signUpHashMap.put(SellingApiConstants.KEY_EMAIL, edit_email.getText().toString().trim());
+            signUpHashMap.put(SellingApiConstants.KEY_PASSWORD, edit_password.getText().toString().trim());
 
             SellingAPIClient.createService(interceptor, mContext)
                     .signUp(signUpHashMap)
@@ -252,7 +252,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.btnContinue:
+            case R.id.button_continue:
 
                 if (isLoggedIn) {
                     if (checkDetails()) {
@@ -276,8 +276,8 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
     //if user is logged in
     private AddressVo getSellingDetails() {
         AddressVo detailsVo = new AddressVo();
-        detailsVo.setEmail(edtViewEmail.getText().toString().trim());
-        detailsVo.setPhone(edtViewMobile.getText().toString().trim());
+        detailsVo.setEmail(edit_email.getText().toString().trim());
+        detailsVo.setPhone(edit_mobile.getText().toString().trim());
         detailsVo.setPhoneCode(country_code);
 
         return detailsVo;

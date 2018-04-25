@@ -24,9 +24,9 @@ import pivx.org.pivxwallet.wallofcoins.selling_wizard.verify_details.VerifySelli
 public class AdvanceOptionsFragment extends SellingBaseFragment implements View.OnClickListener {
 
     private View rootView;
-    private CheckBox chkBox;
-    private Button btnCancle, btnSave;
-    EditText edtViewMinPayment, edtViewMaxPayment;
+    private CheckBox checkbox;
+    private Button button_cancle, button_save;
+    private EditText edit_min_payment, edit_max_payment;
     private AddressVo addressVo;
 
     @Override
@@ -51,18 +51,18 @@ public class AdvanceOptionsFragment extends SellingBaseFragment implements View.
 
     private void init() {
 
-        edtViewMinPayment = (EditText) rootView.findViewById(R.id.edtViewMinPayment);
-        edtViewMaxPayment = (EditText) rootView.findViewById(R.id.edtViewMaxPayment);
-        btnCancle = (Button) rootView.findViewById(R.id.btnCancle);
-        btnSave = (Button) rootView.findViewById(R.id.btnSave);
-        chkBox = (CheckBox) rootView.findViewById(R.id.chkBox);
+        edit_min_payment = (EditText) rootView.findViewById(R.id.edit_min_payment);
+        edit_max_payment = (EditText) rootView.findViewById(R.id.edit_max_payment);
+        button_cancle = (Button) rootView.findViewById(R.id.button_cancle);
+        button_save = (Button) rootView.findViewById(R.id.button_save);
+        checkbox = (CheckBox) rootView.findViewById(R.id.checkbox);
 
-        btnSave.setText(getString(R.string.action_continue));
+        button_save.setText(getString(R.string.action_continue));
     }
 
     private void setListeners() {
-        btnCancle.setOnClickListener(this);
-        btnSave.setOnClickListener(this);
+        button_cancle.setOnClickListener(this);
+        button_save.setOnClickListener(this);
     }
 
     private void setTopbar() {
@@ -82,7 +82,7 @@ public class AdvanceOptionsFragment extends SellingBaseFragment implements View.
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.btnSave:
+            case R.id.button_save:
                 if (isValidDetails()) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(SellingConstants.ADDRESS_DETAILS_VO, getSellingDetails());
@@ -92,7 +92,7 @@ public class AdvanceOptionsFragment extends SellingBaseFragment implements View.
                     ((SellingBaseActivity) mContext).replaceFragment(fragment, true, true);
                 }
                 break;
-            case R.id.btnCancle:
+            case R.id.button_cancle:
                 showToast("Under Implementation");
                 break;
 
@@ -108,15 +108,15 @@ public class AdvanceOptionsFragment extends SellingBaseFragment implements View.
 
     private boolean isValidDetails() {
 
-        if (edtViewMinPayment.getText().toString().isEmpty()) {
+        if (edit_min_payment.getText().toString().isEmpty()) {
             showToast(getString(R.string.enter_min_payment));
-            edtViewMinPayment.requestFocus();
+            edit_min_payment.requestFocus();
             return false;
-        } else if (edtViewMaxPayment.getText().toString().isEmpty()) {
+        } else if (edit_max_payment.getText().toString().isEmpty()) {
             showToast(getString(R.string.enter_max_payment));
-            edtViewMinPayment.requestFocus();
+            edit_max_payment.requestFocus();
             return false;
-        } else if (!chkBox.isChecked()) {
+        } else if (!checkbox.isChecked()) {
             return false;
         }
         return true;

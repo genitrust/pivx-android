@@ -35,7 +35,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
 
     @Override
     public void onBindViewHolder(VHListing holder, int position) {
-        holder.txtViewCurrentPrice.setText(body.get(position).getCurrentPrice());
+        holder.text_current_price.setText(body.get(position).getCurrentPrice());
     }
 
     @Override
@@ -44,11 +44,11 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
     }
 
     class VHListing extends RecyclerView.ViewHolder {
-        private TextView txtViewCurrentPrice;
+        private TextView text_current_price;
 
         private VHListing(View view) {
             super(view);
-            this.txtViewCurrentPrice = (TextView) view.findViewById(R.id.txtViewCurrentPrice);
+            this.text_current_price = (TextView) view.findViewById(R.id.txtViewCurrentPrice);
         }
     }
 }

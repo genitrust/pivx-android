@@ -37,12 +37,12 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
 
 
     private View rootView;
-    private Button btnVerifyAdd, btnResendOtp;
-    private EditText edtViewCode;
+    private Button button_verify_add, button_resend_otp;
+    private EditText edit_code;
     private final String TAG = "VerifycationOtpFragment";
     private String verificationCode = "", phone = "", addressId = "";
     private ProgressBar progressBar;
-    private TextView txtViewMsg;
+    private TextView text_msg;
 
     @Override
     public void onAttach(Context context) {
@@ -64,19 +64,19 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
     }
 
     private void init() {
-        btnVerifyAdd = (Button) rootView.findViewById(R.id.btnVerifyAdd);
-        btnResendOtp = (Button) rootView.findViewById(R.id.btnResendOtp);
-        edtViewCode = (EditText) rootView.findViewById(R.id.edtViewCode);
+        button_verify_add = (Button) rootView.findViewById(R.id.button_verify_add);
+        button_resend_otp = (Button) rootView.findViewById(R.id.button_resend_otp);
+        edit_code = (EditText) rootView.findViewById(R.id.edit_code);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-        txtViewMsg = (TextView) rootView.findViewById(R.id.txtViewMsg);
+        text_msg = (TextView) rootView.findViewById(R.id.txtViewMsg);
 
-        txtViewMsg.setText(getString(R.string.verification_code_msg,
+        text_msg.setText(getString(R.string.verification_code_msg,
                 SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_PHONE, "")));
     }
 
     private void setListeners() {
-        btnResendOtp.setOnClickListener(this);
-        btnVerifyAdd.setOnClickListener(this);
+        button_resend_otp.setOnClickListener(this);
+        button_verify_add.setOnClickListener(this);
     }
 
     private void handleArgs() {
@@ -84,7 +84,7 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
             verificationCode = getArguments().getString(SellingConstants.VERIFICATION_CODE);
             phone = getArguments().getString(SellingConstants.PHONE_NUMBER);
             addressId = getArguments().getString(SellingConstants.ADDRESS_ID);
-            edtViewCode.setText(verificationCode);
+            edit_code.setText(verificationCode);
         }
     }
 
@@ -92,11 +92,11 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.btnResendOtp:
+            case R.id.button_resend_otp:
                 showToast("Under Implementation");
                 // verifyOTP();
                 break;
-            case R.id.btnVerifyAdd:
+            case R.id.button_verify_add:
                 navigateToLocation();
                 //verifyAd();
                 break;

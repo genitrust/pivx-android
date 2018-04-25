@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/btnSellPiv"
+        android:id="@+id/button_sell_piv"
         style="@style/styleBtn"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -44,7 +44,7 @@
                     android:textSize="16sp" />
 
                 <Button
-                    android:id="@+id/btnSignHere"
+                    android:id="@+id/button_sign_here"
                     style="@style/styleBtn"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -86,7 +86,7 @@
                     android:textSize="16sp" />
 
                 <Button
-                    android:id="@+id/btn_sign_out_woc"
+                    android:id="@+id/button_sign_out_woc"
                     style="@style/styleBtn"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -99,7 +99,7 @@
                     android:visibility="visible" />
 
                 <Button
-                    android:id="@+id/btn_list"
+                    android:id="@+id/button_list"
                     style="@style/styleBtn"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"

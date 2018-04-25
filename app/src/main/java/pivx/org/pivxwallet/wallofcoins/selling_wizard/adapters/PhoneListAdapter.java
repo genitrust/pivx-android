@@ -42,9 +42,9 @@ public class PhoneListAdapter extends RecyclerView.Adapter<PhoneListAdapter.MyVi
     public void onBindViewHolder(PhoneListAdapter.MyViewHolder holder, final int position) {
         final PhoneListVO phoneListVO = phoneListVOS.get(holder.getAdapterPosition());
 
-        holder.btnPhone.setText(mContext.getString(R.string.sign_in2, phoneListVO.getPhoneNumber()));
+        holder.button_phone.setText(mContext.getString(R.string.sign_in2, phoneListVO.getPhoneNumber()));
 
-        holder.btnPhone.setOnClickListener(new View.OnClickListener() {
+        holder.button_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fragment.onItemClick(phoneListVO.getPhoneNumber());
@@ -59,11 +59,11 @@ public class PhoneListAdapter extends RecyclerView.Adapter<PhoneListAdapter.MyVi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private Button btnPhone;
+        private Button button_phone;
 
         private MyViewHolder(View view) {
             super(view);
-            this.btnPhone = (Button) view.findViewById(R.id.btnPhone);
+            this.button_phone = (Button) view.findViewById(R.id.button_phone);
         }
     }
 }

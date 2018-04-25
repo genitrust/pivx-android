@@ -166,4 +166,9 @@
         <item name="android:background">@drawable/selector_selling_btn</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="styleHeader">
+        <item name="android:textColor">@color/text_color_black</item>
+        <item name="android:textSize">@dimen/text_size_top_msg</item>
+    </style>
 </resources>

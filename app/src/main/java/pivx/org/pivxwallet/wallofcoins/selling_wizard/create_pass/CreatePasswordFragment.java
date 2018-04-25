@@ -21,8 +21,8 @@ import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseFragment;
 public class CreatePasswordFragment extends SellingBaseFragment {
     private View rootView;
     private ProgressBar progressBar;
-    private EditText edtViewMobile, edtViewNewPass, edtViewConfirmNewPass;
-    private Button btnSetPass;
+    private EditText edit_mobile, edit_new_password, edit_confirm_new_password;
+    private Button button_set_password;
 
     @Override
     public void onAttach(Context context) {
@@ -43,11 +43,11 @@ public class CreatePasswordFragment extends SellingBaseFragment {
     }
 
     private void init() {
-        edtViewMobile = (EditText) rootView.findViewById(R.id.edtViewMobile);
-        edtViewNewPass = (EditText) rootView.findViewById(R.id.edtViewNewPass);
-        edtViewConfirmNewPass = (EditText) rootView.findViewById(R.id.edtViewConfirmNewPass);
+        edit_mobile = (EditText) rootView.findViewById(R.id.edit_mobile);
+        edit_new_password = (EditText) rootView.findViewById(R.id.edit_new_password);
+        edit_confirm_new_password = (EditText) rootView.findViewById(R.id.edit_confirm_new_password);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-        btnSetPass = (Button) rootView.findViewById(R.id.btnSetPass);
+        button_set_password = (Button) rootView.findViewById(R.id.button_set_password);
     }
 
     private void setTopbar() {
@@ -58,19 +58,19 @@ public class CreatePasswordFragment extends SellingBaseFragment {
 
     private boolean isValidDetails() {
         String pass, confirmPass;
-        pass = edtViewNewPass.getText().toString().trim();
-        confirmPass = edtViewConfirmNewPass.getText().toString().trim();
+        pass = edit_new_password.getText().toString().trim();
+        confirmPass = edit_confirm_new_password.getText().toString().trim();
 
-        if (edtViewMobile.getText().toString().trim().isEmpty()) {
+        if (edit_mobile.getText().toString().trim().isEmpty()) {
             showToast(getString(R.string.enter_mo_no));
             return false;
         } else if (pass.isEmpty()) {
             showToast(getString(R.string.enter_new_pass));
-            edtViewNewPass.requestFocus();
+            edit_new_password.requestFocus();
             return false;
         } else if (confirmPass.isEmpty()) {
             showToast(getString(R.string.enter_confirm_pass));
-            edtViewConfirmNewPass.requestFocus();
+            edit_confirm_new_password.requestFocus();
             return false;
         } else if (!pass.equalsIgnoreCase(confirmPass)) {
             showToast(getString(R.string.pass_not_matched));

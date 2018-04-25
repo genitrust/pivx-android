@@ -52,10 +52,10 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
 
     private final String TAG = "PhoneListFragment";
     private View rootView;
-    private RecyclerView recyclerViewPhoneList;
-    private Button btnSignUp, btnExistingSignIn;
+    private RecyclerView recycler_phone_list;
+    private Button button_sign_up, button_existing_sign_in;
     private PhoneListFragment fragment;
-    private TextView txtViewNoData;
+    private TextView text_no_data;
     private ProgressBar progressBar;
     private String password = "", selectedPhone = "";
 
@@ -78,17 +78,17 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
 
     private void init() {
         fragment = this;
-        recyclerViewPhoneList = (RecyclerView) rootView.findViewById(R.id.recyclerViewPhoneList);
-        btnSignUp = (Button) rootView.findViewById(R.id.btnSignUp);
-        btnExistingSignIn = (Button) rootView.findViewById(R.id.btnExistingSignIn);
-        txtViewNoData = (TextView) rootView.findViewById(R.id.txtViewNoData);
-        recyclerViewPhoneList.setLayoutManager(new LinearLayoutManager(mContext));
+        recycler_phone_list = (RecyclerView) rootView.findViewById(R.id.recycler_phone_list);
+        button_sign_up = (Button) rootView.findViewById(R.id.button_sign_up);
+        button_existing_sign_in = (Button) rootView.findViewById(R.id.button_existing_sign_in);
+        text_no_data = (TextView) rootView.findViewById(R.id.text_no_data);
+        recycler_phone_list.setLayoutManager(new LinearLayoutManager(mContext));
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
     }
 
     private void setListeners() {
-        btnExistingSignIn.setOnClickListener(this);
-        btnSignUp.setOnClickListener(this);
+        button_existing_sign_in.setOnClickListener(this);
+        button_sign_up.setOnClickListener(this);
     }
 
     private void setPhoneList() {
@@ -101,16 +101,16 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
         phoneListVOS.addAll(hashSet);
 
         if (phoneListVOS != null & phoneListVOS.size() > 0) {
-            recyclerViewPhoneList.setAdapter(new PhoneListAdapter(mContext, phoneListVOS, fragment));
-            txtViewNoData.setVisibility(View.GONE);
+            recycler_phone_list.setAdapter(new PhoneListAdapter(mContext, phoneListVOS, fragment));
+            text_no_data.setVisibility(View.GONE);
         } else
-            txtViewNoData.setVisibility(View.VISIBLE);
+            text_no_data.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnExistingSignIn:
+            case R.id.button_existing_sign_in:
             /*    Bundle bundle = new Bundle();
                 bundle.putString(WOCConstants.SCREEN_TYPE, "PhoneListFragment");
                 EmailAndPhoneFragment phoneFragment = new EmailAndPhoneFragment();
@@ -118,7 +118,7 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
 
                 ((BuyDashBaseActivity) mContext).replaceFragment(phoneFragment, true, true);*/
                 break;
-            case R.id.btnSignUp:
+            case R.id.button_sign_up:
                 ((SellingBaseActivity) mContext).replaceFragment(new ContactDetailsFragment(),
                         true, true);
                 break;
