@@ -57,7 +57,7 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
     private PhoneListFragment fragment;
     private TextView text_no_data;
     private ProgressBar progressBar;
-    private String password = "", selectedPhone = "";
+    private String mPassword = "", mSelectedPhone = "";
 
 
     @Override
@@ -69,7 +69,7 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.layout_selling_phone_list, container, false);
+        rootView = inflater.inflate(R.layout.fragment_selling_phone_list, container, false);
         init();
         setListeners();
         setPhoneList();
@@ -126,7 +126,7 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
     }
 
     public void onItemClick(String phone) {
-        selectedPhone = phone;
+        mSelectedPhone = phone;
         checkAuth();
     }
 
@@ -137,7 +137,7 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
         if (NetworkUtil.isOnline(mContext)) {
             progressBar.setVisibility(View.VISIBLE);
 
-            SellingAPIClient.createService(interceptor, mContext).getAuthToken(selectedPhone,
+            SellingAPIClient.createService(interceptor, mContext).getAuthToken(mSelectedPhone,
                     SellingApiConstants.WALLOFCOINS_PUBLISHER_ID).enqueue(new Callback<AuthVo>() {
                 @Override
                 public void onResponse(Call<AuthVo> call, Response<AuthVo> response) {
@@ -206,9 +206,9 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                password = edtPassword.getText().toString().trim();
-                if (password.length() > 0) {
-                    authorize(password);
+                mPassword = edtPassword.getText().toString().trim();
+                if (mPassword.length() > 0) {
+                    authorize(mPassword);
                     alertDialog.dismiss();
                 } else {
                     showToast(mContext.getString(R.string.password_alert));
@@ -232,13 +232,13 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
             } else {
                 hashMap.put(SellingApiConstants.KEY_DEVICECODE, getDeviceCode(mContext));
             }
-            if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.DEVICE_ID, ""))) {
-                hashMap.put(WOCConstants.KEY_DEVICEID, SharedPreferenceUtil.getString(SellingConstants.DEVICE_ID, ""));
+            if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.PREF_DEVICE_ID, ""))) {
+                hashMap.put(WOCConstants.KEY_DEVICEID, SharedPreferenceUtil.getString(SellingConstants.PREF_DEVICE_ID, ""));
             }
             hashMap.put(SellingApiConstants.KEY_PUBLISHER_ID, SellingApiConstants.WALLOFCOINS_PUBLISHER_ID);
 
             progressBar.setVisibility(View.VISIBLE);
-            SellingAPIClient.createService(interceptor, mContext).authorize(selectedPhone, hashMap).
+            SellingAPIClient.createService(interceptor, mContext).authorize(mSelectedPhone, hashMap).
                     enqueue(new Callback<AuthVo>() {
                         @Override
                         public void onResponse(Call<AuthVo> call, Response<AuthVo> response) {
@@ -261,14 +261,14 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
 
                             if (!TextUtils.isEmpty(response.body().getToken())) {
 
-                                SharedPreferenceUtil.putValue(SellingConstants.TOKEN_ID, response.body().getToken());
-                                SharedPreferenceUtil.putValue(SellingConstants.LOGGED_IN_PHONE, selectedPhone);
+                                SharedPreferenceUtil.putValue(SellingConstants.PREF_TOKEN_ID, response.body().getToken());
+                                SharedPreferenceUtil.putValue(SellingConstants.PREF_LOGGED_IN_PHONE, mSelectedPhone);
 
                             }
                             if (response.body().getEmail() != null)
-                                SharedPreferenceUtil.putValue(SellingConstants.LOGGED_IN_EMAIL, response.body().getEmail());
+                                SharedPreferenceUtil.putValue(SellingConstants.PREF_LOGGED_IN_EMAIL, response.body().getEmail());
                             if (!TextUtils.isEmpty(password) &&
-                                    TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.DEVICE_ID, ""))) {
+                                    TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.PREF_DEVICE_ID, ""))) {
                                 getDevice();
                             } else {
                                 ((SellingBaseActivity) mContext).popBackDirect();
@@ -300,7 +300,7 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
 
                     List<CreateDeviceVo> deviceList = response.body();
                     if (deviceList.size() > 0) {
-                        SharedPreferenceUtil.putValue(SellingConstants.DEVICE_ID, deviceList.get(deviceList.size() - 1).getId() + "");
+                        SharedPreferenceUtil.putValue(SellingConstants.PREF_DEVICE_ID, deviceList.get(deviceList.size() - 1).getId() + "");
                         authorize("");
                     } else {
                         createDevice();
@@ -335,7 +335,7 @@ public class PhoneListFragment extends SellingBaseFragment implements View.OnCli
             public void onResponse(Call<CreateDeviceVo> call, Response<CreateDeviceVo> response) {
                 progressBar.setVisibility(View.GONE);
                 if (null != response.body() && response.code() < 299) {
-                    SharedPreferenceUtil.putValue(SellingConstants.DEVICE_ID, response.body().getId() + "");
+                    SharedPreferenceUtil.putValue(SellingConstants.PREF_DEVICE_ID, response.body().getId() + "");
 
                     authorize("");
                 } else {

@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/text_msg"
-                style="@style/styleHeader"
+                style="@style/StyleHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -27,13 +27,12 @@
 
             <TextView
                 android:id="@+id/text_mobile_label"
+                style="@style/StyleTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_msg"
                 android:layout_marginTop="20dp"
-                android:text="@string/mobile_include_area_code"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_edt_label" />
+                android:text="@string/mobile_include_area_code" />
 
             <RelativeLayout
                 android:id="@+id/layout_mobile"
@@ -66,7 +65,7 @@
 
             <TextView
                 android:id="@+id/text_mobile_instruction"
-                style="@style/styleInstrucText"
+                style="@style/StyleInstrucText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/layout_mobile"
@@ -76,17 +75,16 @@
 
             <TextView
                 android:id="@+id/text_email_label"
+                style="@style/StyleTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_mobile_instruction"
                 android:layout_marginTop="20dp"
-                android:text="@string/email"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_edt_label" />
+                android:text="@string/email" />
 
             <EditText
                 android:id="@+id/edit_email"
-                style="@style/styleEdt"
+                style="@style/StyleEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_email_label"
@@ -98,7 +96,7 @@
 
             <TextView
                 android:id="@+id/text_email_Instruction"
-                style="@style/styleInstrucText"
+                style="@style/StyleInstrucText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/edit_email"
@@ -114,16 +112,15 @@
 
                 <TextView
                     android:id="@+id/text_confirm_email_label"
+                    style="@style/StyleTextLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="@string/confirm_email"
-                    android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_edt_label" />
+                    android:text="@string/confirm_email" />
 
                 <EditText
                     android:id="@+id/edit_confirm_email"
-                    style="@style/styleEdt"
+                    style="@style/StyleEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_confirm_email_label"
@@ -135,17 +132,16 @@
 
                 <TextView
                     android:id="@+id/text_password_label"
+                    style="@style/StyleTextLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/edit_confirm_email"
                     android:layout_marginTop="20dp"
-                    android:text="@string/password"
-                    android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_edt_label" />
+                    android:text="@string/password" />
 
                 <EditText
                     android:id="@+id/edit_password"
-                    style="@style/styleEdt"
+                    style="@style/StyleEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_password_label"
@@ -157,7 +153,7 @@
 
                 <TextView
                     android:id="@+id/text_password_instruction"
-                    style="@style/styleInstrucText"
+                    style="@style/StyleInstrucText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/edit_password"
@@ -169,7 +165,7 @@
 
     <Button
         android:id="@+id/button_continue"
-        style="@style/styleBtn"
+        style="@style/StyleButton"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"

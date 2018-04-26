@@ -56,7 +56,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
     private CountryData countryData;
     private Spinner spinner_country;
     private ProgressBar progressBar;
-    private String country_code = "";
+    private String mCountryCode = "";
     private RelativeLayout layout_password;
     private boolean isLoggedIn;
 
@@ -70,7 +70,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_selling_contact_details, container, false);
+            rootView = inflater.inflate(R.layout.fragment_selling_contact_details, container, false);
             init();
             setListeners();
             setTopbar();
@@ -100,7 +100,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
         spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                country_code = countryData.countries.get(i).code;
+                mCountryCode = countryData.countries.get(i).code;
             }
 
             @Override
@@ -144,14 +144,14 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
     }
 
     private void handleArgs() {
-        if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, ""))) {
+        if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.PREF_TOKEN_ID, ""))) {
             layout_password.setVisibility(View.GONE);
             spinner_country.setVisibility(View.GONE);
             isLoggedIn = true;
             edit_mobile.setEnabled(false);
             spinner_country.setEnabled(false);
-            edit_mobile.setText(SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_PHONE, ""));
-            String email=SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_EMAIL, "");
+            edit_mobile.setText(SharedPreferenceUtil.getString(SellingConstants.PREF_LOGGED_IN_PHONE, ""));
+            String email=SharedPreferenceUtil.getString(SellingConstants.PREF_LOGGED_IN_EMAIL, "");
             edit_email.setText(email);
             Log.e("Email------",email);
 
@@ -180,7 +180,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
         if (edit_mobile.getText().toString().trim().isEmpty()) {
             showToast(getString(R.string.enter_mo_no));
             return false;
-        } else if (country_code.isEmpty()) {
+        } else if (mCountryCode.isEmpty()) {
             showToast(getString(R.string.enter_country_code));
             return false;
         } else if (email.isEmpty()) {
@@ -209,7 +209,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
         if (NetworkUtil.isOnline(mContext)) {
             progressBar.setVisibility(View.VISIBLE);
             HashMap<String, String> signUpHashMap = new HashMap<String, String>();
-            signUpHashMap.put(SellingApiConstants.KEY_PHONE, country_code + edit_mobile.getText().toString().trim());
+            signUpHashMap.put(SellingApiConstants.KEY_PHONE, mCountryCode + edit_mobile.getText().toString().trim());
             signUpHashMap.put(SellingApiConstants.KEY_EMAIL, edit_email.getText().toString().trim());
             signUpHashMap.put(SellingApiConstants.KEY_PASSWORD, edit_password.getText().toString().trim());
 
@@ -258,7 +258,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
                     if (checkDetails()) {
 
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable(SellingConstants.ADDRESS_DETAILS_VO, getSellingDetails());
+                        bundle.putSerializable(SellingConstants.ARGUMENT_ADDRESS_DETAILS_VO, getSellingDetails());
                         CashDepositFragment fragment = new CashDepositFragment();
                         fragment.setArguments(bundle);
 
@@ -278,7 +278,7 @@ public class ContactDetailsFragment extends SellingBaseFragment implements View.
         AddressVo detailsVo = new AddressVo();
         detailsVo.setEmail(edit_email.getText().toString().trim());
         detailsVo.setPhone(edit_mobile.getText().toString().trim());
-        detailsVo.setPhoneCode(country_code);
+        detailsVo.setPhoneCode(mCountryCode);
 
         return detailsVo;
     }

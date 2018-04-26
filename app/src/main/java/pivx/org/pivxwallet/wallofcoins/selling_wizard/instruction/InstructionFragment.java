@@ -40,7 +40,7 @@ public class InstructionFragment extends SellingBaseFragment implements View.OnC
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_selling_instruction, container, false);
+            rootView = inflater.inflate(R.layout.fragment_selling_instruction, container, false);
             init();
             setListeners();
             setTopbar();
@@ -69,12 +69,10 @@ public class InstructionFragment extends SellingBaseFragment implements View.OnC
 
     private void setListeners() {
         button_edit_rate.setOnClickListener(this);
-
         text_cancle.setOnClickListener(this);
         text_save.setOnClickListener(this);
         text_edit_current_rate.setOnClickListener(this);
         text_advanced_option.setOnClickListener(this);
-
     }
 
     private void setTopbar() {
@@ -112,12 +110,12 @@ public class InstructionFragment extends SellingBaseFragment implements View.OnC
 
     private void showOptionsDialog() {
         final Dialog dialog = new Dialog(mContext);
-        dialog.setContentView(R.layout.layout_selling_options_dialog);
+        dialog.setContentView(R.layout.dialog_selling_options);
 
 
-        EditText edtViewMinPayment, edtViewMaxPayment;
-        edtViewMinPayment = (EditText) dialog.findViewById(R.id.edtViewMinPayment);
-        edtViewMaxPayment = (EditText) dialog.findViewById(R.id.edtViewMaxPayment);
+        EditText edit_min_payment, edit_max_payment;
+        edit_min_payment = (EditText) dialog.findViewById(R.id.edit_min_payment);
+        edit_max_payment = (EditText) dialog.findViewById(R.id.edit_max_payment);
 
         Button button_cancle, button_save;
 

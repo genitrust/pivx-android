@@ -90,7 +90,7 @@ public class BuyDashOfferAmountFragment extends BuyDashBaseFragment implements V
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_offer_amount, container, false);
+            rootView = inflater.inflate(R.layout.fragment_buy_dash_offer_amount, container, false);
             init();
             setListeners();
             handleArgs();

@@ -17,22 +17,21 @@
 
             <TextView
                 android:id="@+id/text_msg"
+                style="@style/StyleHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="@string/how_much_do_you_want_per_pivx"
-                style="@style/styleHeader" />
+                android:text="@string/how_much_do_you_want_per_pivx" />
 
 
             <TextView
                 android:id="@+id/text_price_label"
+                style="@style/StyleTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_msg"
                 android:layout_marginTop="20dp"
-                android:text="@string/price_per_coin"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_edt_label" />
+                android:text="@string/price_per_coin" />
 
 
             <android.support.v7.widget.AppCompatCheckBox
@@ -41,8 +40,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_price_label"
                 android:layout_marginTop="@dimen/dimen_8dp"
-                android:visibility="gone"
-                android:text="@string/use_dynamic_pricing" />
+                android:text="@string/use_dynamic_pricing"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/layout_static_price"
@@ -57,13 +56,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/static_price_lbl"
-                    android:visibility="gone"
                     android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_edt_label" />
+                    android:textSize="@dimen/text_size_edt_label"
+                    android:visibility="gone" />
 
                 <EditText
                     android:id="@+id/edit_static_price"
-                    style="@style/styleEdt"
+                    style="@style/StyleEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
@@ -144,7 +143,7 @@
 
                 <EditText
                     android:id="@+id/edit_min_payment"
-                    style="@style/styleEdt"
+                    style="@style/StyleEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_minimum_payment_label"
@@ -165,7 +164,7 @@
 
                 <EditText
                     android:id="@+id/edit_max_payment"
-                    style="@style/styleEdt"
+                    style="@style/StyleEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_max_payment_label"
@@ -186,7 +185,7 @@
 
                 <EditText
                     android:id="@+id/edit_seller_price"
-                    style="@style/styleEdt"
+                    style="@style/StyleEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_seller_price_pabel"
@@ -199,7 +198,7 @@
 
     <Button
         android:id="@+id/button_continue"
-        style="@style/styleBtn"
+        style="@style/StyleButton"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"

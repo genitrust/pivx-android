@@ -19,26 +19,25 @@
 
             <TextView
                 android:id="@+id/text_msg"
+                style="@style/StyleHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="@string/verify_details_msg"
-                style="@style/styleHeader"/>
+                android:text="@string/verify_details_msg" />
 
             <TextView
                 android:id="@+id/text_mobile_label"
+                style="@style/StyleTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_msg"
                 android:layout_marginTop="20dp"
-                android:text="@string/account_1"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_edt_label" />
+                android:text="@string/account_1" />
 
 
             <EditText
                 android:id="@+id/edit_account"
-                style="@style/styleEdt"
+                style="@style/StyleEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_mobile_label"
@@ -49,17 +48,16 @@
 
             <TextView
                 android:id="@+id/text_price_label"
+                style="@style/StyleTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/edit_account"
                 android:layout_marginTop="10dp"
-                android:text="@string/currentprice"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_edt_label" />
+                android:text="@string/currentprice" />
 
             <EditText
                 android:id="@+id/edit_price"
-                style="@style/styleEdt"
+                style="@style/StyleEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_price_label"
@@ -70,17 +68,16 @@
 
             <TextView
                 android:id="@+id/text_email_label"
+                style="@style/StyleTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/edit_price"
                 android:layout_marginTop="10dp"
-                android:text="@string/email"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_edt_label" />
+                android:text="@string/email" />
 
             <EditText
                 android:id="@+id/edit_email"
-                style="@style/styleEdt"
+                style="@style/StyleEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_email_label"
@@ -91,7 +88,7 @@
 
             <TextView
                 android:id="@+id/text_email_instruction"
-                style="@style/styleInstrucText"
+                style="@style/StyleInstrucText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/edit_email"
@@ -100,17 +97,16 @@
 
             <TextView
                 android:id="@+id/text_phone_label"
+                style="@style/StyleTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_email_instruction"
                 android:layout_marginTop="10dp"
-                android:text="@string/hint_phone"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_edt_label" />
+                android:text="@string/hint_phone" />
 
             <EditText
                 android:id="@+id/edit_phone"
-                style="@style/styleEdt"
+                style="@style/StyleEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_phone_label"
@@ -124,7 +120,7 @@
 
     <Button
         android:id="@+id/button_continue"
-        style="@style/styleBtn"
+        style="@style/StyleButton"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"

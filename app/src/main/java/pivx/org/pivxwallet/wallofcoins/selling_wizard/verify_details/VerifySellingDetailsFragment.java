@@ -38,7 +38,7 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
     private ProgressBar progressBar;
     private EditText edit_account, edit_price, edit_email, edit_phone;
     private AddressVo addressVo;
-    private String addressId, phone;
+    private String mAddressId, mPhone;
 
     @Override
     public void onAttach(Context context) {
@@ -50,7 +50,7 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_selling_verify_details, container, false);
+            rootView = inflater.inflate(R.layout.fragment_selling_verify_details, container, false);
             init();
             setListeners();
             setTopbar();
@@ -83,8 +83,8 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
 
         if (getArguments() != null) {
             addressVo = (AddressVo)
-                    getArguments().getSerializable(SellingConstants.ADDRESS_DETAILS_VO);
-            phone = addressVo.getNumber();
+                    getArguments().getSerializable(SellingConstants.ARGUMENT_ADDRESS_DETAILS_VO);
+            mPhone = addressVo.getNumber();
             edit_account.setText(addressVo.getNumber());
             edit_price.setText(addressVo.getCurrentPrice());
             edit_email.setText(addressVo.getEmail());
@@ -178,7 +178,7 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
 
                             if (response.code() == 200) {
                                 AddressVo addressVo = response.body();
-                                addressId = addressVo.getId();
+                                mAddressId = addressVo.getId();
                                 WOCLogUtil.showLogError("Address Id:", addressVo.getId());
                                 sendVerificationCode(addressVo.getPhone(), addressVo.getId());
                             } else {
@@ -238,9 +238,9 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
 
     private void navigateToCodeScreen(String code) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(SellingConstants.VERIFICATION_CODE, code);
-        bundle.putSerializable(SellingConstants.PHONE_NUMBER, phone);
-        bundle.putSerializable(SellingConstants.ADDRESS_ID, addressId);
+        bundle.putSerializable(SellingConstants.ARGUMENT_VERIFICATION_CODE, code);
+        bundle.putSerializable(SellingConstants.ARGUMENT_PHONE_NUMBER, mPhone);
+        bundle.putSerializable(SellingConstants.ARGUMENT_ADDRESS_ID, mAddressId);
         VerifycationCodeFragment fragment = new VerifycationCodeFragment();
         fragment.setArguments(bundle);
 

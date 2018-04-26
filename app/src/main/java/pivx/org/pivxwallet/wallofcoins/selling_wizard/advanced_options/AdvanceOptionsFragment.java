@@ -39,7 +39,7 @@ public class AdvanceOptionsFragment extends SellingBaseFragment implements View.
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_selling_options_dialog, container, false);
+            rootView = inflater.inflate(R.layout.dialog_selling_options, container, false);
             init();
             setListeners();
             setTopbar();
@@ -74,7 +74,7 @@ public class AdvanceOptionsFragment extends SellingBaseFragment implements View.
 
         if (getArguments() != null) {
             addressVo = (AddressVo)
-                    getArguments().getSerializable(SellingConstants.ADDRESS_DETAILS_VO);
+                    getArguments().getSerializable(SellingConstants.ARGUMENT_ADDRESS_DETAILS_VO);
         }
     }
 
@@ -85,7 +85,7 @@ public class AdvanceOptionsFragment extends SellingBaseFragment implements View.
             case R.id.button_save:
                 if (isValidDetails()) {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(SellingConstants.ADDRESS_DETAILS_VO, getSellingDetails());
+                    bundle.putSerializable(SellingConstants.ARGUMENT_ADDRESS_DETAILS_VO, getSellingDetails());
                     VerifySellingDetailsFragment fragment = new VerifySellingDetailsFragment();
                     fragment.setArguments(bundle);
 

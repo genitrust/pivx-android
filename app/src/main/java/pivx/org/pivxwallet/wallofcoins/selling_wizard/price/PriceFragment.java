@@ -62,7 +62,7 @@ public class PriceFragment extends SellingBaseFragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_selling_price, container, false);
+            rootView = inflater.inflate(R.layout.fragment_selling_price, container, false);
             init();
             setListeners();
             setTopbar();
@@ -121,7 +121,7 @@ public class PriceFragment extends SellingBaseFragment implements View.OnClickLi
 
         if (getArguments() != null) {
             addressVo = (AddressVo)
-                    getArguments().getSerializable(SellingConstants.ADDRESS_DETAILS_VO);
+                    getArguments().getSerializable(SellingConstants.ARGUMENT_ADDRESS_DETAILS_VO);
         }
     }
 
@@ -150,7 +150,7 @@ public class PriceFragment extends SellingBaseFragment implements View.OnClickLi
                         if (isValid())
                         {
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable(SellingConstants.ADDRESS_DETAILS_VO, getSellingDetails());
+                            bundle.putSerializable(SellingConstants.ARGUMENT_ADDRESS_DETAILS_VO, getSellingDetails());
                             AdvanceOptionsFragment fragment = new AdvanceOptionsFragment();
                             fragment.setArguments(bundle);
 

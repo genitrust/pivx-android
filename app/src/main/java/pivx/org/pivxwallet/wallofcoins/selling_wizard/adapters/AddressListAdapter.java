@@ -28,7 +28,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
     @Override
     public VHListing onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_selling_address_adapter_items, parent, false);
+                .inflate(R.layout.item_selling_address, parent, false);
 
         return new VHListing(itemView);
     }
@@ -48,7 +48,7 @@ public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.
 
         private VHListing(View view) {
             super(view);
-            this.text_current_price = (TextView) view.findViewById(R.id.txtViewCurrentPrice);
+            this.text_current_price = (TextView) view.findViewById(R.id.text_current_price);
         }
     }
 }

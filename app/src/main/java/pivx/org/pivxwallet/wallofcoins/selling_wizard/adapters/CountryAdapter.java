@@ -53,7 +53,7 @@ public class CountryAdapter extends ArrayAdapter<CountryData.CountriesBean> {
     public View getCustomView(int position, View convertView, ViewGroup parent) {
 
         /********** Inflate spinner_rows.xml file for each row ( Defined below ) ************/
-        View row = inflater.inflate(R.layout.layout_selling_spinner_row_country, parent, false);
+        View row = inflater.inflate(R.layout.item_selling_country, parent, false);
 
         /***** Get each Model object from Arraylist ********/
         CountryData.CountriesBean bean = data.get(position);

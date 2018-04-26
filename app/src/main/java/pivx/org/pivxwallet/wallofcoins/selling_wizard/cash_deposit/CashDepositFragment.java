@@ -46,7 +46,7 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
     private final String TAG = "CashDepositFragment";
     private AppCompatSpinner spinner_banks;
     private ProgressBar progressBar;
-    private String bankId = "";
+    private String mBankId = "";
     private List<GetReceivingOptionsResp> bankList;
     private RelativeLayout layout_acc_details;
     private AddressVo addressVo;
@@ -61,7 +61,7 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_selling_cash_deposit, container, false);
+            rootView = inflater.inflate(R.layout.fragment_selling_cash_deposit, container, false);
             init();
             setListeners();
             setTopbar();
@@ -92,11 +92,11 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
                     layout_acc_details.setVisibility(View.GONE);
-                    bankId = "";
+                    mBankId = "";
                     return;
                 }
                 layout_acc_details.setVisibility(View.VISIBLE);
-                bankId = "" + bankList.get(position).id;
+                mBankId = "" + bankList.get(position).id;
             }
 
             @Override
@@ -118,7 +118,7 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
         acc = edit_account_number.getText().toString().trim();
         confirmAcc = edit_confirm_account_number.getText().toString().trim();
 
-        if (bankId.isEmpty()) {
+        if (mBankId.isEmpty()) {
             showToast(getString(R.string.please_select_bank));
             return false;
         } else if (edit_holder_name.getText().toString().trim().isEmpty()) {
@@ -183,7 +183,7 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
 
         if (getArguments() != null) {
             addressVo = (AddressVo)
-                    getArguments().getSerializable(SellingConstants.ADDRESS_DETAILS_VO);
+                    getArguments().getSerializable(SellingConstants.ARGUMENT_ADDRESS_DETAILS_VO);
         }
     }
 
@@ -226,7 +226,7 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
             case R.id.button_continue:
                 if (isValidDetails()) {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(SellingConstants.ADDRESS_DETAILS_VO, getSellingDetails());
+                    bundle.putSerializable(SellingConstants.ARGUMENT_ADDRESS_DETAILS_VO, getSellingDetails());
                     PriceFragment fragment = new PriceFragment();
                     fragment.setArguments(bundle);
                     ((SellingBaseActivity) mContext).replaceFragment(fragment,
@@ -240,7 +240,7 @@ public class CashDepositFragment extends SellingBaseFragment implements View.OnC
         addressVo.setName(edit_holder_name.getText().toString().trim());
         addressVo.setNumber(edit_account_number.getText().toString().trim());
         addressVo.setNumber2(edit_confirm_account_number.getText().toString().trim());
-        addressVo.setBankBusiness(bankId);
+        addressVo.setBankBusiness(mBankId);
         return addressVo;
     }
 }

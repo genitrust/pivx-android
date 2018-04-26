@@ -5,7 +5,7 @@
 
     <Button
         android:id="@+id/button_phone"
-        style="@style/styleBtn"
+        style="@style/StyleButton"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginBottom="6dp"

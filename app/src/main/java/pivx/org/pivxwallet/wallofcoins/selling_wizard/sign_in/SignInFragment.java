@@ -80,7 +80,7 @@ public class SignInFragment extends BuyDashBaseFragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_selling_signin, container, false);
+            rootView = inflater.inflate(R.layout.fragment_selling_signin, container, false);
             init();
             addCountryCodeList();
             setListeners();

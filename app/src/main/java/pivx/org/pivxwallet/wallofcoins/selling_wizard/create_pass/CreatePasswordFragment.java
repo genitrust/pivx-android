@@ -34,7 +34,7 @@ public class CreatePasswordFragment extends SellingBaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_selling_create_pass, container, false);
+            rootView = inflater.inflate(R.layout.fragment_selling_create_password, container, false);
             init();
             setTopbar();
             return rootView;

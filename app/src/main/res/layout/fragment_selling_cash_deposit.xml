@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/text_msg"
-                style="@style/styleHeader"
+                style="@style/StyleHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -27,13 +27,12 @@
 
             <TextView
                 android:id="@+id/text_label_mobile"
+                style="@style/StyleTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_msg"
                 android:layout_marginTop="20dp"
-                android:text="@string/select_your_bank_or_payment_destination"
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_edt_label" />
+                android:text="@string/select_your_bank_or_payment_destination" />
 
             <RelativeLayout
                 android:id="@+id/layout_banklist"
@@ -59,17 +58,15 @@
 
                 <TextView
                     android:id="@+id/text_name_label"
+                    style="@style/StyleTextLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:layout_marginTop="20dp"
-                    android:text="@string/name_on_account2"
-                    android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_edt_label" />
+                    android:text="@string/name_on_account2" />
 
                 <EditText
                     android:id="@+id/edit_holder_name"
-                    style="@style/styleEdt"
+                    style="@style/StyleEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_name_label"
@@ -81,17 +78,16 @@
 
                 <TextView
                     android:id="@+id/text_acc_label"
+                    style="@style/StyleTextLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/edit_holder_name"
                     android:layout_marginTop="20dp"
-                    android:text="@string/account"
-                    android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_edt_label" />
+                    android:text="@string/account" />
 
                 <EditText
                     android:id="@+id/edit_account_number"
-                    style="@style/styleEdt"
+                    style="@style/StyleEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_acc_label"
@@ -102,17 +98,16 @@
 
                 <TextView
                     android:id="@+id/text_confirm_acc_label"
+                    style="@style/StyleTextLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/edit_account_number"
                     android:layout_marginTop="20dp"
-                    android:text="@string/confirm_account"
-                    android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_edt_label" />
+                    android:text="@string/confirm_account" />
 
                 <EditText
                     android:id="@+id/edit_confirm_account_number"
-                    style="@style/styleEdt"
+                    style="@style/StyleEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_confirm_acc_label"
@@ -126,7 +121,7 @@
 
     <Button
         android:id="@+id/button_continue"
-        style="@style/styleBtn"
+        style="@style/StyleButton"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"

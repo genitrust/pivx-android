@@ -40,7 +40,7 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
     private Button button_verify_add, button_resend_otp;
     private EditText edit_code;
     private final String TAG = "VerifycationOtpFragment";
-    private String verificationCode = "", phone = "", addressId = "";
+    private String mVerificationCode = "", mPhone = "", mAddressId = "";
     private ProgressBar progressBar;
     private TextView text_msg;
 
@@ -54,7 +54,7 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_selling_verification_code, container, false);
+            rootView = inflater.inflate(R.layout.fragment_selling_verification_code, container, false);
             init();
             setListeners();
             handleArgs();
@@ -68,10 +68,10 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
         button_resend_otp = (Button) rootView.findViewById(R.id.button_resend_otp);
         edit_code = (EditText) rootView.findViewById(R.id.edit_code);
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-        text_msg = (TextView) rootView.findViewById(R.id.txtViewMsg);
+        text_msg = (TextView) rootView.findViewById(R.id.text_msg);
 
         text_msg.setText(getString(R.string.verification_code_msg,
-                SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_PHONE, "")));
+                SharedPreferenceUtil.getString(SellingConstants.PREF_LOGGED_IN_PHONE, "")));
     }
 
     private void setListeners() {
@@ -81,10 +81,10 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
 
     private void handleArgs() {
         if (getArguments() != null) {
-            verificationCode = getArguments().getString(SellingConstants.VERIFICATION_CODE);
-            phone = getArguments().getString(SellingConstants.PHONE_NUMBER);
-            addressId = getArguments().getString(SellingConstants.ADDRESS_ID);
-            edit_code.setText(verificationCode);
+            mVerificationCode = getArguments().getString(SellingConstants.ARGUMENT_VERIFICATION_CODE);
+            mPhone = getArguments().getString(SellingConstants.ARGUMENT_PHONE_NUMBER);
+            mAddressId = getArguments().getString(SellingConstants.ARGUMENT_ADDRESS_ID);
+            edit_code.setText(mVerificationCode);
         }
     }
 
@@ -110,9 +110,9 @@ public class VerifycationCodeFragment extends BuyDashBaseFragment implements Vie
 
             HashMap<String, String> verifyAdReq = new HashMap<String, String>();
 
-            verifyAdReq.put(SellingApiConstants.AD_ID, addressId);
-            verifyAdReq.put(SellingApiConstants.KEY_CODE, verificationCode);
-            verifyAdReq.put(SellingApiConstants.KEY_PHONE, phone);
+            verifyAdReq.put(SellingApiConstants.AD_ID, mAddressId);
+            verifyAdReq.put(SellingApiConstants.KEY_CODE, mVerificationCode);
+            verifyAdReq.put(SellingApiConstants.KEY_PHONE, mPhone);
 
             SellingAPIClient.createService(interceptor, mContext).verifyAd(verifyAdReq).enqueue(new Callback<VerifyAdResp>() {
                 @Override

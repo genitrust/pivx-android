@@ -80,7 +80,7 @@ public class OrderHistoryFragment extends BuyDashBaseFragment implements SharedP
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_order_history, container, false);
+            rootView = inflater.inflate(R.layout.fragment_buy_dash_order_history, container, false);
             init();
             setListeners();
             handleArgs();

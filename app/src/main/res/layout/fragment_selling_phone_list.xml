@@ -31,14 +31,14 @@
 
         <Button
             android:id="@+id/button_sign_up"
-            style="@style/styleBtn"
+            style="@style/StyleButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text="@string/wallofcoins_sign_up" />
 
         <Button
             android:id="@+id/button_existing_sign_in"
-            style="@style/styleBtn"
+            style="@style/StyleButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="6dp"

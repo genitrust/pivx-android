@@ -54,7 +54,7 @@ public class SellingHomeFragment extends SellingBaseFragment implements View.OnC
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.layout_selling_home, container, false);
+            rootView = inflater.inflate(R.layout.fragment_selling_home, container, false);
             init();
             setListeners();
             setTopbar();
@@ -91,12 +91,12 @@ public class SellingHomeFragment extends SellingBaseFragment implements View.OnC
     public void onResume() {
         super.onResume();
         setTopbar();
-        if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.TOKEN_ID, ""))) {
+        if (!TextUtils.isEmpty(SharedPreferenceUtil.getString(SellingConstants.PREF_TOKEN_ID, ""))) {
             layout_sign_out.setVisibility(View.VISIBLE);
             layout_sign_in.setVisibility(View.GONE);
-            WOCLogUtil.showLogError("------------", SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_PHONE, ""));
+            WOCLogUtil.showLogError("------------", SharedPreferenceUtil.getString(SellingConstants.PREF_LOGGED_IN_PHONE, ""));
             text_message_sign_out.setText(mContext.getString(R.string.wallet_is_signed_msg,
-                    SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_PHONE, "")));
+                    SharedPreferenceUtil.getString(SellingConstants.PREF_LOGGED_IN_PHONE, "")));
         } else {
             layout_sign_out.setVisibility(View.GONE);
             layout_sign_in.setVisibility(View.VISIBLE);
@@ -134,7 +134,7 @@ public class SellingHomeFragment extends SellingBaseFragment implements View.OnC
      */
     public void deleteAuthCall() {
         if (NetworkUtil.isOnline(mContext)) {
-            final String phone = SharedPreferenceUtil.getString(SellingConstants.LOGGED_IN_PHONE, "");
+            final String phone = SharedPreferenceUtil.getString(SellingConstants.PREF_LOGGED_IN_PHONE, "");
             progressBar.setVisibility(View.VISIBLE);
             SellingAPIClient.createService(interceptor, mContext)
                     .deleteAuth(phone, getString(R.string.WALLOFCOINS_PUBLISHER_ID))
@@ -144,10 +144,10 @@ public class SellingHomeFragment extends SellingBaseFragment implements View.OnC
                             Log.d(TAG, "onResponse: response code==>>" + response.code());
                             progressBar.setVisibility(View.GONE);
                             if (response.code() < 299) {
-                                SharedPreferenceUtil.putValue(SellingConstants.LOGGED_IN_PHONE, "");
-                                SharedPreferenceUtil.putValue(SellingConstants.TOKEN_ID, "");
-                                SharedPreferenceUtil.putValue(SellingConstants.DEVICE_ID, "");
-                                SharedPreferenceUtil.putValue(SellingConstants.DEVICE_CODE, "");
+                                SharedPreferenceUtil.putValue(SellingConstants.PREF_LOGGED_IN_PHONE, "");
+                                SharedPreferenceUtil.putValue(SellingConstants.PREF_TOKEN_ID, "");
+                                SharedPreferenceUtil.putValue(SellingConstants.PREF_DEVICE_ID, "");
+                                SharedPreferenceUtil.putValue(SellingConstants.PREF_DEVICE_CODE, "");
 
                                 showToast(mContext.getString(R.string.alert_sign_out));
                                 layout_sign_in.setVisibility(View.VISIBLE);

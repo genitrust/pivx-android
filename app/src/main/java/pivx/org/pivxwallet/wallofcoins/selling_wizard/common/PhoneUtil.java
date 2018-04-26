@@ -14,14 +14,14 @@ import pivx.org.pivxwallet.wallofcoins.selling_wizard.utils.ObjectSerializer;
 
 public class PhoneUtil {
 
-    private static final String CREDENTIALS_LIST = "selling_credentials_list";
+    private static final String PREF_SELLING_SESSION_DETAILS = "PREF_SELLING_SESSION_DETAILS";
 
     public static void addPhone(String phone, String deviceId) {
         ArrayList<PhoneListVO> voArrayList;
 
         try {
             voArrayList = (ArrayList<PhoneListVO>) ObjectSerializer.deserialize(
-                    SharedPreferenceUtil.getString(CREDENTIALS_LIST,
+                    SharedPreferenceUtil.getString(PREF_SELLING_SESSION_DETAILS,
                             ObjectSerializer.serialize(new ArrayList())));
             PhoneListVO createHoldResp = new PhoneListVO();
             createHoldResp.setDeviceId(deviceId);
@@ -30,7 +30,7 @@ public class PhoneUtil {
             voArrayList.add(createHoldResp);
 
 
-            SharedPreferenceUtil.putValue(CREDENTIALS_LIST,
+            SharedPreferenceUtil.putValue(PREF_SELLING_SESSION_DETAILS,
                     ObjectSerializer.serialize(voArrayList));
 
 
@@ -49,7 +49,7 @@ public class PhoneUtil {
 
         try {
             voArrayList = (ArrayList) ObjectSerializer.deserialize(
-                    SharedPreferenceUtil.getString(CREDENTIALS_LIST,
+                    SharedPreferenceUtil.getString(PREF_SELLING_SESSION_DETAILS,
                             ObjectSerializer.serialize(new ArrayList())));
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,7 +63,7 @@ public class PhoneUtil {
 
         try {
             voArrayList = (ArrayList<PhoneListVO>) ObjectSerializer.
-                    deserialize(SharedPreferenceUtil.getString(CREDENTIALS_LIST,
+                    deserialize(SharedPreferenceUtil.getString(PREF_SELLING_SESSION_DETAILS,
                             ObjectSerializer.serialize(new ArrayList())));
 
             for (PhoneListVO vo : voArrayList) {

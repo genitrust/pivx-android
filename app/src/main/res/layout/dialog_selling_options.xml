@@ -25,17 +25,16 @@
 
     <TextView
         android:id="@+id/text_mp_label"
+        style="@style/StyleTextLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/checkbox"
         android:layout_marginTop="10dp"
-        android:text="@string/minimum_deposit_payment_amount_for_buyers"
-        android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_edt_label" />
+        android:text="@string/minimum_deposit_payment_amount_for_buyers" />
 
     <EditText
         android:id="@+id/edit_min_payment"
-        style="@style/styleEdt"
+        style="@style/StyleEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_mp_label"
@@ -47,17 +46,16 @@
 
     <TextView
         android:id="@+id/text_max_label"
+        style="@style/StyleTextLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_min_payment"
         android:layout_marginTop="10dp"
-        android:text="@string/maximum_deposit_payment_amount"
-        android:textColor="@color/text_color_black"
-        android:textSize="@dimen/text_size_edt_label" />
+        android:text="@string/maximum_deposit_payment_amount" />
 
     <EditText
         android:id="@+id/edit_max_payment"
-        style="@style/styleEdt"
+        style="@style/StyleEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_max_label"
