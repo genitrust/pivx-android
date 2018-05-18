@@ -34,7 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by  on 04-Apr-18.
+ * Created on 04-Apr-18.
  */
 
 public class CashDepositFragment extends SellingBaseFragment implements View.OnClickListener {

@@ -8,7 +8,7 @@ import pivx.org.pivxwallet.wallofcoins.selling_wizard.utils.WOCLogUtil;
 import retrofit2.Response;
 
 /**
- * Created by  on 05-Apr-18.
+ * Created on 05-Apr-18.
  */
 
 public class RetrofitErrorUtil {

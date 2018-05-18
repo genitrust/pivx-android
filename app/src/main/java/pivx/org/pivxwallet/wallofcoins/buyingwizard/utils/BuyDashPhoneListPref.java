@@ -9,7 +9,7 @@ import pivx.org.pivxwallet.wallofcoins.buyingwizard.models.PhoneListVO;
 
 
 /**
- * Created by  on 12-Mar-18.
+ * Created on 12-Mar-18.
  */
 
 public class BuyDashPhoneListPref {

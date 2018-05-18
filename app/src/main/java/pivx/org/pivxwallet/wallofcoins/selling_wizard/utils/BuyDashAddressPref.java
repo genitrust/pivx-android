@@ -3,7 +3,7 @@ package pivx.org.pivxwallet.wallofcoins.selling_wizard.utils;
 import android.content.SharedPreferences;
 
 /**
- * Created by  on 13-Mar-18.
+ * Created on 13-Mar-18.
  */
 
 public class BuyDashAddressPref {

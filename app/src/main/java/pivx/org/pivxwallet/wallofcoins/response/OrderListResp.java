@@ -1,7 +1,7 @@
 package pivx.org.pivxwallet.wallofcoins.response;
 
 /**
- * Created by VIJAY on 05-Sep-17.
+ * Created on 05-Sep-17.
  */
 
 public class OrderListResp {

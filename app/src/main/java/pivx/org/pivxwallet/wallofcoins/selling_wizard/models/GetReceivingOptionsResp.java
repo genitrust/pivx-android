@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by  on 04-Apr-18.
+ * Created on 04-Apr-18.
  */
 
 public class GetReceivingOptionsResp {

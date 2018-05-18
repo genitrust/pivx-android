@@ -3,7 +3,7 @@ package pivx.org.pivxwallet.wallofcoins.selling_wizard.models;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by  on 06-Apr-18.
+ * Created on 06-Apr-18.
  */
 
 public class AddressListRespVo {

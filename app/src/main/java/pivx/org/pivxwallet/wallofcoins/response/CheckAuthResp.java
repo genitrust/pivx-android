@@ -3,7 +3,7 @@ package pivx.org.pivxwallet.wallofcoins.response;
 import java.util.List;
 
 /**
- * Created by VIJAY on 04-Sep-17.
+ * Created on 04-Sep-17.
  */
 
 public class CheckAuthResp {

@@ -212,9 +212,9 @@ public class BaseDrawerActivity extends PivxActivity implements NavigationView.O
             startActivity(new Intent(this, DonateActivity.class));
         } else if (id == R.id.nav_buywithcash) {
             startActivity(new Intent(this, BuyDashBaseActivity.class));
-        } else if (id == R.id.nav_sell_piv) {
+        } /*else if (id == R.id.nav_sell_piv) {
             startActivity(new Intent(this, SellingBaseActivity.class));
-        }
+        }*/
 
 
         drawer.closeDrawer(GravityCompat.START);

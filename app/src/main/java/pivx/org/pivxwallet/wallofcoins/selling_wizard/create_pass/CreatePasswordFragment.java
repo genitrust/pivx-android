@@ -15,7 +15,7 @@ import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseActivity;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseFragment;
 
 /**
- * Created by  on 06-Apr-18.
+ * Created on 06-Apr-18.
  */
 
 public class CreatePasswordFragment extends SellingBaseFragment {

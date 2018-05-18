@@ -29,7 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by  on 05-Apr-18.
+ * Created on 05-Apr-18.
  */
 
 public class VerifySellingDetailsFragment extends SellingBaseFragment implements View.OnClickListener {

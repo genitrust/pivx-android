@@ -17,7 +17,7 @@ import pivx.org.pivxwallet.wallofcoins.buyingwizard.utils.FragmentUtils;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.selling_home.SellingHomeFragment;
 
 /**
- * Created by  on 03-Apr-18.
+ * Created on 03-Apr-18.
  */
 
 public class SellingBaseActivity extends AppCompatActivity implements View.OnClickListener {

@@ -18,7 +18,7 @@ import pivx.org.pivxwallet.wallofcoins.selling_wizard.utils.SellingConstants;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.verify_details.VerifySellingDetailsFragment;
 
 /**
- * Created by  on 20-Apr-18.
+ * Created on 20-Apr-18.
  */
 
 public class AdvanceOptionsFragment extends SellingBaseFragment implements View.OnClickListener {

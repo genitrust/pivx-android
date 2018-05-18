@@ -12,7 +12,7 @@ import pivx.org.pivxwallet.R;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.AddressListRespVo;
 
 /**
- * Created by  on 06-Apr-18.
+ * Created on 06-Apr-18.
  */
 
 public class AddressListAdapter extends RecyclerView.Adapter<AddressListAdapter.VHListing> {

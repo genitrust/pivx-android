@@ -3,7 +3,7 @@ package pivx.org.pivxwallet.wallofcoins.selling_wizard.models;
 import java.io.Serializable;
 
 /**
- * Created by  on 04-Apr-18.
+ * Created on 04-Apr-18.
  */
 
 public class AddressVo implements Serializable {

@@ -33,7 +33,7 @@ import pivx.org.pivxwallet.wallofcoins.selling_wizard.storage.SharedPreferenceUt
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.utils.SellingConstants;
 
 /**
- * Created by  on 03-Apr-18.
+ * Created on 03-Apr-18.
  */
 
 public class SellingBaseFragment extends Fragment {

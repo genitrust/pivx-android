@@ -23,10 +23,10 @@
             android:icon="@drawable/ic_menu_sell_dash"
             android:title="@string/title_buy_pivx" />
 
-        <item
+      <!--  <item
             android:id="@+id/nav_sell_piv"
             android:icon="@drawable/ic_menu_sell_dash"
-            android:title="@string/title_selling" />
+            android:title="@string/title_selling" />-->
 
     </group>
 

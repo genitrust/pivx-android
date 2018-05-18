@@ -9,7 +9,7 @@ import pivx.org.pivxwallet.wallofcoins.selling_wizard.storage.SharedPreferenceUt
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.utils.ObjectSerializer;
 
 /**
- * Created by  on 04-Apr-18.
+ * Created on 04-Apr-18.
  */
 
 public class PhoneUtil {

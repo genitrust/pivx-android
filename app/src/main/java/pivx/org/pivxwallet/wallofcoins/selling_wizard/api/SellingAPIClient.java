@@ -29,7 +29,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by  on 04-Apr-18.
+ * Created on 04-Apr-18.
  */
 
 public class SellingAPIClient {

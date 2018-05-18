@@ -14,7 +14,7 @@ import pivx.org.pivxwallet.wallofcoins.buyingwizard.models.PhoneListVO;
 import pivx.org.pivxwallet.wallofcoins.buyingwizard.phone_list.PhoneListFragment;
 
 /**
- * Created by  on 19-Mar-18.
+ * Created on 19-Mar-18.
  */
 
 public class PhoneListAdapter extends RecyclerView.Adapter<PhoneListAdapter.MyViewHolder> {

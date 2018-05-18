@@ -45,7 +45,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by  on 19-Mar-18.
+ * Created on 19-Mar-18.
  */
 
 public class PhoneListFragment extends SellingBaseFragment implements View.OnClickListener {

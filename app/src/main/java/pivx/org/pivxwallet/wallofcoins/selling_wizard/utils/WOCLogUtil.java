@@ -5,7 +5,7 @@ import android.util.Log;
 import pivx.org.pivxwallet.BuildConfig;
 
 /**
- * Created by  on 05-Apr-18.
+ * Created on 05-Apr-18.
  */
 
 public class WOCLogUtil {

@@ -1,7 +1,7 @@
 package pivx.org.pivxwallet.wallofcoins.selling_wizard.api;
 
 /**
- * Created by  on 04-Apr-18.
+ * Created on 04-Apr-18.
  */
 
 public class SellingApiConstants {

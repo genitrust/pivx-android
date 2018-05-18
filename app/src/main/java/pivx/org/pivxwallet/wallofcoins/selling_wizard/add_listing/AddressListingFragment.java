@@ -23,7 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by  on 06-Apr-18.
+ * Created on 06-Apr-18.
  */
 
 public class AddressListingFragment extends SellingBaseFragment {

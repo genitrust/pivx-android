@@ -34,7 +34,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * Created by  on 04-Apr-18.
+ * Created on 04-Apr-18.
  */
 
 public interface SellingApi {

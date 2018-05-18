@@ -31,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by  on 03-Apr-18.
+ * Created on 03-Apr-18.
  */
 
 public class SellingHomeFragment extends SellingBaseFragment implements View.OnClickListener {
