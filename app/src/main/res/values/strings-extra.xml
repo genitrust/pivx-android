@@ -71,12 +71,7 @@
     <string name="create_an_ad">Create an Ad</string>
     <string name="price">Price:</string>
 
-
-    <!-- <string name="dashUnicode">\u2C63 %s</string>
-     <string name="dotUnicode">(\u1D7D %1$s)\n(at %2$s%3$.2f/\u2C63)</string>
-     <string name="dotUnicodeNoRate">(\u1D7D %s)</string>-->
-
-    <string name="dashUnicode">\u2C63 %s</string>
+    <string name="pivUnicode">\u2C63 %s</string>
     <string name="dotUnicode">(μⱣiv %1$s)\n(at %2$s%3$.2f/\u2C63)</string>
     <string name="dotUnicodeNoRate">(μⱣiv %s)</string>
 

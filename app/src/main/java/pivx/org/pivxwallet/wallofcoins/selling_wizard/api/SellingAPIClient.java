@@ -22,9 +22,8 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import pivx.org.pivxwallet.BuildConfig;
-import pivx.org.pivxwallet.wallofcoins.api.RestApi;
-import pivx.org.pivxwallet.wallofcoins.response.GetReceivingOptionsResp;
 import pivx.org.pivxwallet.wallofcoins.response.PayFieldsDeserializer;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SellingWizardGetRecOptionsResp;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -121,7 +120,7 @@ public class SellingAPIClient {
             httpClient.addInterceptor(interceptor);
 
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(GetReceivingOptionsResp.PayFieldsBeanX.class, new PayFieldsDeserializer())
+                .registerTypeAdapter(SellingWizardGetRecOptionsResp.PayFieldsBeanX.class, new PayFieldsDeserializer())
                 .create();
 
         return new Retrofit.Builder()

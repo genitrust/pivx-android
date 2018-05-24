@@ -13,16 +13,16 @@ import android.widget.ProgressBar;
 import java.util.HashMap;
 
 import pivx.org.pivxwallet.R;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseActivity;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingBaseFragment;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingWizardBaseActivity;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.SellingWizardBaseFragment;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.RetrofitErrorUtil;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingAPIClient;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.api.SellingApiConstants;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.AddressVo;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SendVerificationRespVo;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SellingWizardAddressVo;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SellingWizardSendVeriRespVo;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.utils.SellingConstants;
 import pivx.org.pivxwallet.wallofcoins.selling_wizard.utils.WOCLogUtil;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.verification_otp.VerifycationCodeFragment;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.verification_otp.SellingWizardVerifCodeFragment;
 import pivx.org.pivxwallet.wallofcoins.utils.NetworkUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,12 +32,12 @@ import retrofit2.Response;
  * Created on 05-Apr-18.
  */
 
-public class VerifySellingDetailsFragment extends SellingBaseFragment implements View.OnClickListener {
+public class VerifySellingDetailsFragment extends SellingWizardBaseFragment implements View.OnClickListener {
     private View rootView;
     private Button button_continue;
     private ProgressBar progressBar;
     private EditText edit_account, edit_price, edit_email, edit_phone;
-    private AddressVo addressVo;
+    private SellingWizardAddressVo sellingWizardAddressVo;
     private String mAddressId, mPhone;
 
     @Override
@@ -75,21 +75,21 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
 
     private void setTopbar() {
 
-        ((SellingBaseActivity) mContext).setTopbarTitle(
+        ((SellingWizardBaseActivity) mContext).setTopbarTitle(
                 mContext.getString(R.string.title_verify_selling_details));
     }
 
     private void handleArgs() {
 
         if (getArguments() != null) {
-            addressVo = (AddressVo)
+            sellingWizardAddressVo = (SellingWizardAddressVo)
                     getArguments().getSerializable(SellingConstants.ARGUMENT_ADDRESS_DETAILS_VO);
-            mPhone = addressVo.getNumber();
-            edit_account.setText(addressVo.getNumber());
-            edit_price.setText(addressVo.getCurrentPrice());
-            edit_email.setText(addressVo.getEmail());
-            edit_phone.setText(addressVo.getPhone());
-            addressVo.setUserEnabled(true);
+            mPhone = sellingWizardAddressVo.getNumber();
+            edit_account.setText(sellingWizardAddressVo.getNumber());
+            edit_price.setText(sellingWizardAddressVo.getCurrentPrice());
+            edit_email.setText(sellingWizardAddressVo.getEmail());
+            edit_phone.setText(sellingWizardAddressVo.getPhone());
+            sellingWizardAddressVo.setUserEnabled(true);
         }
     }
 
@@ -118,7 +118,7 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
  "email": "demo@geni.to",
  "phoneCode": "1",
  "bankBusiness": "2",
- "sellCrypto": "DASH",
+ "sellCrypto": "piv",
  "userEnabled": true,
  "dynamicPrice": true,
  "primaryMarket": "5",
@@ -136,7 +136,7 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
  number2=123&primaryMarket=5&
  bankBusiness=null&
  email=abc%40gmail.com&phone=%2B123977765&
- minPayment=10&phoneCode=1&sellCrypto=DASH&
+ minPayment=10&phoneCode=1&sellCrypto=piv&
  maxPayment=11&name=abc&sellerFee=12&secondaryMarket=4&currentPrice=10&userEnabled=true
 
 
@@ -144,43 +144,43 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
  */
             HashMap<String, Object> hashMap = new HashMap<String, Object>();
             hashMap.put(SellingApiConstants.KEY_PHONE, "2397776543");
-            hashMap.put(SellingApiConstants.KEY_EMAIL, addressVo.getEmail());
+            hashMap.put(SellingApiConstants.KEY_EMAIL, sellingWizardAddressVo.getEmail());
             hashMap.put(SellingApiConstants.KEY_PHONE_CODE, "1");
-            hashMap.put(SellingApiConstants.KEY_BANK_BUSINESS, "" + addressVo.getBankBusiness());//bank id
-            hashMap.put(SellingApiConstants.KEY_SELL_CRYPTO, "DASH");
+            hashMap.put(SellingApiConstants.KEY_BANK_BUSINESS, "" + sellingWizardAddressVo.getBankBusiness());//bank id
+            hashMap.put(SellingApiConstants.KEY_SELL_CRYPTO, "PIV");
             hashMap.put(SellingApiConstants.KEY_USER_ENABLED, "true");
-            hashMap.put(SellingApiConstants.KEY_DYNAMIC_PRICE, "" + addressVo.getDynamicPrice());
+            hashMap.put(SellingApiConstants.KEY_DYNAMIC_PRICE, "" + sellingWizardAddressVo.getDynamicPrice());
             //hashMap.put(SellingApiConstants.KEY_USER_PAY_FIELDS, "" + (receivingOptionsResp.payFields.payFieldsB == null));
 
-            if (addressVo.getDynamicPrice()) {
+            if (sellingWizardAddressVo.getDynamicPrice()) {
 
-                hashMap.put(SellingApiConstants.KEY_PRIMARY_MARKETS, addressVo.getPrimaryMarket());
-                hashMap.put(SellingApiConstants.KEY_SECONDARY_MARKETS, addressVo.getSecondaryMarket());
+                hashMap.put(SellingApiConstants.KEY_PRIMARY_MARKETS, sellingWizardAddressVo.getPrimaryMarket());
+                hashMap.put(SellingApiConstants.KEY_SECONDARY_MARKETS, sellingWizardAddressVo.getSecondaryMarket());
 
-                hashMap.put(SellingApiConstants.KEY_MIN_PAYMETS, addressVo.getMinPayment());
-                hashMap.put(SellingApiConstants.KEY_MAX_PAYMETS, addressVo.getMaxPayment());
-                hashMap.put(SellingApiConstants.KEY_SELLER_FEE, addressVo.getSellerFee());
+                hashMap.put(SellingApiConstants.KEY_MIN_PAYMETS, sellingWizardAddressVo.getMinPayment());
+                hashMap.put(SellingApiConstants.KEY_MAX_PAYMETS, sellingWizardAddressVo.getMaxPayment());
+                hashMap.put(SellingApiConstants.KEY_SELLER_FEE, sellingWizardAddressVo.getSellerFee());
             }
 
-            hashMap.put(SellingApiConstants.KEY_CURRENT_PRICE, addressVo.getCurrentPrice());
+            hashMap.put(SellingApiConstants.KEY_CURRENT_PRICE, sellingWizardAddressVo.getCurrentPrice());
 
-            hashMap.put(SellingApiConstants.KEY_NAME, addressVo.getName());//acc holder name
-            hashMap.put(SellingApiConstants.KEY_NUMBER, addressVo.getNumber());//acc number
-            hashMap.put(SellingApiConstants.KEY_NUMBER2, addressVo.getNumber2());//acc confirm number
+            hashMap.put(SellingApiConstants.KEY_NAME, sellingWizardAddressVo.getName());//acc holder name
+            hashMap.put(SellingApiConstants.KEY_NUMBER, sellingWizardAddressVo.getNumber());//acc number
+            hashMap.put(SellingApiConstants.KEY_NUMBER2, sellingWizardAddressVo.getNumber2());//acc confirm number
 
 
             progressBar.setVisibility(View.VISIBLE);
             SellingAPIClient.createService(interceptor, mContext).createAddress(hashMap).
-                    enqueue(new Callback<AddressVo>() {
+                    enqueue(new Callback<SellingWizardAddressVo>() {
                         @Override
-                        public void onResponse(Call<AddressVo> call, Response<AddressVo> response) {
+                        public void onResponse(Call<SellingWizardAddressVo> call, Response<SellingWizardAddressVo> response) {
                             progressBar.setVisibility(View.GONE);
 
                             if (response.code() == 200) {
-                                AddressVo addressVo = response.body();
-                                mAddressId = addressVo.getId();
-                                WOCLogUtil.showLogError("Address Id:", addressVo.getId());
-                                sendVerificationCode(addressVo.getPhone(), addressVo.getId());
+                                SellingWizardAddressVo sellingWizardAddressVo = response.body();
+                                mAddressId = sellingWizardAddressVo.getId();
+                                WOCLogUtil.showLogError("Address Id:", sellingWizardAddressVo.getId());
+                                sendVerificationCode(sellingWizardAddressVo.getPhone(), sellingWizardAddressVo.getId());
                             } else {
                                 String error = RetrofitErrorUtil.parseError(response);
                                 if (error != null && !error.isEmpty())
@@ -190,7 +190,7 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
                         }
 
                         @Override
-                        public void onFailure(Call<AddressVo> call, Throwable t) {
+                        public void onFailure(Call<SellingWizardAddressVo> call, Throwable t) {
                             showToast(t.getMessage());
                             progressBar.setVisibility(View.GONE);
                         }
@@ -209,9 +209,9 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
 
             progressBar.setVisibility(View.VISIBLE);
             SellingAPIClient.createService(interceptor, mContext).sendVerificationCode(hashMap).
-                    enqueue(new Callback<SendVerificationRespVo>() {
+                    enqueue(new Callback<SellingWizardSendVeriRespVo>() {
                         @Override
-                        public void onResponse(Call<SendVerificationRespVo> call, Response<SendVerificationRespVo> response) {
+                        public void onResponse(Call<SellingWizardSendVeriRespVo> call, Response<SellingWizardSendVeriRespVo> response) {
                             progressBar.setVisibility(View.GONE);
 
                             if (response.code() == 200) {
@@ -226,7 +226,7 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
                         }
 
                         @Override
-                        public void onFailure(Call<SendVerificationRespVo> call, Throwable t) {
+                        public void onFailure(Call<SellingWizardSendVeriRespVo> call, Throwable t) {
                             showToast(t.getMessage());
                             progressBar.setVisibility(View.GONE);
                         }
@@ -241,9 +241,9 @@ public class VerifySellingDetailsFragment extends SellingBaseFragment implements
         bundle.putSerializable(SellingConstants.ARGUMENT_VERIFICATION_CODE, code);
         bundle.putSerializable(SellingConstants.ARGUMENT_PHONE_NUMBER, mPhone);
         bundle.putSerializable(SellingConstants.ARGUMENT_ADDRESS_ID, mAddressId);
-        VerifycationCodeFragment fragment = new VerifycationCodeFragment();
+        SellingWizardVerifCodeFragment fragment = new SellingWizardVerifCodeFragment();
         fragment.setArguments(bundle);
 
-        ((SellingBaseActivity) mContext).replaceFragment(fragment, true, true);
+        ((SellingWizardBaseActivity) mContext).replaceFragment(fragment, true, true);
     }
 }

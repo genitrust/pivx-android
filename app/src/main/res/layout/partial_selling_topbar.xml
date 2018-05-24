@@ -57,7 +57,7 @@
                     android:id="@+id/wallet_balance_btc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_dash_d_white_bottom"
+                    android:drawableLeft="@drawable/ic_piv_d_white_bottom"
                     android:ellipsize="end"
                     android:maxLength="7"
                     android:textColor="@color/white"

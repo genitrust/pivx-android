@@ -26,12 +26,12 @@ import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 
-import org.bitcoinj.core.CoinDefinition;
-import org.bitcoinj.core.Context;
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.params.MainNetParams;
-import org.bitcoinj.params.TestNet3Params;
-import org.bitcoinj.utils.MonetaryFormat;
+import org.pivxj.core.CoinDefinition;
+import org.pivxj.core.Context;
+import org.pivxj.core.NetworkParameters;
+import org.pivxj.params.MainNetParams;
+import org.pivxj.params.TestNet3Params;
+import org.pivxj.utils.MonetaryFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,7 +154,7 @@ public final class Constants {
      * Currency code for the wallet name resolver.
      */
     public static final String WALLET_NAME_CURRENCY_CODE = NETWORK_PARAMETERS.getId()
-            .equals(NetworkParameters.ID_MAINNET) ? "dash" : "tdash";
+            .equals(NetworkParameters.ID_MAINNET) ? "piv" : "tpiv";
 
     /**
      * URL to fetch version alerts from.
@@ -204,7 +204,7 @@ public final class Constants {
     /**
      * Subject line for manually reported issues.
      */
-    public static final String REPORT_SUBJECT_ISSUE = "Dash Wallet: Reported issue";
+    public static final String REPORT_SUBJECT_ISSUE = "Piv Wallet: Reported issue";
 
     /**
      * Subject line for crash reports.
@@ -290,13 +290,12 @@ public final class Constants {
 
     private static final Logger log = LoggerFactory.getLogger(Constants.class);
 
-    //Dash Specific
+    //piv Specific
     public static long EARLIEST_HD_SEED_CREATION_TIME = 1427610960l;
 
-    public static String WALLET_URI_SCHEME = "dashwallet";
+    public static String WALLET_URI_SCHEME = "pivwallet";
 
     public static boolean ENABLE_ZERO_FEES = TEST; //Enable Zero Fee's on TestNet only.
-
 
 
 }

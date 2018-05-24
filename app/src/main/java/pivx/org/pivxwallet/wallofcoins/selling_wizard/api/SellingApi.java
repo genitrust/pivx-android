@@ -14,15 +14,15 @@ import pivx.org.pivxwallet.wallofcoins.response.GetCurrencyResp;
 import pivx.org.pivxwallet.wallofcoins.response.GetHoldsResp;
 import pivx.org.pivxwallet.wallofcoins.response.GetOffersResp;
 import pivx.org.pivxwallet.wallofcoins.response.OrderListResp;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.AddressListRespVo;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.AddressVo;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.AuthVo;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.CreateDeviceVo;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.GetReceivingOptionsResp;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.MarketsVo;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SendVerificationRespVo;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SignUpResponseVo;
-import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.VerifyAdResp;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SellingWizardAddressListRespVo;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SellingWizardAddressVo;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SellingWizardAuthVo;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SellingWizardCreateDeviceVo;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SellingWizardGetRecOptionsResp;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SellingWizardMarketsVo;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SellingWizardSendVeriRespVo;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SellingWizardSignUpRespVo;
+import pivx.org.pivxwallet.wallofcoins.selling_wizard.models.SellingWizardVerifyAdResp;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
@@ -41,42 +41,42 @@ public interface SellingApi {
 
     @FormUrlEncoded
     @POST(SellingApiConstants.CREATE_AUTH)
-    Call<SignUpResponseVo> signUp(@FieldMap Map<String, String> partMap);
+    Call<SellingWizardSignUpRespVo> signUp(@FieldMap Map<String, String> partMap);
 
 
     //crypto=PIVX   currency=USD
     @GET(SellingApiConstants.MARKETS + "{crypto}/{currency}/")
-    Call<ArrayList<MarketsVo>> getMarkets(@Path("crypto") String crypto, @Path("currency") String currency);
+    Call<ArrayList<SellingWizardMarketsVo>> getMarkets(@Path("crypto") String crypto, @Path("currency") String currency);
 
 
     //create address
     @FormUrlEncoded
     @POST(SellingApiConstants.CREATE_ADDRESS)
-    Call<AddressVo> createAddress(@FieldMap Map<String, Object> partMap);
+    Call<SellingWizardAddressVo> createAddress(@FieldMap Map<String, Object> partMap);
 
 
     //send verification code
     @FormUrlEncoded
     @POST(SellingApiConstants.SEND_VERIFICATION)
-    Call<SendVerificationRespVo> sendVerificationCode(@FieldMap Map<String, String> partMap);
+    Call<SellingWizardSendVeriRespVo> sendVerificationCode(@FieldMap Map<String, String> partMap);
 
     @GET(SellingApiConstants.GET_AUTH + "{phone}/")
-    Call<AuthVo> getAuthToken(@Path("phone") String phone, @Query("publisherId") String publisherId);
+    Call<SellingWizardAuthVo> getAuthToken(@Path("phone") String phone, @Query("publisherId") String publisherId);
 
 
     @FormUrlEncoded
     @POST("api/v1/auth/{phone}/authorize/")
-    Call<AuthVo> authorize(@Path("phone") String username, @FieldMap Map<String, String> partMap);
+    Call<SellingWizardAuthVo> authorize(@Path("phone") String username, @FieldMap Map<String, String> partMap);
 
     @DELETE("api/v1/auth/{phone}/")
     Call<CheckAuthResp> deleteAuth(@Path("phone") String username, @Query("publisherId") String publisherId);
 
     @FormUrlEncoded
     @POST("api/verifyAd/")
-    Call<VerifyAdResp> verifyAd(@FieldMap Map<String, String> partMap);
+    Call<SellingWizardVerifyAdResp> verifyAd(@FieldMap Map<String, String> partMap);
 
     @GET("api/v1/ad/")
-    Call<ArrayList<AddressListRespVo>> getAddressListing();
+    Call<ArrayList<SellingWizardAddressListRespVo>> getAddressListing();
 
     //----------------------------------------------------------
     @GET("api/v1/orders/")
@@ -91,9 +91,9 @@ public interface SellingApi {
     Call<GetAuthTokenResp> getAuthToken(@Path("phone") String username, @FieldMap Map<String, String> partMap);
 
 
-    //--------------dash wizard
+    //--------------piv wizard
     @GET("api/v1/banks/")
-    Call<List<GetReceivingOptionsResp>> getReceivingOptions(@Query("country") String country);
+    Call<List<SellingWizardGetRecOptionsResp>> getReceivingOptions(@Query("country") String country);
     //----------------------
 
     @GET("api/v1/currency/")
@@ -126,10 +126,10 @@ public interface SellingApi {
 
     @FormUrlEncoded
     @POST("api/v1/devices/")
-    Call<CreateDeviceVo> createDevice(@FieldMap Map<String, String> partMap);
+    Call<SellingWizardCreateDeviceVo> createDevice(@FieldMap Map<String, String> partMap);
 
     @GET("api/v1/devices/")
-    Call<List<CreateDeviceVo>> getDevice();
+    Call<List<SellingWizardCreateDeviceVo>> getDevice();
 
 
 }

@@ -6,7 +6,7 @@
 
     <include
         android:id="@+id/layoutToolbar"
-        layout="@layout/partial_buy_dash_top"
+        layout="@layout/partial_buying_top"
         android:visibility="gone" />
 
     <LinearLayout
@@ -26,7 +26,7 @@
             android:textSize="16sp" />
 
         <EditText
-            android:id="@+id/edit_buy_dash_email"
+            android:id="@+id/edit_email"
             style="@style/StyleEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                 android:layout_weight="1" />
 
             <EditText
-                android:id="@+id/edit_buy_dash_phone"
+                android:id="@+id/edit_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -151,7 +151,7 @@
         android:visibility="gone">
 
         <ProgressBar
-            android:id="@+id/buy_dash_progress"
+            android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
