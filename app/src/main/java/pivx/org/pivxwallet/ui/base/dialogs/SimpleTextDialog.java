@@ -164,7 +164,6 @@ public class SimpleTextDialog extends DialogFragment {
     }
 
     public void setOkBtnBackgroundColor(int okBtnBackgroundColor) {
-        this.okBtnBackgroundColor = okBtnBackgroundColor;
     }
 
     public SimpleTextDialog setOkBtnClickListener(View.OnClickListener okBtnClickListener) {
